@@ -1,0 +1,201 @@
+############################################################################################################################################
+##
+##  vss_db_tables.py
+##------------------------------------------------------------------------------------------------------------------------------------------
+##
+##  TODO: create description of this file.
+
+SQLITE_MLB_RETROSHEET_SCHEDULE_TABLE = """
+    CREATE TABLE "mlb_retrosheet_schedule" (
+	"date_id"	INT NOT NULL,
+	"game_num"	INT NOT NULL,
+	"day"	TEXT NOT NULL,
+	"away_team_id"	TEXT NOT NULL,
+	"away_team_leauge"	TEXT NOT NULL,
+	"away_game_num"	INT NOT NULL,
+	"home_team_id"	TEXT NOT NULL,
+	"home_team_leauge"	TEXT,
+	"home_game_num"	INT NOT NULL,
+	"time_of_day"	TEXT NOT NULL,
+	"delay_info"	TEXT,
+	"makeup_date"	INT);
+    """
+
+SQLITE_MLB_RETROSHEET_PEOPLE_TABLE = """
+CREATE TABLE "mlb_retrosheet_people" (
+	"player_id"	TEXT NOT NULL UNIQUE,
+	"last_name"	TEXT NOT NULL,
+	"first_name"	TEXT,
+	"nickname"	TEXT,
+	"birthdate"	TEXT,
+	"birth_city"	TEXT,
+	"birth_state"	TEXT,
+	"birth_country"	TEXT,
+	"play_debut"	TEXT,
+	"play_last_game"	TEXT,
+	"mgr_debut"	TEXT,
+	"mgr_last_game"	TEXT,
+	"coach_debut"	TEXT,
+	"coach_last_game"	TEXT,
+	"ump_debut"	TEXT,
+	"ump_last_game"	TEXT,
+	"death_date"	TEXT,
+	"death_city"	TEXT,
+	"death_state"	TEXT,
+	"death_country"	TEXT,
+	"bats"	TEXT,
+	"throws"	TEXT,
+	"height"	TEXT,
+	"weight"	INTEGER,
+	"cemetery"	TEXT,
+	"ceme_city"	TEXT,
+	"ceme_state"	TEXT,
+	"ceme_country"	TEXT,
+	"ceme_note"	TEXT,
+	"birth_name"	TEXT,
+	"name_chg"	REAL,
+	"bat_chg"	REAL,
+	"hof"	TEXT,
+	PRIMARY KEY("player_id"));
+"""
+
+SQLITE_MLB_RETROSHEET_BALLPARK_TABLE = """
+CREATE TABLE "mlb_retrosheet_ballparks" (
+	"park_id"	TEXT NOT NULL UNIQUE,
+	"park_name"	TEXT NOT NULL,
+	"park_alt_name"	TEXT,
+	"park_city"	TEXT NOT NULL,
+	"park_state"	TEXT NOT NULL,
+	"park_start_date"	TEXT NOT NULL,
+	"park_end_date"	TEXT,
+	"park_leauge"	TEXT,
+	"park_notes"	TEXT,
+	PRIMARY KEY("park_id"));
+"""
+
+SQLITE_MLB_RETROSHEET_EJECTIONS_TABLE = """
+CREATE TABLE "mlb_retrosheet_ejections" (
+	"game_id"	TEXT NOT NULL,
+	"date"	TEXT NOT NULL,
+	"dh"	TEXT NOT NULL,
+	"ejectee"	TEXT NOT NULL,
+	"ejectee_name"	TEXT NOT NULL,
+	"team"	TEXT NOT NULL,
+	"job"	TEXT NOT NULL,
+	"umpire"	TEXT NOT NULL,
+	"umpire_name"	TEXT NOT NULL,
+	"inning"	INTEGER NOT NULL,
+	"reason"	TEXT NOT NULL);
+"""
+
+SQLITE_MLB_RETROSHEET_FRANCHISE_TABLE = """
+CREATE TABLE "mlb_retrosheet_franchises" (
+	"fran_id"	TEXT NOT NULL UNIQUE,
+	"leauge"	TEXT,
+	"city"	TEXT NOT NULL,
+	"nickname"	TEXT NOT NULL,
+	"first_year"	INTEGER NOT NULL,
+	"last_year"	INTEGER NOT NULL,
+	PRIMARY KEY("fran_id"));
+"""
+
+SQLITE_MLB_STATCAST_PBP_TABLE = """
+CREATE TABLE "mlb_statcast_pbp" (
+	"pitch_type"	TEXT,
+	"game_date"	TEXT,
+	"release_speed"	REAL,
+	"release_pos_x"	REAL,
+	"release_pos_z"	REAL,
+	"player_name"	TEXT,
+	"batter"	INTEGER,
+	"pitcher"	INTEGER,
+	"events"	TEXT,
+	"description"	TEXT,
+	"spin_dir"	REAL,
+	"spin_rate_deprecated"	REAL,
+	"break_angle_deprecated"	REAL,
+	"break_length_deprecated"	REAL,
+	"zone"	INTEGER,
+	"des"	TEXT,
+	"game_type"	TEXT,
+	"stand"	TEXT,
+	"p_throws"	TEXT,
+	"home_team"	TEXT,
+	"away_team"	TEXT,
+	"type"	TEXT,
+	"hit_location"	INTEGER,
+	"bb_type"	TEXT,
+	"balls"	INTEGER,
+	"strikes"	INTEGER,
+	"game_year"	INTEGER,
+	"pfx_x"	REAL,
+	"pfx_z"	REAL,
+	"plate_x"	REAL,
+	"plate_z"	REAL,
+	"on_3b"	INTEGER,
+	"on_2b"	INTEGER,
+	"on_1b"	INTEGER,
+	"outs_when_up"	INTEGER,
+	"inning"	INTEGER,
+	"inning_topbot"	TEXT,
+	"hc_x"	REAL,
+	"hc_y"	REAL,
+	"tfs_deprecated"	REAL,
+	"tfs_zulu_deprecated"	REAL,
+	"fielder_2"	INTEGER,
+	"umpire"	REAL,
+	"sv_id"	REAL,
+	"vx0"	REAL,
+	"vy0"	REAL,
+	"vz0"	REAL,
+	"ax"	REAL,
+	"ay"	REAL,
+	"az"	REAL,
+	"sz_top"	REAL,
+	"sz_bot"	REAL,
+	"hit_distance_sc"	INTEGER,
+	"launch_speed"	REAL,
+	"launch_angle"	INTEGER,
+	"effective_speed"	REAL,
+	"release_spin_rate"	INTEGER,
+	"release_extension"	REAL,
+	"game_pk"	INTEGER,
+	"pitcher.1"	INTEGER,
+	"fielder_2.1"	INTEGER,
+	"fielder_3"	INTEGER,
+	"fielder_4"	INTEGER,
+	"fielder_5"	INTEGER,
+	"fielder_6"	INTEGER,
+	"fielder_7"	INTEGER,
+	"fielder_8"	INTEGER,
+	"fielder_9"	INTEGER,
+	"release_pos_y"	REAL,
+	"estimated_ba_using_speedangle"	REAL,
+	"estimated_woba_using_speedangle"	REAL,
+	"woba_value"	REAL,
+	"woba_denom"	INTEGER,
+	"babip_value"	INTEGER,
+	"iso_value"	INTEGER,
+	"launch_speed_angle"	REAL,
+	"at_bat_number"	INTEGER,
+	"pitch_number"	INTEGER,
+	"pitch_name"	TEXT,
+	"home_score"	INTEGER,
+	"away_score"	INTEGER,
+	"bat_score"	INTEGER,
+	"fld_score"	INTEGER,
+	"post_away_score"	INTEGER,
+	"post_home_score"	INTEGER,
+	"post_bat_score"	INTEGER,
+	"post_fld_score"	INTEGER,
+	"if_fielding_alignment"	TEXT,
+	"of_fielding_alignment"	TEXT,
+	"spin_axis"	INTEGER,
+	"delta_home_win_exp"	REAL,
+	"delta_run_exp"	REAL,
+	"month"	INTEGER,
+	"day"	INTEGER
+);
+"""
+
+SQLITE_VACUUM_COMMAND = "VACUUM \"main\""

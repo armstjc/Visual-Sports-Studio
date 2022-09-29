@@ -6,7 +6,7 @@
 ##  TODO: create description of this file.
 
 import wx
-from vss_db import vss_db
+from vss_db.vss_db_baseball import main as a
 
 class Example(wx.Frame):
 
@@ -21,7 +21,7 @@ def main():
     
     ex = Example(None, title='Sizing')
     ex.Show()
-    vss_db.main()
+    a()
     app.MainLoop()
     
 

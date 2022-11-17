@@ -9,11 +9,13 @@
 ##############################################################################################################################################
 
 import sqlite3
-import pandas as pd
-from datetime import datetime
-import vss_db.vss_db_tables as vss_db_tables 
-import vss_urls
 import threading
+from datetime import datetime
+import pandas as pd
+
+import vss_db.vss_db_tables as vss_db_tables
+import vss_urls
+
 # from multiprocessing import Process
 # import time
 

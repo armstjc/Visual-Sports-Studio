@@ -9,13 +9,13 @@
 
 ## Required to start.
 import PySimpleGUI as sg
-from vss_utilities import center_window, create_temp_dir
 
 ## Imports neede to load in individual Sport windows
 from vss_baseball import baseball_main_window
 from vss_basketball import basketball_main_window
 from vss_football import football_main_window
 from vss_soccer import soccer_main_window
+from vss_utilities import center_window, create_temp_dir, clear_temp_dir
 
 
 def main_window(theme='DarkBlue'):
@@ -32,6 +32,8 @@ def main_window(theme='DarkBlue'):
         ['Settings'],
         ['Help',['About VSS']]
     ]
+
+    
 
     body_layout = [
         
@@ -138,6 +140,7 @@ def main_window(theme='DarkBlue'):
         event, values = window.read()
         
         if event == sg.WIN_CLOSED or event == 'Exit':
+            #clear_temp_dir()
             break
         
         if event == '-BASKETBALL-':

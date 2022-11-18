@@ -11,10 +11,18 @@ import pandas as pd
 import PySimpleGUI as sg
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
-from vss_urls import RETROSHEET_TEAM_BOX
-from vss_utilities import center_window
+from vss_urls import RETROSPLIT_TEAM_BOX, RETROSPLIT_PLAYER_BOX,\
+    RETROSPLIT_HEAD_TO_HEAD
+from vss_utilities import center_window, vss_error
 from vss_utils import vss_baseball_graph_stat_types, \
-vss_baseball_team_col_list,vss_team_column_swaper
+    vss_baseball_team_stats_col_list, \
+    vss_baseball_team_stats_column_swaper, \
+    vss_baseball_player_stats_col_list, \
+    vss_baseball_player_stats_column_swaper, \
+    vss_baseball_head_to_head_column_swaper, \
+    vss_baseball_head_to_head_col_list, \
+    vss_baseball_batting_by_position_column_swaper, \
+    vss_baseball_batting_by_position_col_list
 
 
 def baseball_main_window(theme='DarkBlue'):
@@ -45,39 +53,55 @@ def baseball_main_window(theme='DarkBlue'):
 
     def getData(season:int,url:str,x_col:str,y_col:str):
         #data_url = f'https://raw.githubusercontent.com/chadwickbureau/retrosplits/master/daybyday/teams-{season}.csv'
-        df = pd.read_csv(url)
-        xData = df[x_col].tolist()
-        yData = df[y_col].tolist()
-        return (xData, yData)
-
+        try:
+            df = pd.read_csv(url)
+            xData = df[x_col].tolist()
+            yData = df[y_col].tolist()
+            return (xData, yData)
+        except Exception as e:
+            vss_error(e)
 
     def drawChart(season:int,url:str,x_col:str,y_col:str):
         _VARS['pltFig'] = plt.figure()
         dataXY = getData(season,url,x_col,y_col)
-        plt.plot(dataXY[0], dataXY[1], '.k')
-        plt.xlabel('Runs scored')
-        plt.ylabel('Runs Allowed')
-        plt.title(f'Runs Scored vs Runs Allowed, {season} MLB Season.')
+        try:
+            plt.plot(dataXY[0], dataXY[1], '.k')
+            plt.xlabel('Runs scored')
+            plt.ylabel('Runs Allowed')
+            plt.title(f'Runs Scored vs Runs Allowed, {season} MLB Season.')
+        except:
+            ## This is to prevent a scenario where the app calls this function,
+            ## without any data to chart.
+            plt.plot([1,2,3],[1,2,3], '.k')
+            plt.xlabel('click the "Update" button to generate a new chart.')
+            plt.ylabel('Once you have restablished your internet connection,')
+            plt.title(f'An error occured.\nCheck your internet connection.')
         _VARS['fig_agg'] = draw_figure(
             _VARS['window']['figCanvas'].TKCanvas, _VARS['pltFig'])
 
-    def updateChart(season:int,url:str,x_col:str,y_col:str,x_label:str,y_label:str,chart_title=""):
+    def updateChart(season:int,url:str,x_col:str,y_col:str,\
+        x_label:str,y_label:str,chart_title=""):
+        has_data = True
         _VARS['fig_agg'].get_tk_widget().forget()
-        dataXY = getData(season,url,x_col,y_col)
-        # plt.cla()
+
+        try:
+            dataXY = getData(season,url,x_col,y_col)
+        except Exception as e:
+            vss_error(e)
+                
         try:
             plt.clf()
         except:
             print('No chart to clear')
         plt.plot(dataXY[0], dataXY[1], '.k')
 
-        if x_label != 'X-Axis':
+        if str.lower(x_label) != str.lower('X-Axis'):
             plt.xlabel(x_label)
         else:
             plt.xlabel(x_label)
 
-        if y_label != 'X-Axis':
-            plt.xlabel(y_label)
+        if str.lower(x_label) != str.lower('Y-Axis'):
+            plt.ylabel(y_label)
         else:
             plt.ylabel(y_label)
         
@@ -96,6 +120,9 @@ def baseball_main_window(theme='DarkBlue'):
     stat_types = vss_baseball_graph_stat_types()
 
     graph_col = sg.Column([[sg.Canvas(key='figCanvas')]])
+
+    stat_col_list = vss_baseball_team_stats_col_list()
+
     settings_col = sg.Column(
         [
             [
@@ -108,6 +135,7 @@ def baseball_main_window(theme='DarkBlue'):
                                 values=stat_types,
                                 size=(25,1),
                                 default_value="Team Stats",
+                                enable_events=True,
                                 key="-LIST_STAT-"
                             )
                             
@@ -122,9 +150,10 @@ def baseball_main_window(theme='DarkBlue'):
                         [
                             sg.Combo(
                                 #button_text='Select a stat.',
-                                vss_baseball_team_col_list(),
+                                stat_col_list,
                                 size=(25,1),
                                 default_value="Batting - R",
+                                enable_events=True,
                                 key='-X_STAT-'
                             )
                             
@@ -139,7 +168,7 @@ def baseball_main_window(theme='DarkBlue'):
                         [
                             sg.Combo(
                                 #button_text='Select a stat.',
-                                vss_baseball_team_col_list(),
+                                stat_col_list,
                                 size=(25,1),
                                 default_value="Pitching - R",
                                 key='-Y_STAT-'
@@ -155,17 +184,38 @@ def baseball_main_window(theme='DarkBlue'):
                     layout=[
                             [
                                 sg.Frame('Title:',
-                                    layout=[[sg.Input(default_text='Title',size=(25,1),key='-CUSTOM_TITLE-')]])
+                                    layout=[[
+                                        sg.Input(
+                                            default_text='Title',
+                                            size=(25,1),
+                                            key='-CUSTOM_TITLE-'
+                                        )
+                                    ]]
+                                )
                                 
                             ],
                             [
                                 sg.Frame('X-Axis Title:',
-                                    layout=[[sg.Input(default_text='X-Axis',size=(25,1),key='-CUSTOM_X_TITLE-')]])                         
+                                    layout=[[
+                                        sg.Input(
+                                            default_text='X-Axis',
+                                            size=(25,1),
+                                            key='-CUSTOM_X_TITLE-'
+                                        )
+                                    ]]
+                                )                         
                                 
                             ],
                             [
                                 sg.Frame('Y-Axis Title:',
-                                    layout=[[sg.Input(default_text='Y-Axis',size=(25,1),key='-CUSTOM_Y_TITLE-')]])                        
+                                    layout=[[
+                                        sg.Input(
+                                            default_text='Y-Axis',
+                                            size=(25,1),
+                                            key='-CUSTOM_Y_TITLE-'
+                                        )
+                                    ]]
+                                )                        
                                 
                             ]
                     ]
@@ -175,7 +225,12 @@ def baseball_main_window(theme='DarkBlue'):
                 'Select a season:',
                 layout=[
                     [
-                        sg.Spin(stat_seasons,key='-SPIN_SEA-'),
+                        sg.Spin(
+                            stat_seasons,
+                            initial_value=2021,
+                            size=(20,1),
+                            key='-SPIN_SEA-'
+                        ),
                         sg.Button('Update', font=AppFont)
                     ]
                 ],
@@ -209,7 +264,8 @@ def baseball_main_window(theme='DarkBlue'):
             )
         ]
     ]
-            
+
+    ## Window Declaration. This is  
     _VARS['window'] = sg.Window('Baseball - Visual Sports Stuido',
                                 layout,
                                 finalize=True,
@@ -217,35 +273,112 @@ def baseball_main_window(theme='DarkBlue'):
                                 location=(0, 0),
                                 element_justification="right")
 
-    # Due to the way this is designed, a chart has to be made first.
+    # Due to the way this app is designed, a chart has to be made first.
     drawChart(
-        2010,
-        RETROSHEET_TEAM_BOX.format(season=2010),
+        2020,
+        RETROSPLIT_TEAM_BOX.format(season=2010),
                 "B_R",
                 "P_R"
     ) 
     center_window(_VARS['window'])
-    # MAIN LOOP
-    while True:
+    
+    while True: # Event Loop
         event, values = _VARS['window'].read(timeout=200)
-        print(values)
+        #print(values)
+        #print(event)
         if event == sg.WIN_CLOSED or event == 'Exit':
             break
 
-#season_df = pd.read_csv(vss_urls.RETROSHEET_SCHEDULES.format(season=sea),header=None,names=retrosheet_schedule_columns)
+        ##############################################################################################################################################
+        ## User Interface (UI) update
+        ##############################################################################################################################################
 
-        if event == 'Update':
+        if event == '-LIST_STAT-' and values['-LIST_STAT-'] == 'Team Stats':
+            stat_col_list = vss_baseball_team_stats_col_list()
+
+            _VARS['window']['-X_STAT-'].update(values=stat_col_list,value="Batting - R")
+            _VARS['window']['-Y_STAT-'].update(values=stat_col_list,value="Pitching - R")
+            #stat_seasons = [x for x in range(1901,2021)]
+
+            stat_seasons = [x for x in range(1901,2021)]
+            _VARS['window']['-SPIN_SEA-'].update(values=stat_seasons)
+
+        elif event == '-LIST_STAT-'  and  values['-LIST_STAT-'] == 'Player Stats':
+            stat_col_list = vss_baseball_player_stats_col_list()
+
+            _VARS['window']['-X_STAT-'].update(values=stat_col_list,value="Batting - R")
+            _VARS['window']['-Y_STAT-'].update(values=stat_col_list,value="Pitching - R")
+
+            stat_seasons = [x for x in range(1901,2021)]
+            _VARS['window']['-SPIN_SEA-'].update(values=stat_seasons)
+
+        elif event == '-LIST_STAT-'  and  values['-LIST_STAT-'] == 'Head-to-Head':
+            stat_col_list = vss_baseball_head_to_head_col_list()
+
+            _VARS['window']['-X_STAT-'].update(values=stat_col_list,value="Batting - PA")
+            _VARS['window']['-Y_STAT-'].update(values=stat_col_list,value="Batting - HR")
+
+            stat_seasons = [x for x in range(1974,2021)]
+            _VARS['window']['-SPIN_SEA-'].update(values=stat_seasons)
+
+        elif event == '-LIST_STAT-'  and  values['-LIST_STAT-'] == 'Batting by Position':
+            stat_col_list = vss_baseball_batting_by_position_col_list()
+
+            _VARS['window']['-X_STAT-'].update(values=stat_col_list,value="Batting - PA")
+            _VARS['window']['-Y_STAT-'].update(values=stat_col_list,value="Batting - HR")
+
+            stat_seasons = [x for x in range(1974,2021)]
+            _VARS['window']['-SPIN_SEA-'].update(values=stat_seasons)
+
+        ##############################################################################################################################################
+        ## Graph Update
+        ##############################################################################################################################################
+
+        if event == 'Update' and values['-LIST_STAT-'] == 'Team Stats':
             updateChart(
                 int(values['-SPIN_SEA-']),
-                RETROSHEET_TEAM_BOX.format(season=int(values['-SPIN_SEA-'])),
-                vss_team_column_swaper(values['-X_STAT-']),
-                vss_team_column_swaper(values['-Y_STAT-']),
+                RETROSPLIT_TEAM_BOX.format(season=int(values['-SPIN_SEA-'])),
+                vss_baseball_team_stats_column_swaper(values['-X_STAT-']),
+                vss_baseball_team_stats_column_swaper(values['-Y_STAT-']),
+                values['-CUSTOM_X_TITLE-'],
+                values['-CUSTOM_Y_TITLE-'],
+                values['-CUSTOM_TITLE-']
+            )
+            
+        elif event == 'Update' and values['-LIST_STAT-'] == 'Player Stats':
+            updateChart(
+                int(values['-SPIN_SEA-']),
+                RETROSPLIT_PLAYER_BOX.format(season=int(values['-SPIN_SEA-'])),
+                vss_baseball_player_stats_column_swaper(values['-X_STAT-']),
+                vss_baseball_player_stats_column_swaper(values['-Y_STAT-']),
+                values['-CUSTOM_X_TITLE-'],
+                values['-CUSTOM_Y_TITLE-'],
+                values['-CUSTOM_TITLE-']
+            )
+            
+        elif event == 'Update' and values['-LIST_STAT-'] == 'Head-to-Head':
+            updateChart(
+                int(values['-SPIN_SEA-']),
+                RETROSPLIT_HEAD_TO_HEAD.format(season=int(values['-SPIN_SEA-'])),
+                vss_baseball_head_to_head_column_swaper(values['-X_STAT-']),
+                vss_baseball_head_to_head_column_swaper(values['-Y_STAT-']),
+                values['-CUSTOM_X_TITLE-'],
+                values['-CUSTOM_Y_TITLE-'],
+                values['-CUSTOM_TITLE-']
+            )
+            
+        elif event == 'Update' and values['-LIST_STAT-'] == 'Batting by Position':
+            updateChart(
+                int(values['-SPIN_SEA-']),
+                RETROSPLIT_HEAD_TO_HEAD.format(season=int(values['-SPIN_SEA-'])),
+                vss_baseball_batting_by_position_column_swaper(values['-X_STAT-']),
+                vss_baseball_batting_by_position_column_swaper(values['-Y_STAT-']),
                 values['-CUSTOM_X_TITLE-'],
                 values['-CUSTOM_Y_TITLE-'],
                 values['-CUSTOM_TITLE-']
             )
 
-            
+
     _VARS['window'].close()
 
 

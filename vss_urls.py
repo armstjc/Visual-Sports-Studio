@@ -22,8 +22,8 @@ RETROSHEET_FRANCHISES = "https://www.retrosheet.org/TEAMABR.TXT"
 
 RETROSPLIT_GITHUB = "https://raw.githubusercontent.com/chadwickbureau/retrosplits/master"
 RETROSPLIT_PLAYER_BOX = RETROSPLIT_GITHUB + "/daybyday/playing-{season}.csv"
-RETROSHEET_TEAM_BOX = RETROSPLIT_GITHUB + "/daybyday/teams-{season}.csv"
-
+RETROSPLIT_TEAM_BOX = RETROSPLIT_GITHUB + "/daybyday/teams-{season}.csv"
+RETROSPLIT_HEAD_TO_HEAD = RETROSPLIT_GITHUB + "/splits/headtohead-{season}.csv"
 ### The files containing pitch-by-pitch statcast data can easily be 60+ MBs, which is above the 50MB file limit that Github wants files to be. 
 ### As a result, the PBP files are spit in half.
 STATCAST_PBP_ONE = "https://raw.githubusercontent.com/sportsdataverse/sportsdataverse-baseball-data/main/gamelogs/{season}_{month}_01_statcast.csv"

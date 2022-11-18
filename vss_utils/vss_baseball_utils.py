@@ -294,7 +294,7 @@ def vss_baseball_player_stats_column_swaper(column:str):
             return "P_3B"
         case "Pitching - HR":
             return "P_HR"
-        case "Pitching - HR4":
+        case "Pitching - Grand Slam (HR4)":
             return "P_HR4"
         case "Pitching - BB":
             return "P_BB"

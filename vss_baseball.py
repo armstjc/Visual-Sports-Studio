@@ -145,6 +145,23 @@ def baseball_main_window(theme='DarkBlue'):
             ],
             [
                 sg.Frame(
+                    'Select a column for the Y axis:',
+                    layout=[
+                        [
+                            sg.Combo(
+                                #button_text='Select a stat.',
+                                stat_col_list,
+                                size=(25,1),
+                                default_value="Pitching - R",
+                                key='-Y_STAT-'
+                            )
+                            
+                        ]
+                    ]
+                )
+            ],
+            [
+                sg.Frame(
                     "Select a column for the X axis:",
                     layout=[
                         [
@@ -155,23 +172,6 @@ def baseball_main_window(theme='DarkBlue'):
                                 default_value="Batting - R",
                                 enable_events=True,
                                 key='-X_STAT-'
-                            )
-                            
-                        ]
-                    ]
-                )
-            ],
-            [
-                sg.Frame(
-                    'Select a column for the Y axis:',
-                    layout=[
-                        [
-                            sg.Combo(
-                                #button_text='Select a stat.',
-                                stat_col_list,
-                                size=(25,1),
-                                default_value="Pitching - R",
-                                key='-Y_STAT-'
                             )
                             
                         ]
@@ -195,18 +195,6 @@ def baseball_main_window(theme='DarkBlue'):
                                 
                             ],
                             [
-                                sg.Frame('X-Axis Title:',
-                                    layout=[[
-                                        sg.Input(
-                                            default_text='X-Axis',
-                                            size=(25,1),
-                                            key='-CUSTOM_X_TITLE-'
-                                        )
-                                    ]]
-                                )                         
-                                
-                            ],
-                            [
                                 sg.Frame('Y-Axis Title:',
                                     layout=[[
                                         sg.Input(
@@ -216,6 +204,18 @@ def baseball_main_window(theme='DarkBlue'):
                                         )
                                     ]]
                                 )                        
+                                
+                            ],
+                            [
+                                sg.Frame('X-Axis Title:',
+                                    layout=[[
+                                        sg.Input(
+                                            default_text='X-Axis',
+                                            size=(25,1),
+                                            key='-CUSTOM_X_TITLE-'
+                                        )
+                                    ]]
+                                )                         
                                 
                             ]
                     ]
@@ -252,14 +252,12 @@ def baseball_main_window(theme='DarkBlue'):
     layout = [
         [sg.Menu(menu_bar,visible=True)],
         [sg.TabGroup(
-                [
-                    [
-                        sg.Tab('Graphing', graphing_layout,visible=True),
-                        sg.Tab('Stats',stats_layout,visible=False)
-                    ]
-                ],
-                expand_x=True,
-                expand_y=True
+            [[
+                sg.Tab('Graphing', graphing_layout,visible=True),
+                sg.Tab('Stats',stats_layout,visible=False)
+            ]],
+            expand_x=True,
+            expand_y=True
             
             )
         ]

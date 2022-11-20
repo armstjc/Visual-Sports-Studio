@@ -1,14 +1,13 @@
 
 def vss_baseball_graph_stat_types():
     return [
-        'Player Stats'
-        ,'Team Stats'
-        ,'Head-to-Head'
-        ,'Batting by Position'
-        ,'Batting By Runners'
-        ,'Batting by Platoon (L/R vs. L/R)'
-        ,'Pitching by Position'
-        ,'Pitching By Runners'
+        'Player Stats'#
+        ,'Team Stats'#
+        ,'Head-to-Head'#
+        ,'Batting by Position'#
+        ,'Batting by Runners'#
+        ,'Batting by Platoon (L/R vs. L/R)'#
+        ,'Pitching by Runners'#
         ,'Pitching by Platoon (L/R vs. L/R)'
     ]
 
@@ -441,14 +440,14 @@ def vss_baseball_head_to_head_column_swaper(column:str):
             return "B_SO"
         case "Batting - GDP":
             return "B_GDP"
-        case "Pitching - HBP":
-            return "P_HP" # This stat (Hit By Pitch) has the acronym HBP, but in retrosheet, this stat is called "HP"
-        case "Pitching - SH":
-            return "P_SH"
-        case "Pitching - SF":
-            return "P_SF"
-        case "Pitching - CI":
-            return "P_XI" # This stat (Catcher's Interference) has the acronym CI, but in retrosheet, this stat is called "XI"
+        case "Batting - HBP":
+            return "B_HP" # This stat (Hit By Pitch) has the acronym HBP, but in retrosheet, this stat is called "HP"
+        case "Batting - SH":
+            return "B_SH"
+        case "Batting - SF":
+            return "B_SF"
+        case "Batting - CI":
+            return "B_XI" # This stat (Catcher's Interference) has the acronym CI, but in retrosheet, this stat is called "XI"
 
 def vss_baseball_head_to_head_col_list():
     return [
@@ -465,10 +464,10 @@ def vss_baseball_head_to_head_col_list():
         "Batting - TB",
         "Batting - SO",
         "Batting - GDP",
-        "Pitching - HBP",
-        "Pitching - SH",
-        "Pitching - SF",
-        "Pitching - CI"
+        "Batting - HBP",
+        "Batting - SH",
+        "Batting - SF",
+        "Batting - CI"
     ]
 
 def vss_baseball_batting_by_position_column_swaper(column:str):
@@ -503,19 +502,19 @@ def vss_baseball_batting_by_position_column_swaper(column:str):
             return "B_SO"
         case "Batting - GDP":
             return "B_GDP"
-        case "Pitching - HBP":
-            return "P_HP" # This stat (Hit By Pitch) has the acronym HBP, but in retrosheet, this stat is called "HP"
-        case "Pitching - SH":
-            return "P_SH"
-        case "Pitching - SF":
-            return "P_SF"
-        case "Pitching - CI":
-            return "P_XI" # This stat (Catcher's Interference) has the acronym CI, but in retrosheet, this stat is called "XI"
+        case "Batting - HBP":
+            return "B_HP" # This stat (Hit By Pitch) has the acronym HBP, but in retrosheet, this stat is called "HP"
+        case "Batting - SH":
+            return "B_SH"
+        case "Batting - SF":
+            return "B_SF"
+        case "Batting - CI":
+            return "B_XI" # This stat (Catcher's Interference) has the acronym CI, but in retrosheet, this stat is called "XI"
 
 
 def vss_baseball_batting_by_position_col_list():
     return [
-        "Batting - Player Position"
+        "Batting - Player Position",
         "Batting - PA",
         "Batting - AB",
         "Batting - H",
@@ -529,8 +528,271 @@ def vss_baseball_batting_by_position_col_list():
         "Batting - TB",
         "Batting - SO",
         "Batting - GDP",
+        "Batting - HBP",
+        "Batting - SH",
+        "Batting - SF",
+        "Batting - CI"
+    ]
+
+
+def vss_baseball_batting_by_runners_column_swaper(column:str):
+    match column:
+        case "Batting - Runners on base situation":
+            return "SITUATION"
+        case "Batting - PA":
+            return "B_PA"
+        case "Batting - PA":
+            return "B_PA"
+        case "Batting - AB":
+            return "B_AB"
+        case "Batting - H":
+            return "B_H"
+        case "Batting - 2B":
+            return "B_2B"
+        case "Batting - 3B":
+            return "B_3B"
+        case "Batting - HR":
+            return "B_HR"
+        case "Batting - Grand Slam (HR4)":
+            return "B_HR4"
+        case "Batting - RBI":
+            return "B_RBI"
+        case "Batting - BB":
+            return "B_BB"
+        case "Batting - IBB":
+            return "B_IBB"
+        case "Batting - TB":
+            return "B_TB"
+        case "Batting - SO":
+            return "B_SO"
+        case "Batting - GDP":
+            return "B_GDP"
+        case "Batting - HBP":
+            return "B_HP" # This stat (Hit By Pitch) has the acronym HBP, but in retrosheet, this stat is called "HP"
+        case "Batting - SH":
+            return "B_SH"
+        case "Batting - SF":
+            return "B_SF"
+        case "Batting - CI":
+            return "B_XI" # This stat (Catcher's Interference) has the acronym CI, but in retrosheet, this stat is called "XI"
+
+
+def vss_baseball_batting_by_runners_col_list():
+    return [
+        "Batting - Runners on base situation",
+        "Batting - PA",
+        "Batting - AB",
+        "Batting - H",
+        "Batting - 2B",
+        "Batting - 3B",
+        "Batting - HR",
+        "Batting - Grand Slam (HR4)",
+        "Batting - RBI",
+        "Batting - BB",
+        "Batting - IBB",
+        "Batting - TB",
+        "Batting - SO",
+        "Batting - GDP",
+        "Batting - HBP",
+        "Batting - SH",
+        "Batting - SF",
+        "Batting - CI"
+    ]
+
+def vss_baseball_batting_by_platoon_column_swaper(column:str):
+    match column:
+        case "Batter's batting hand":
+            return "RESP_BAT_HAND_CD"
+        case "Pitcher's pitching hand":
+            return "RESP_PIT_HAND_CD"
+        case "Batting - PA":
+            return "B_PA"
+        case "Batting - PA":
+            return "B_PA"
+        case "Batting - AB":
+            return "B_AB"
+        case "Batting - H":
+            return "B_H"
+        case "Batting - 2B":
+            return "B_2B"
+        case "Batting - 3B":
+            return "B_3B"
+        case "Batting - HR":
+            return "B_HR"
+        case "Batting - Grand Slam (HR4)":
+            return "B_HR4"
+        case "Batting - RBI":
+            return "B_RBI"
+        case "Batting - BB":
+            return "B_BB"
+        case "Batting - IBB":
+            return "B_IBB"
+        case "Batting - TB":
+            return "B_TB"
+        case "Batting - SO":
+            return "B_SO"
+        case "Batting - GDP":
+            return "B_GDP"
+        case "Batting - HBP":
+            return "B_HP" # This stat (Hit By Pitch) has the acronym HBP, but in retrosheet, this stat is called "HP"
+        case "Batting - SH":
+            return "B_SH"
+        case "Batting - SF":
+            return "B_SF"
+        case "Batting - CI":
+            return "B_XI" # This stat (Catcher's Interference) has the acronym CI, but in retrosheet, this stat is called "XI"
+
+def vss_baseball_batting_by_platoon_col_list():
+    return [
+        "Batter's batting hand",
+        "Pitcher's pitching hand",
+        "Batting - PA",
+        "Batting - AB",
+        "Batting - H",
+        "Batting - 2B",
+        "Batting - 3B",
+        "Batting - HR",
+        "Batting - Grand Slam (HR4)",
+        "Batting - RBI",
+        "Batting - BB",
+        "Batting - IBB",
+        "Batting - TB",
+        "Batting - SO",
+        "Batting - GDP",
+        "Batting - HBP",
+        "Batting - SH",
+        "Batting - SF",
+        "Batting - CI"
+    ]
+
+def vss_baseball_pitching_by_runners_column_swaper(column:str):
+    match column:
+        case "Pitching - Runners on base situation":
+            return "SITUATION"
+        case "Pitching - PA":
+            return "B_PA"
+        case "Pitching - PA":
+            return "B_PA"
+        case "Pitching - AB":
+            return "B_AB"
+        case "Pitching - H":
+            return "B_H"
+        case "Pitching - 2B":
+            return "B_2B"
+        case "Pitching - 3B":
+            return "B_3B"
+        case "Pitching - HR":
+            return "B_HR"
+        case "Pitching - Grand Slam (HR4)":
+            return "B_HR4"
+        case "Pitching - RBI":
+            return "B_RBI"
+        case "Pitching - BB":
+            return "B_BB"
+        case "Pitching - IBB":
+            return "B_IBB"
+        case "Pitching - TB":
+            return "B_TB"
+        case "Pitching - SO":
+            return "B_SO"
+        case "Pitching - GDP":
+            return "B_GDP"
+        case "Pitching - HBP":
+            return "B_HP" # This stat (Hit By Pitch) has the acronym HBP, but in retrosheet, this stat is called "HP"
+        case "Pitching - SH":
+            return "B_SH"
+        case "Pitching - SF":
+            return "B_SF"
+        case "Pitching - CI":
+            return "B_XI" # This stat (Catcher's Interference) has the acronym CI, but in retrosheet, this stat is called "XI"
+
+
+
+def vss_baseball_pitching_by_runners_col_list():
+    return [
+        "Pitching- Runners on base situation",
+        "Pitching- PA",
+        "Pitching- AB",
+        "Pitching- H",
+        "Pitching- 2B",
+        "Pitching- 3B",
+        "Pitching- HR",
+        "Pitching- Grand Slam (HR4)",
+        "Pitching- RBI",
+        "Pitching- BB",
+        "Pitching- IBB",
+        "Pitching- TB",
+        "Pitching- SO",
+        "Pitching- GDP",
         "Pitching - HBP",
         "Pitching - SH",
         "Pitching - SF",
         "Pitching - CI"
     ]
+
+def vss_baseball_pitching_by_platoon_column_swaper(column:str):
+    match column:
+        case "Batter's Pitching hand":
+            return "RESP_BAT_HAND_CD"
+        case "Pitcher's pitching hand":
+            return "RESP_PIT_HAND_CD"
+        case "Pitching - PA":
+            return "B_PA"
+        case "Pitching - PA":
+            return "B_PA"
+        case "Pitching - AB":
+            return "B_AB"
+        case "Pitching - H":
+            return "B_H"
+        case "Pitching - 2B":
+            return "B_2B"
+        case "Pitching - 3B":
+            return "B_3B"
+        case "Pitching - HR":
+            return "B_HR"
+        case "Pitching - Grand Slam (HR4)":
+            return "B_HR4"
+        case "Pitching - RBI":
+            return "B_RBI"
+        case "Pitching - BB":
+            return "B_BB"
+        case "Pitching - IBB":
+            return "B_IBB"
+        case "Pitching - TB":
+            return "B_TB"
+        case "Pitching - SO":
+            return "B_SO"
+        case "Pitching - GDP":
+            return "B_GDP"
+        case "Pitching - HBP":
+            return "B_HP" # This stat (Hit By Pitch) has the acronym HBP, but in retrosheet, this stat is called "HP"
+        case "Pitching - SH":
+            return "B_SH"
+        case "Pitching - SF":
+            return "B_SF"
+        case "Pitching - CI":
+            return "B_XI" # This stat (Catcher's Interference) has the acronym CI, but in retrosheet, this stat is called "XI"
+
+def vss_baseball_pitching_by_platoon_col_list():
+    return [
+        "Batter's Batting hand",
+        "Pitcher's pitching hand",
+        "Pitching - PA",
+        "Pitching - AB",
+        "Pitching - H",
+        "Pitching - 2B",
+        "Pitching - 3B",
+        "Pitching - HR",
+        "Pitching - Grand Slam (HR4)",
+        "Pitching - RBI",
+        "Pitching - BB",
+        "Pitching - IBB",
+        "Pitching - TB",
+        "Pitching - SO",
+        "Pitching - GDP",
+        "Pitching - HBP",
+        "Pitching - SH",
+        "Pitching - SF",
+        "Pitching - CI"
+    ]
+

@@ -19,7 +19,7 @@ from vss_utilities import center_window, create_temp_dir, clear_temp_dir
 
 
 def main_window(theme='DarkBlue'):
-    BTN_SIZE = (5,5)
+    #BTN_SIZE = (5,5)
     sg.theme(theme)
     sg.set_options(
         window_location = (0,0)
@@ -109,12 +109,7 @@ def main_window(theme='DarkBlue'):
         ],
     ]
 
-    # sidebar_layout = [
-        
-    #     [sg.Button('test',size=BTN_SIZE)],
-    #     [sg.VPush()],
-    #     [sg.Button('test',size=BTN_SIZE)]
-    # ]
+
     layout = [
         #[sg.Titlebar('Welcome to Visual Sports Studio')],
         [sg.Menu(menu_bar,visible=True)],

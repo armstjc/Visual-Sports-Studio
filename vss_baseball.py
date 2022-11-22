@@ -7,18 +7,13 @@
 
 
 import matplotlib.pyplot as plt
-import pandas as pd
 import PySimpleGUI as sg
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 from vss_defaults import VSS_APPLICATION_NAME, VSS_SUPPORTED_GRAPHS
 from vss_urls import RETROSPLIT_TEAM_BOX, RETROSPLIT_PLAYER_BOX,\
     RETROSPLIT_HEAD_TO_HEAD, RETROSPLIT_BATTIN_BY_POSITION, \
     RETROSPLIT_BATTING_BY_RUNNERS, RETROSPLIT_BATTING_BY_PLATOON, \
     RETROSPLIT_PITCHING_BY_RUNNERS
-from vss_utils.vss_graphing import draw_figure
-from vss_utils.vss_utilities import center_window, vss_error,\
-    download_chart_data
 from vss_utils import vss_baseball_graph_stat_types, \
     vss_baseball_team_stats_col_list, \
     vss_baseball_team_stats_column_swaper, \
@@ -37,6 +32,9 @@ from vss_utils import vss_baseball_graph_stat_types, \
     vss_baseball_pitching_by_platoon_column_swaper, \
     vss_baseball_pitching_by_platoon_col_list,\
     vss_baseball_reverse_column_swaper
+from vss_utils.vss_graphing import draw_figure
+from vss_utils.vss_utilities import center_window, vss_error,\
+    download_chart_data
 
 
 def baseball_main_window(theme='DarkBlue', \
@@ -58,7 +56,7 @@ def baseball_main_window(theme='DarkBlue', \
         dataXY = download_chart_data(url,x_col,y_col)
 
         try:
-            plt.plot(dataXY[0], dataXY[1], '.k')
+            plt.plot(dataXY['X'], dataXY['Y'], '.k')
             plt.xlabel('Runs scored')
             plt.ylabel('Runs Allowed')
             plt.title(f'Runs Scored vs Runs Allowed, {season} MLB Season.')
@@ -96,9 +94,9 @@ def baseball_main_window(theme='DarkBlue', \
             if plot_type == 'plot':
                 #plt.plot(dataXY[0], dataXY[1], '.k')
                 #print(max(dataXY[0]))
-                plt.plot(dataXY[0], dataXY[1], '.k')
+                plt.plot(dataXY['X'], dataXY['Y'], '.k')
             elif plot_type == 'scatter':
-                plt.scatter(dataXY[0], dataXY[1])
+                plt.scatter(dataXY['X'], dataXY['Y'],s=dataXY['count'])
             else:
                 raise Exception('Unsuported chart type.')
         else:
@@ -150,44 +148,44 @@ def baseball_main_window(theme='DarkBlue', \
                 sg.Frame(
                     "Select a stat category:",
                     layout=[[
-                            sg.Combo(
-                                #button_text='Select a stat.',
-                                values=stat_types,
-                                size=(30,1),
-                                default_value="Team Stats",
-                                enable_events=True,
-                                key="-LIST_STAT-"
-                            )
-                        ]]
+                        sg.Combo(
+                            #button_text='Select a stat.',
+                            values=stat_types,
+                            size=(30,1),
+                            default_value="Team Stats",
+                            enable_events=True,
+                            key="-LIST_STAT-"
+                        )
+                    ]]
                 )
             ],
             [
                 sg.Frame(
                     'Select a column for the Y axis:',
                     layout=[[
-                            sg.Combo(
-                                #button_text='Select a stat.',
-                                stat_col_list,
-                                size=(30,1),
-                                default_value="Pitching - Runs allowed (R)",
-                                key='-Y_STAT-'
-                            )
-                        ]]
+                        sg.Combo(
+                            #button_text='Select a stat.',
+                            stat_col_list,
+                            size=(30,1),
+                            default_value="Pitching - Runs allowed (R)",
+                            key='-Y_STAT-'
+                        )
+                    ]]
                 )
             ],
             [
                 sg.Frame(
                     "Select a column for the X axis:",
                     layout=[[
-                            sg.Combo(
-                                #button_text='Select a stat.',
-                                stat_col_list,
-                                size=(30,1),
-                                default_value="Batting - Runs Scored (R)",
-                                enable_events=True,
-                                key='-X_STAT-'
-                            )
-                        ]]
+                        sg.Combo(
+                            #button_text='Select a stat.',
+                            stat_col_list,
+                            size=(30,1),
+                            default_value="Batting - Runs Scored (R)",
+                            enable_events=True,
+                            key='-X_STAT-'
+                        )
+                    ]]
                 )
             ],
             [
@@ -195,40 +193,38 @@ def baseball_main_window(theme='DarkBlue', \
                     'Table Customization:',
                     layout=[
                         [
-                            sg.Frame('Title:',
-                                layout=[[
-                                    sg.Input(
-                                        default_text='Title',
-                                        size=(25,1),
-                                        key='-CUSTOM_TITLE-'
-                                    )
-                                ]]
-                            )
-                        ],
-                        [
-                            sg.Frame('Y-Axis Title:',
-                                layout=[[
-                                    sg.Input(
-                                        default_text='Y-Axis',
-                                        size=(25,1),
-                                        key='-CUSTOM_Y_TITLE-'
-                                    )
-                                ]]
-                            )                        
-                        ],
-                        [
-                            sg.Frame('X-Axis Title:',
-                                layout=[[
-                                    sg.Input(
-                                        default_text='X-Axis',
-                                        size=(25,1),
-                                        key='-CUSTOM_X_TITLE-'
-                                    )
-                                ]]
-                            )                         
-                            
-                        ]
-                    ]
+                        sg.Frame('Title:',
+                            layout=[[
+                                sg.Input(
+                                    default_text='Title',
+                                    size=(25,1),
+                                    key='-CUSTOM_TITLE-'
+                                )
+                            ]]
+                        )
+                    ],
+                    [
+                        sg.Frame('Y-Axis Title:',
+                            layout=[[
+                                sg.Input(
+                                    default_text='Y-Axis',
+                                    size=(25,1),
+                                    key='-CUSTOM_Y_TITLE-'
+                                )
+                            ]]
+                        )                        
+                    ],
+                    [
+                        sg.Frame('X-Axis Title:',
+                            layout=[[
+                                sg.Input(
+                                    default_text='X-Axis',
+                                    size=(25,1),
+                                    key='-CUSTOM_X_TITLE-'
+                                )
+                            ]]
+                        )                            
+                    ]]
                 )
             ],
             [sg.Frame(
@@ -248,9 +244,10 @@ def baseball_main_window(theme='DarkBlue', \
         ]
     )
 
-    graphing_layout =[
-        [graph_settings_col,graph_col]
-    ]
+    graphing_layout =[[
+        graph_settings_col,
+        graph_col
+    ]]
 
     stats_layout = [
         [sg.Text('This is placeholder test.')],

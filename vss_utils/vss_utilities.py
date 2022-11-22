@@ -29,9 +29,12 @@ def download_chart_data(url:str,x_col:str,y_col:str):
     #data_url = f'https://raw.githubusercontent.com/chadwickbureau/retrosplits/master/daybyday/teams-{season}.csv'
     try:
         df = pd.read_csv(url)
-        xData = df[x_col].tolist()
-        yData = df[y_col].tolist()
-        return (xData, yData)
+        data_df = pd.DataFrame(df.groupby(x_col,as_index=False)[y_col].value_counts())
+        # xData = df[x_col].tolist()
+        # yData = df[y_col].tolist()
+        # return (xData, yData)
+        data_df.columns = ['X','Y','count']
+        return data_df
     except Exception as e:
         vss_error(e)
 

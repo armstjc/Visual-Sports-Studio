@@ -798,9 +798,7 @@ def vss_baseball_pitching_by_runners_column_swaper(column:str):
     match column:
         case "Pitching - Runners on base situation":
             return "SITUATION"
-        case "Pitching - PA":
-            return "B_PA"
-        case "Pitching - PA":
+        case "Pitching - Plate Appearances (PA)":
             return "B_PA"
         case "Pitching - At Bats faced (AB)":
             return "B_AB"
@@ -814,7 +812,7 @@ def vss_baseball_pitching_by_runners_column_swaper(column:str):
             return "B_HR"
         case "Pitching - Grand Slams allowed (HR4)":
             return "B_HR4"
-        case "Pitching - RBI":
+        case "Pitching - Runners Batted In (RBI)":
             return "B_RBI"
         case "Pitching - Walks issued (BB)":
             return "B_BB"
@@ -839,20 +837,20 @@ def vss_baseball_pitching_by_runners_column_swaper(column:str):
 
 def vss_baseball_pitching_by_runners_col_list():
     return [
-        "Pitching- Runners on base situation",
-        "Pitching- PA",
-        "Pitching- AB",
-        "Pitching- H",
-        "Pitching- 2B",
-        "Pitching- 3B",
-        "Pitching- HR",
-        "Pitching- Grand Slam (HR4)",
-        "Pitching- RBI",
-        "Pitching- BB",
-        "Pitching- IBB",
-        "Pitching- TB",
-        "Pitching- SO",
-        "Pitching- GDP",
+        "Pitching - Runners on base situation",
+        "Pitching - Plate Appearances (PA)",
+        "Pitching - At Bats faced (AB)",
+        "Pitching - Hits allowed (H)",
+        "Pitching - Doubles allowed (2B)",
+        "Pitching - Triples allowed (3B)",
+        "Pitching - Home Runs allowed (HR)",
+        "Pitching - Grand Slam (HR4)",
+        "Pitching - Runners Batted In (RBI)",
+        "Pitching - Walks issued (BB)",
+        "Pitching - Intentional Walks issued (IBB)",
+        "Pitching - Total Bases allowed (TB)",
+        "Pitching - Strikeouts (SO)",
+        "Pitching - GIDP situations forced (GIDP)",
         "Pitching - Hit By Pitch (HBP)",
         "Pitching - Sac. Hits forced (SH)",
         "Pitching - Sac. Flys forced (SF)",
@@ -865,9 +863,9 @@ def vss_baseball_pitching_by_platoon_column_swaper(column:str):
             return "RESP_BAT_HAND_CD"
         case "Pitcher's pitching hand":
             return "RESP_PIT_HAND_CD"
-        case "Pitching - PA":
+        case "Pitching - Plate Appearances (PA)":
             return "B_PA"
-        case "Pitching - PA":
+        case "Pitching - Plate Appearances (PA)":
             return "B_PA"
         case "Pitching - At Bats faced (AB)":
             return "B_AB"
@@ -881,7 +879,7 @@ def vss_baseball_pitching_by_platoon_column_swaper(column:str):
             return "B_HR"
         case "Pitching - Grand Slams allowed (HR4)":
             return "B_HR4"
-        case "Pitching - RBI":
+        case "Pitching - Runners Batted In (RBI)":
             return "B_RBI"
         case "Pitching - Walks issued (BB)":
             return "B_BB"
@@ -906,14 +904,14 @@ def vss_baseball_pitching_by_platoon_col_list():
     return [
         "Batter's Batting hand",
         "Pitcher's pitching hand",
-        "Pitching - PA",
+        "Pitching - Plate Appearances (PA)",
         "Pitching - At Bats faced (AB)",
         "Pitching - Hits allowed (H)",
         "Pitching - Doubles allowed (2B)",
         "Pitching - Triples allowed (3B)",
         "Pitching - Home Runs allowed (HR)",
         "Pitching - Grand Slams allowed (HR4)",
-        "Pitching - RBI",
+        "Pitching - Runners Batted In (RBI)",
         "Pitching - Walks issued (BB)",
         "Pitching - Intentional Walks issued (IBB)",
         "Pitching - Total Bases allowed (TB)",

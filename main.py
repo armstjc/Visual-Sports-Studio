@@ -15,8 +15,8 @@ from vss_baseball import baseball_main_window
 from vss_basketball import basketball_main_window
 from vss_football import football_main_window
 from vss_soccer import soccer_main_window
-from vss_utilities import center_window, create_temp_dir, clear_temp_dir
-
+from vss_utils.vss_utilities import center_window, create_temp_dir, clear_temp_dir
+from vss_defaults import VSS_APPLICATION_NAME
 
 def main_window(theme='DarkBlue'):
     #BTN_SIZE = (5,5)
@@ -38,7 +38,11 @@ def main_window(theme='DarkBlue'):
     body_layout = [
         
         [
-            sg.Text('Welcome to Visual Sports Studio',expand_x=True),
+            sg.Text(
+                f'Welcome to {VSS_APPLICATION_NAME}',
+                font='Segoe 20',
+                expand_x=True
+            ),
             sg.Button(image_filename='icons/settings.png',
                 tooltip='Settings',
                 visible=True)
@@ -122,7 +126,7 @@ def main_window(theme='DarkBlue'):
             )
         ]
     ]
-    window = sg.Window('Visual Sports Stuido',
+    window = sg.Window(f'{VSS_APPLICATION_NAME}',
         layout,
         default_button_element_size=(100,20),
         #resizable=True,

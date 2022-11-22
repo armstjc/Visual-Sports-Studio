@@ -9,54 +9,104 @@
 ##                                                                                                                                          ##
 ##############################################################################################################################################
 
-DEFAULT_SETTINGS_JSON = {"database": {
-    ## DBMS Settings
-    "database_type":"sqlite3", ## Likely won't be a thing for this capstone project, but in the future, I plan on supporting other DBMS engines.
-    
-    ## Startup
+VSS_APPLICATION_VERSIOIN = "0.1.3"
 
-    ### Baseball
-    "update_mlb_on_start":False, ## Tells the app if it should automatically update Major Leauge Baseball (MLB) data at the start.
-    ### American Football
-    "update_nfl_on_start":False, ## Tells the app if it should automatically update National Football Leauge (NFL) data at the start.
-    "update_cfb_on_start":False, ## Tells the app if it should automatically update NCAA D1 college football (CFB) data at the start.
-    ### Men's Basketball
-    "update_nba_on_start":False, ## Tells the app if it should automatically update National Basketball Association (NBA) data at the start.
-    "update_cbb_on_start":False, ## Tells the app if it should automatically update NCAA D1 Men's College Basketball (CBB) data at the start.
-    ### Women's Basketball
-    "update_wnba_on_start":False, ## Tells the app if it should automatically update Women's National Basketball Association (WNBA) data at the start.
-    "update_wbb_on_start":False, ## Tells the app if it should automatically update NCAA D1 Women's College Basketball (CBB) data at the start.
-    ### Men's Hockey
-    "update_nhl_on_start":False, ## Tells the app if it should automatically update National Hockey League (NHL) data at the start.
-    ### Women's Hockey
-    "update_phf_on_start":False, ## Tells the app if it should automatically update Premier Hockey Federation (PHF) data at the start.
+VSS_APPLICATION_NAME = "Visual Sports Studio (Beta)"
 
-    ## File I/O
-    "custom_database_dir":"", ## If specified by the user, this is the directory they want the SQL databases in.
+VSS_APPLICATION_DESCRIPTION = """
+Visual Sports studio (VSS) is an in-development application suite, intended
+to help bridge the technological gap between those that want to work with 
+sports statisitcs, and those who can program.
 
-    ## Close
+This application uses data from and derrived from the Retrosheet project.
+Per their request, the following statement must appear prominently:
 
-    ### Baseball
-    "delete_mlb_on_close":False, ## Tells the app if it should automatically delete the Major Leauge Baseball (MLB) data when the app is closed.
-    ### American Football
-    "delete_nfl_on_close":False, ## Tells the app if it should automatically delete the National Football Leauge (NFL) data when the app is closed.
-    "delete_cfb_on_close":False, ## Tells the app if it should automatically delete the NCAA D1 college football (CFB) data when the app is closed.
-    ### Men's Basketball
-    "delete_nba_on_close":False, ## Tells the app if it should automatically delete National Basketball Association (NBA) data when the app is closed.
-    "delete_cbb_on_close":False, ## Tells the app if it should automatically delete NCAA D1 Men's College Basketball (CBB) data when the app is closed.
-    ### Women's Basketball
-    "delete_wnba_on_close":False, ## Tells the app if it should automatically delete Women's National Basketball Association (WNBA) data when the app is closed.
-    "delete_wbb_on_close":False, ## Tells the app if it should automatically delete NCAA D1 Women's College Basketball (CBB) data when the app is closed.
-    ### Men's Hockey
-    "delete_nhl_on_close":False, ## Tells the app if it should automatically delete National Hockey League (NHL) data when the app is closed.
-    ### Women's Hockey
-    "delete_phf_on_close":False, ## Tells the app if it should automatically delete Premier Hockey Federation (PHF) data when the app is closed.
-},
-"app_settings":{
-    ## This is 720p
-    "main_window_width":1280,
-    "main_window_height":720,
-}}
+The information used here was obtained free of
+charge from and is copyrighted by Retrosheet.  Interested
+parties may contact Retrosheet at 20 Sunset Rd.,
+Newark, DE 19711.
+
+Additional special thanks to the people behind SportsDataverse project.
+"""
+DEFAULT_SETTINGS_JSON = """
+{
+  "app_settings": {
+    "main_window_width": 1280,
+    "main_window_height": 720
+  },
+  "custom_database_dir": "temp",
+
+  "database": {
+    "database_type": "sqlite3",
+
+    "baseball": {
+      "mlb": {
+        "update_mlb_on_start": false,
+        "delete_mlb_on_close": false,
+        "explainer": "Tells the app if it should automatically update Major Leauge Baseball (MLB) data at the start and/or if it should delete said data after the app is closed."
+      }
+    },
+    "football": {
+      "nfl": {
+        "update_nfl_on_start": false,
+        "delete_nfl_on_close": false,
+        "explainer": "Tells the app if it should automatically update National Football Leauge (NFL) data at the start and/or if it should delete said data after the app is closed."
+      },
+      "cfb": {
+        "update_cfb_on_start": false,
+        "delete_cfb_on_close": false,
+        "explainer": "Tells the app if it should automatically update NCAA D1 college football (CFB) data at the start and/or if it should delete said data after the app is closed."
+      }
+    },
+    "basketball": {
+      "nba": {
+        "update_nba_on_start": false,
+        "delete_nba_on_close": false,
+        "explainer": "Tells the app if it should automatically update National Basketball Association (NBA) data at the start and/or if it should delete said data after the app is closed."
+      },
+      "cbb": {
+        "update_cbb_on_start": false,
+        "delete_cbb_on_close": false,
+        "explainer": "Tells the app if it should automatically update NCAA D1 Men's College Basketball (CBB) data at the start and/or if it should delete said data after the app is closed."
+      },
+      "wnba": {
+        "update_wnba_on_start": false,
+        "delete_wnba_on_close": false,
+        "explainer": "Tells the app if it should automatically update Women's National Basketball Association (WNBA) data at the start and/or if it should delete said data after the app is closed."
+      },
+      "wbb": {
+        "update_wbb_on_start": false,
+        "delete_wbb_on_close": false,
+        "explainer": "Tells the app if it should automatically update NCAA D1 Women's College Basketball (WCBB) data at the start and/or if it should delete said data after the app is closed."
+      }
+    },
+    "hockey": {
+      "nhl": {
+        "update_nhl_on_start": false,
+        "delete_nhl_on_close": false,
+        "explainer": "Tells the app if it should automatically update National Hockey League (NHL) data at the start and/or if it should delete said data after the app is closed."
+      },
+      "phf": {
+        "update_phf_on_start": false,
+        "delete_phf_on_close": false,
+        "explainer": "Tells the app if it should automatically update Premier Hockey Federation (PHF) data at the start and/or if it should delete said data after the app is closed."
+      }
+    }
+  },
+
+  "environment_settings": {
+    "explainer": "Tells the app what resolution the windows should be.",
+    "window_height": 720,
+    "window_width": 1280
+  },
+
+  "startup": {
+    "premission_to_startup": true,
+    "explainer":"Placeholder for functions in the future."
+  }
+}
+
+"""
 
 
 DEFAULT_FILE_DESCRIPTOR = """

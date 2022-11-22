@@ -11,11 +11,14 @@ import pandas as pd
 import PySimpleGUI as sg
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
+from vss_defaults import VSS_APPLICATION_NAME
 from vss_urls import RETROSPLIT_TEAM_BOX, RETROSPLIT_PLAYER_BOX,\
     RETROSPLIT_HEAD_TO_HEAD, RETROSPLIT_BATTIN_BY_POSITION, \
     RETROSPLIT_BATTING_BY_RUNNERS, RETROSPLIT_BATTING_BY_PLATOON, \
     RETROSPLIT_PITCHING_BY_RUNNERS
-from vss_utilities import center_window, vss_error
+from vss_utils.vss_graphing import draw_figure
+from vss_utils.vss_utilities import center_window, vss_error,\
+    download_chart_data
 from vss_utils import vss_baseball_graph_stat_types, \
     vss_baseball_team_stats_col_list, \
     vss_baseball_team_stats_column_swaper, \
@@ -35,7 +38,7 @@ from vss_utils import vss_baseball_graph_stat_types, \
     vss_baseball_pitching_by_platoon_col_list
 
 
-def baseball_main_window(theme='DarkBlue'):
+def baseball_main_window(theme='DarkBlue',window_width=1280,window_height=720):
     sg.theme(theme)
     menu_bar = [
         ['File',['---','Exit']],
@@ -46,26 +49,11 @@ def baseball_main_window(theme='DarkBlue'):
             'fig_agg': False,
             'pltFig': False}
 
-    def draw_figure(canvas, figure):
-        figure_canvas_agg = FigureCanvasTkAgg(figure, canvas)
-        figure_canvas_agg.draw()
-        figure_canvas_agg.get_tk_widget().pack(side='top', fill='both', expand=1)
-        return figure_canvas_agg
-
-    def getData(season:int,url:str,x_col:str,y_col:str):
-        #data_url = f'https://raw.githubusercontent.com/chadwickbureau/retrosplits/master/daybyday/teams-{season}.csv'
-        try:
-            df = pd.read_csv(url)
-            xData = df[x_col].tolist()
-            yData = df[y_col].tolist()
-            return (xData, yData)
-        except Exception as e:
-            vss_error(e)
 
     def drawChart(season:int,url:str,x_col:str,y_col:str):
         _VARS['pltFig'] = plt.figure()
 
-        dataXY = getData(season,url,x_col,y_col)
+        dataXY = download_chart_data(url,x_col,y_col)
 
         try:
             plt.plot(dataXY[0], dataXY[1], '.k')
@@ -93,7 +81,7 @@ def baseball_main_window(theme='DarkBlue'):
         _VARS['fig_agg'].get_tk_widget().forget()
 
         try:
-            dataXY = getData(season,url,x_col,y_col)
+            dataXY = download_chart_data(url,x_col,y_col)
         except Exception as e:
             vss_error(e)
                 
@@ -126,7 +114,17 @@ def baseball_main_window(theme='DarkBlue'):
     stat_seasons = [x for x in range(1901,2021)]
     stat_types = vss_baseball_graph_stat_types()
 
-    graph_col = sg.Column([[sg.Canvas(key='figCanvas')]])
+    graph_col = sg.Column(
+        [[
+            sg.Canvas(
+                key='figCanvas',
+                expand_x=True,
+                expand_y=True
+            )
+        ]],
+        expand_x=True,
+        expand_y=True
+    )
 
     stat_col_list = vss_baseball_team_stats_col_list()
 
@@ -139,7 +137,7 @@ def baseball_main_window(theme='DarkBlue'):
                             sg.Combo(
                                 #button_text='Select a stat.',
                                 values=stat_types,
-                                size=(25,1),
+                                size=(30,1),
                                 default_value="Team Stats",
                                 enable_events=True,
                                 key="-LIST_STAT-"
@@ -154,8 +152,8 @@ def baseball_main_window(theme='DarkBlue'):
                             sg.Combo(
                                 #button_text='Select a stat.',
                                 stat_col_list,
-                                size=(25,1),
-                                default_value="Pitching - R",
+                                size=(30,1),
+                                default_value="Pitching - Runs allowed (R)",
                                 key='-Y_STAT-'
                             )
                         ]]
@@ -168,8 +166,8 @@ def baseball_main_window(theme='DarkBlue'):
                             sg.Combo(
                                 #button_text='Select a stat.',
                                 stat_col_list,
-                                size=(25,1),
-                                default_value="Batting - R",
+                                size=(30,1),
+                                default_value="Batting - Runs Scored (R)",
                                 enable_events=True,
                                 key='-X_STAT-'
                             )
@@ -258,11 +256,12 @@ def baseball_main_window(theme='DarkBlue'):
     ]
 
     ## Window Declaration. This is  
-    _VARS['window'] = sg.Window('Baseball - Visual Sports Stuido',
+    _VARS['window'] = sg.Window(f'Baseball - {VSS_APPLICATION_NAME}',
         layout,
         finalize=True,
         resizable=True,
         location=(0, 0),
+        size=(window_width,window_height),
         element_justification="right")
 
     # Due to the way this app is designed, a chart has to be made first.
@@ -291,9 +290,9 @@ def baseball_main_window(theme='DarkBlue'):
             stat_col_list = vss_baseball_team_stats_col_list()
 
             _VARS['window']['-X_STAT-'].update(
-                values=stat_col_list,value="Batting - R")
+                values=stat_col_list,value="Batting - Runs Scored (R)")
             _VARS['window']['-Y_STAT-'].update(
-                values=stat_col_list,value="Pitching - R")
+                values=stat_col_list,value="Pitching - Runs allowed (R)")
             #stat_seasons = [x for x in range(1901,2021)]
 
             stat_seasons = [x for x in range(1901,2021)]
@@ -304,9 +303,9 @@ def baseball_main_window(theme='DarkBlue'):
             stat_col_list = vss_baseball_player_stats_col_list()
 
             _VARS['window']['-X_STAT-'].update(
-                values=stat_col_list,value="Batting - R")
+                values=stat_col_list,value="Batting - Runs Scored (R)")
             _VARS['window']['-Y_STAT-'].update(
-                values=stat_col_list,value="Pitching - R")
+                values=stat_col_list,value="Pitching - Runs allowed (R)")
 
             stat_seasons = [x for x in range(1901,2021)]
             _VARS['window']['-SPIN_SEA-'].update(values=stat_seasons)
@@ -462,7 +461,8 @@ def baseball_main_window(theme='DarkBlue'):
                     values['-Y_STAT-']),
                 values['-CUSTOM_X_TITLE-'],
                 values['-CUSTOM_Y_TITLE-'],
-                values['-CUSTOM_TITLE-']
+                values['-CUSTOM_TITLE-'],
+
             )
             
         elif event == 'Update' and \

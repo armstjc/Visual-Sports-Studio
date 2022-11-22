@@ -1,5 +1,5 @@
 import PySimpleGUI as sg
-from vss_utilities import center_window
+from vss_utils.vss_utilities import center_window
 
 def football_main_window():
     layout = [

@@ -11,7 +11,7 @@ import pandas as pd
 import PySimpleGUI as sg
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
-from vss_defaults import VSS_APPLICATION_NAME
+from vss_defaults import VSS_APPLICATION_NAME, VSS_SUPPORTED_GRAPHS
 from vss_urls import RETROSPLIT_TEAM_BOX, RETROSPLIT_PLAYER_BOX,\
     RETROSPLIT_HEAD_TO_HEAD, RETROSPLIT_BATTIN_BY_POSITION, \
     RETROSPLIT_BATTING_BY_RUNNERS, RETROSPLIT_BATTING_BY_PLATOON, \
@@ -35,10 +35,12 @@ from vss_utils import vss_baseball_graph_stat_types, \
     vss_baseball_pitching_by_runners_column_swaper, \
     vss_baseball_pitching_by_runners_col_list, \
     vss_baseball_pitching_by_platoon_column_swaper, \
-    vss_baseball_pitching_by_platoon_col_list
+    vss_baseball_pitching_by_platoon_col_list,\
+    vss_baseball_reverse_column_swaper
 
 
-def baseball_main_window(theme='DarkBlue',window_width=1280,window_height=720):
+def baseball_main_window(theme='DarkBlue', \
+    window_width=1280,window_height=720):
     sg.theme(theme)
     menu_bar = [
         ['File',['---','Exit']],
@@ -76,7 +78,7 @@ def baseball_main_window(theme='DarkBlue',window_width=1280,window_height=720):
             _VARS['window']['figCanvas'].TKCanvas, _VARS['pltFig'])
 
     def updateChart(season:int,url:str,x_col:str,y_col:str,\
-        x_label:str,y_label:str,chart_title=""):
+        x_label:str,y_label:str,plot_type='plot',chart_title=""):
         has_data = True
         _VARS['fig_agg'].get_tk_widget().forget()
 
@@ -89,22 +91,36 @@ def baseball_main_window(theme='DarkBlue',window_width=1280,window_height=720):
             plt.clf()
         except:
             print('No chart to clear')
-        plt.plot(dataXY[0], dataXY[1], '.k')
+
+        if plot_type in VSS_SUPPORTED_GRAPHS:
+            if plot_type == 'plot':
+                #plt.plot(dataXY[0], dataXY[1], '.k')
+                #print(max(dataXY[0]))
+                plt.plot(dataXY[0], dataXY[1], '.k')
+            elif plot_type == 'scatter':
+                plt.scatter(dataXY[0], dataXY[1])
+            else:
+                raise Exception('Unsuported chart type.')
+        else:
+            raise Exception('Unsuported chart type.')
+
 
         if x_label != 'X-Axis':
             plt.xlabel(x_label)
         else:
-            plt.xlabel(x_col)
+            plt.xlabel(vss_baseball_reverse_column_swaper(x_col))
 
         if y_label != 'Y-Axis':
             plt.ylabel(y_label)
         else:
-            plt.ylabel(y_col)
+            plt.ylabel(vss_baseball_reverse_column_swaper(y_col))
         
         if chart_title != "" and chart_title == str.lower("Title"):
             plt.title(chart_title)
         else:
-            plt.title(f'{x_col} vs {y_col}, {season} MLB Season.')
+            plt.title(f'{vss_baseball_reverse_column_swaper(x_col)}'+ \
+                f' vs {vss_baseball_reverse_column_swaper(y_col)},'+ \
+                f' {season} MLB Season.')
         
         _VARS['fig_agg'] = draw_figure(
             _VARS['window']['figCanvas'].TKCanvas, _VARS['pltFig'])
@@ -401,6 +417,7 @@ def baseball_main_window(theme='DarkBlue',window_width=1280,window_height=720):
                     values['-Y_STAT-']),
                 values['-CUSTOM_X_TITLE-'],
                 values['-CUSTOM_Y_TITLE-'],
+                'scatter',
                 values['-CUSTOM_TITLE-']
             )
             
@@ -416,6 +433,8 @@ def baseball_main_window(theme='DarkBlue',window_width=1280,window_height=720):
                     values['-Y_STAT-']),
                 values['-CUSTOM_X_TITLE-'],
                 values['-CUSTOM_Y_TITLE-'],
+                'plot',
+
                 values['-CUSTOM_TITLE-']
             )
             
@@ -431,6 +450,7 @@ def baseball_main_window(theme='DarkBlue',window_width=1280,window_height=720):
                     values['-Y_STAT-']),
                 values['-CUSTOM_X_TITLE-'],
                 values['-CUSTOM_Y_TITLE-'],
+                'plot',
                 values['-CUSTOM_TITLE-']
             )
             
@@ -446,6 +466,7 @@ def baseball_main_window(theme='DarkBlue',window_width=1280,window_height=720):
                     values['-Y_STAT-']),
                 values['-CUSTOM_X_TITLE-'],
                 values['-CUSTOM_Y_TITLE-'],
+                'plot',
                 values['-CUSTOM_TITLE-']
             )
             
@@ -461,6 +482,7 @@ def baseball_main_window(theme='DarkBlue',window_width=1280,window_height=720):
                     values['-Y_STAT-']),
                 values['-CUSTOM_X_TITLE-'],
                 values['-CUSTOM_Y_TITLE-'],
+                'plot',
                 values['-CUSTOM_TITLE-'],
 
             )
@@ -477,6 +499,7 @@ def baseball_main_window(theme='DarkBlue',window_width=1280,window_height=720):
                     values['-Y_STAT-']),
                 values['-CUSTOM_X_TITLE-'],
                 values['-CUSTOM_Y_TITLE-'],
+                'plot',
                 values['-CUSTOM_TITLE-']
             )
             
@@ -492,6 +515,7 @@ def baseball_main_window(theme='DarkBlue',window_width=1280,window_height=720):
                     values['-Y_STAT-']),
                 values['-CUSTOM_X_TITLE-'],
                 values['-CUSTOM_Y_TITLE-'],
+                'plot',
                 values['-CUSTOM_TITLE-']
             )
             
@@ -507,6 +531,7 @@ def baseball_main_window(theme='DarkBlue',window_width=1280,window_height=720):
                     values['-Y_STAT-']),
                 values['-CUSTOM_X_TITLE-'],
                 values['-CUSTOM_Y_TITLE-'],
+                'plot',
                 values['-CUSTOM_TITLE-']
             )
 

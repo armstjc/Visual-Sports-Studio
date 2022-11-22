@@ -9,25 +9,19 @@
 ##                                                                                                                                          ##
 ##############################################################################################################################################
 
-VSS_APPLICATION_VERSIOIN = "0.1.3"
+DEFAULT_FILE_DESCRIPTOR = """
 
-VSS_APPLICATION_NAME = "Visual Sports Studio (Beta)"
+##############################################################################################################################################
+##                                                                                                                                          ##
+##  file.py																																	##
+##------------------------------------------------------------------------------------------------------------------------------------------##
+##                                                                                                                                          ##
+##  TODO: create description of this file.
+##                                                                                                                                          ##
+##############################################################################################################################################
 
-VSS_APPLICATION_DESCRIPTION = """
-Visual Sports studio (VSS) is an in-development application suite, intended
-to help bridge the technological gap between those that want to work with 
-sports statisitcs, and those who can program.
-
-This application uses data from and derrived from the Retrosheet project.
-Per their request, the following statement must appear prominently:
-
-The information used here was obtained free of
-charge from and is copyrighted by Retrosheet.  Interested
-parties may contact Retrosheet at 20 Sunset Rd.,
-Newark, DE 19711.
-
-Additional special thanks to the people behind SportsDataverse project.
 """
+
 DEFAULT_SETTINGS_JSON = """
 {
   "app_settings": {
@@ -109,14 +103,24 @@ DEFAULT_SETTINGS_JSON = """
 """
 
 
-DEFAULT_FILE_DESCRIPTOR = """
+VSS_APPLICATION_VERSIOIN = "0.1.4"
 
-##############################################################################################################################################
-##                                                                                                                                          ##
-##  file.py																																	##
-##------------------------------------------------------------------------------------------------------------------------------------------##
-##                                                                                                                                          ##
-##  TODO: create description of this file.
-##                                                                                                                                          ##
-##############################################################################################################################################
+VSS_APPLICATION_NAME = "Visual Sports Studio (Beta)"
+
+VSS_APPLICATION_DESCRIPTION = """
+Visual Sports studio (VSS) is an in-development application suite, intended
+to help bridge the technological gap between those that want to work with 
+sports statisitcs, and those who can program.
+
+This application uses data from and derrived from the Retrosheet project.
+Per their request, the following statement must appear prominently:
+
+The information used here was obtained free of
+charge from and is copyrighted by Retrosheet.  Interested
+parties may contact Retrosheet at 20 Sunset Rd.,
+Newark, DE 19711.
+
+Additional special thanks to the people behind SportsDataverse project.
 """
+
+VSS_SUPPORTED_GRAPHS = ['plot','scatter']

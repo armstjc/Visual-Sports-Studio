@@ -13,6 +13,9 @@ def vss_baseball_graph_stat_types():
 
 def vss_baseball_reverse_column_swaper(column:str):
     match column:
+
+        ## Batting
+
         case "B_PA":
             return "Batting - Plate Appearances (PA)"
         case "B_AB":
@@ -57,6 +60,9 @@ def vss_baseball_reverse_column_swaper(column:str):
             return "Batting - Catcher Interference (CI)"
         case "B_LOB":
             return "Batting - Left on Base (LOB)"
+        
+        ## Pitching
+        
         case "P_CG":
             return "Pitching - Complete Game (CG)"
         case "P_SHO":
@@ -67,11 +73,76 @@ def vss_baseball_reverse_column_swaper(column:str):
             return "Pitching - Game(s) Finished (GF)"
         case "P_TBF":
             return "Pitching - Total Batters Faced (TBF)"
-        case "B_PA":
-            return ""
-        case "B_PA":
-            return ""
-        
+        case "P_OUT":
+            return "Pitching - Pitching Outs (P_OUT)"
+        case "P_R":
+            return "Pitching - Runs allowed (R)"
+        case "P_ER":
+            return "Pitching - Earned Runs allowed (ER)"
+        case "P_H":
+            return "Pitching - Hits allowed (H)"
+        case "P_TB":
+            return "Pitching - Total Bases allowed (TB)"
+        case "P_2B":
+            return "Pitching - Doubles allowed (2B)"
+        case "P_3B":
+            return "Pitching - Triples allowed (3B)"
+        case "P_HR":
+            return "Pitching - Home Runs allowed (HR)"
+        case "P_HR4":
+            return "Pitching - Grand Slams allowed (HR4)"
+        case "P_BB":
+            return "Pitching - Walks issued (BB)"
+        case "P_IBB":
+            return "Pitching - Intentional Walks issued (IBB)"
+        case "P_SO":
+            return "Pitching - Strikeouts (SO)"
+        case "P_GDP":
+            return "Pitching - GIDP situations forced (GIDP)"
+        case "P_HP":
+            return "Pitching - Hit By Pitch (HBP)"
+        case "P_SH":
+            return "Pitching - Sac. Hits forced (SH)"
+        case "P_SF":
+            return "Pitching - Sac Flys forced (SF)"
+        case "P_XI":
+            return "Pitching - Catcher Interference (CI)"
+        case "P_WP":
+            return "Pitching - Wild Pitches (WP)"
+        case "P_IR":
+            return "Pitching - Inherited Runners (IR)"
+        case "P_IRS":
+            return "Pitching - Inherited Runners Scored (IRS)"
+        case "P_GO":
+            return "Pitching - Ground Outs forced (GO)"
+        case "P_AO":
+            return "Pitching - Fly Outs forced (FO)"
+        case "P_PITCH":
+            return "Pitching - Pitches"
+        case "P_STRIKE":
+            return "Pitching - Strikes"
+        case "P_GO":
+            return "Pitching - Ground Outs forced (GO)"
+
+        ## Fielding
+
+        case "F_OUT":
+            return "Fielding - Outs"
+        case "F_TC":
+            return "Fielding - Total Chances (TC)"
+        case "F_PO":
+            return "Fielding - Put Outs (PO)"
+        case "F_A":
+            return "Fielding - Assists (A)"
+        case "F_E":
+            return "Fielding - Errors (E)"
+        case "F_DP":
+            return "Fielding - Double Plays (DP)"
+        case "F_TP":
+            return "Fielding - Triple Plays (TP)"
+        case "F_PB":
+            return "Fielding - Passed Balls (PB)"
+
         case _:
             # This should not happen, but it will raise an 
             # error to prevent memory shenanagans.
@@ -165,11 +236,11 @@ def vss_baseball_team_stats_column_swaper(column:str):
             return "P_SO"
         case "Pitching - GIDP situations forced (GIDP)":
             return "P_GDP"
-        case "Pitching - HBP":
+        case "Pitching - Hit By Pitch (HBP)":
             return "P_HP" # This stat (Hit By Pitch) has the acronym HBP, but in retrosheet, this stat is called "HP"
-        case "Pitching - Sac Hits forced (SH)":
+        case "Pitching - Sac. Hits forced (SH)":
             return "P_SH"
-        case "Pitching - Sac Flys forced (SF)":
+        case "Pitching - Sac. Flys forced (SF)":
             return "P_SF"
         case "Pitching - Catcher Interference (CI)":
             return "P_XI" # This stat (Catcher's Interference) has the acronym CI, but in retrosheet, this stat is called "XI"
@@ -203,7 +274,7 @@ def vss_baseball_team_stats_column_swaper(column:str):
             return "F_E"
         case "Fielding - Double Plays (DP)":
             return "F_DP"
-        case "Fielding - Triple Plays (DP)":
+        case "Fielding - Triple Plays (TP)":
             return "F_TP"
         case "Fielding - Passed Balls (PB)":
             return "F_PB"
@@ -255,8 +326,8 @@ def vss_baseball_team_stats_col_list():
         "Pitching - Intentional Walks issued (IBB)",
         "Pitching - Strikeouts (SO)",
         "Pitching - GIDP situations forced (GIDP)",
-        "Pitching - Sac Hits forced (SH)",
-        "Pitching - Sac Flys forced (SF)",
+        "Pitching - Sac. Hits forced (SH)",
+        "Pitching - Sac. Flys forced (SF)",
         "Pitching - Catcher Interference (CI)",
         "Pitching - Wild Pitches (WP)",
         "Pitching - Balks (BK)",
@@ -272,7 +343,7 @@ def vss_baseball_team_stats_col_list():
         "Fielding - Assists (A)",
         "Fielding - Errors (E)",
         "Fielding - Double Plays (DP)",
-        "Fielding - Triple Plays (DP)",
+        "Fielding - Triple Plays (TP)",
         "Fielding - Passed Balls (PB)"
     ]
 
@@ -368,11 +439,11 @@ def vss_baseball_player_stats_column_swaper(column:str):
             return "P_SO"
         case "Pitching - GIDP situations forced (GIDP)":
             return "P_GDP"
-        case "Pitching - HBP":
+        case "Pitching - Hit By Pitch (HBP)":
             return "P_HP" # This stat (Hit By Pitch) has the acronym HBP, but in retrosheet, this stat is called "HP"
-        case "Pitching - Sac Hits forced (SH)":
+        case "Pitching - Sac. Hits forced (SH)":
             return "P_SH"
-        case "Pitching - Sac Flys forced (SF)":
+        case "Pitching - Sac. Flys forced (SF)":
             return "P_SF"
         case "Pitching - Catcher Interference (CI)":
             return "P_XI" # This stat (Catcher's Interference) has the acronym CI, but in retrosheet, this stat is called "XI"
@@ -406,7 +477,7 @@ def vss_baseball_player_stats_column_swaper(column:str):
         #     return "F_E"
         # case "Fielding - Double Plays (DP)":
         #     return "F_DP"
-        # case "Fielding - Triple Plays (DP)":
+        # case "Fielding - Triple Plays (TP)":
         #     return "F_TP"
         # case "Fielding - Passed Balls (PB)":
         #     return "F_PB"
@@ -462,8 +533,8 @@ def vss_baseball_player_stats_col_list():
         "Pitching - Intentional Walks issued (IBB)",
         "Pitching - Strikeouts (SO)",
         "Pitching - GIDP situations forced (GIDP)",
-        "Pitching - Sac Hits forced (SH)",
-        "Pitching - Sac Flys forced (SF)",
+        "Pitching - Sac. Hits forced (SH)",
+        "Pitching - Sac. Flys forced (SF)",
         "Pitching - Catcher Interference (CI)",
         "Pitching - Wild Pitches (WP)",
         "Pitching - Balks (BK)",
@@ -755,11 +826,11 @@ def vss_baseball_pitching_by_runners_column_swaper(column:str):
             return "B_SO"
         case "Pitching - GIDP situations forced (GIDP)":
             return "B_GDP"
-        case "Pitching - HBP":
+        case "Pitching - Hit By Pitch (HBP)":
             return "B_HP" # This stat (Hit By Pitch) has the acronym HBP, but in retrosheet, this stat is called "HP"
-        case "Pitching - Sac Hits forced (SH)":
+        case "Pitching - Sac. Hits forced (SH)":
             return "B_SH"
-        case "Pitching - Sac Flys forced (SF)":
+        case "Pitching - Sac. Flys forced (SF)":
             return "B_SF"
         case "Pitching - Catcher Interference (CI)":
             return "B_XI" # This stat (Catcher's Interference) has the acronym CI, but in retrosheet, this stat is called "XI"
@@ -782,9 +853,9 @@ def vss_baseball_pitching_by_runners_col_list():
         "Pitching- TB",
         "Pitching- SO",
         "Pitching- GDP",
-        "Pitching - HBP",
-        "Pitching - Sac Hits forced (SH)",
-        "Pitching - Sac Flys forced (SF)",
+        "Pitching - Hit By Pitch (HBP)",
+        "Pitching - Sac. Hits forced (SH)",
+        "Pitching - Sac. Flys forced (SF)",
         "Pitching - Catcher Interference (CI)"
     ]
 
@@ -822,11 +893,11 @@ def vss_baseball_pitching_by_platoon_column_swaper(column:str):
             return "B_SO"
         case "Pitching - GIDP situations forced (GIDP)":
             return "B_GDP"
-        case "Pitching - HBP":
+        case "Pitching - Hit By Pitch (HBP)":
             return "B_HP" # This stat (Hit By Pitch) has the acronym HBP, but in retrosheet, this stat is called "HP"
-        case "Pitching - Sac Hits forced (SH)":
+        case "Pitching - Sac. Hits forced (SH)":
             return "B_SH"
-        case "Pitching - Sac Flys forced (SF)":
+        case "Pitching - Sac. Flys forced (SF)":
             return "B_SF"
         case "Pitching - Catcher Interference (CI)":
             return "B_XI" # This stat (Catcher's Interference) has the acronym CI, but in retrosheet, this stat is called "XI"
@@ -848,9 +919,9 @@ def vss_baseball_pitching_by_platoon_col_list():
         "Pitching - Total Bases allowed (TB)",
         "Pitching - Strikeouts (SO)",
         "Pitching - GIDP situations forced (GIDP)",
-        "Pitching - HBP",
-        "Pitching - Sac Hits forced (SH)",
-        "Pitching - Sac Flys forced (SF)",
+        "Pitching - Hit By Pitch (HBP)",
+        "Pitching - Sac. Hits forced (SH)",
+        "Pitching - Sac. Flys forced (SF)",
         "Pitching - Catcher Interference (CI)"
     ]
 

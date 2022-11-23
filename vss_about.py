@@ -20,6 +20,16 @@ def vss_about_window(theme='DarkBlue'):
         #,font = 'Franklin 14'
     )
 
+    scrollable_layout = [[
+        sg.Text(
+            VSS_APPLICATION_DESCRIPTION,
+            font='Segoe 12',
+            justification='center',
+            
+            expand_x=True
+        ),
+    ]]
+
     layout = [
         
         [
@@ -46,10 +56,15 @@ def vss_about_window(theme='DarkBlue'):
                 expand_x=True
             )
         ],
-        [   
-            sg.Text(
-                VSS_APPLICATION_DESCRIPTION,
-                font='Segoe 12',
+        [
+            sg.Column(
+                scrollable_layout,
+                scrollable=True,
+                vertical_scroll_only=True,
+                background_color=sg.theme_input_background_color(),
+                expand_x=True,
+                expand_y=True
+                
             )
         ],
         [sg.Push(),sg.Button('OK',key='-OK-',size=(10,1),bind_return_key=True),sg.Push()]
@@ -57,7 +72,7 @@ def vss_about_window(theme='DarkBlue'):
     window = sg.Window(
         'Visual Sports Stuido',
         layout,
-        size=(600,480),
+        size=(600,360),
         resizable=False,
         no_titlebar=True,
         finalize=True,

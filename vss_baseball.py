@@ -328,9 +328,9 @@ def baseball_main_window(theme='DarkBlue', \
             stat_col_list = vss_baseball_head_to_head_col_list()
 
             _VARS['window']['-X_STAT-'].update(
-                values=stat_col_list,value="Batting - PA")
+                values=stat_col_list,value="Batting - Plate Appearances (PA)")
             _VARS['window']['-Y_STAT-'].update(
-                values=stat_col_list,value="Batting - HR")
+                values=stat_col_list,value="Batting - Home Runs (HR)")
 
             stat_seasons = [x for x in range(1974,2021)]
             _VARS['window']['-SPIN_SEA-'].update(values=stat_seasons)
@@ -340,9 +340,9 @@ def baseball_main_window(theme='DarkBlue', \
             stat_col_list = vss_baseball_batting_by_position_col_list()
 
             _VARS['window']['-X_STAT-'].update(
-                values=stat_col_list,value="Batting - PA")
+                values=stat_col_list,value="Batting - Plate Appearances (PA)")
             _VARS['window']['-Y_STAT-'].update(
-                values=stat_col_list,value="Batting - HR")
+                values=stat_col_list,value="Batting - Home Runs (HR)")
 
             stat_seasons = [x for x in range(1974,2021)]
             _VARS['window']['-SPIN_SEA-'].update(values=stat_seasons)
@@ -352,9 +352,9 @@ def baseball_main_window(theme='DarkBlue', \
             stat_col_list = vss_baseball_batting_by_runners_col_list()
 
             _VARS['window']['-X_STAT-'].update(
-                values=stat_col_list,value="Batting - PA")
+                values=stat_col_list,value="Batting - Plate Appearances (PA)")
             _VARS['window']['-Y_STAT-'].update(
-                values=stat_col_list,value="Batting - HR")
+                values=stat_col_list,value="Batting - Home Runs (HR)")
 
             stat_seasons = [x for x in range(1974,2021)]
             _VARS['window']['-SPIN_SEA-'].update(values=stat_seasons)
@@ -364,9 +364,9 @@ def baseball_main_window(theme='DarkBlue', \
             stat_col_list = vss_baseball_batting_by_platoon_col_list()
 
             _VARS['window']['-X_STAT-'].update(
-                values=stat_col_list,value="Pitching - PA")
+                values=stat_col_list,value="Batting - Plate Appearances (PA)")
             _VARS['window']['-Y_STAT-'].update(
-                values=stat_col_list,value="Pitching - HR")
+                values=stat_col_list,value="Batting - Home Runs (HR)")
 
             stat_seasons = [x for x in range(1974,2021)]
             _VARS['window']['-SPIN_SEA-'].update(values=stat_seasons)
@@ -376,9 +376,10 @@ def baseball_main_window(theme='DarkBlue', \
             stat_col_list = vss_baseball_pitching_by_runners_col_list()
 
             _VARS['window']['-X_STAT-'].update(
-                values=stat_col_list,value="Pitching - PA")
+                values=stat_col_list,value="Pitching - Plate Appearances (PA)")
             _VARS['window']['-Y_STAT-'].update(
-                values=stat_col_list,value="Pitching - HR")
+                values=stat_col_list,value="Pitching - Home Runs allowed (HR)")
+
 
             stat_seasons = [x for x in range(1974,2021)]
             _VARS['window']['-SPIN_SEA-'].update(values=stat_seasons)
@@ -388,9 +389,9 @@ def baseball_main_window(theme='DarkBlue', \
             stat_col_list = vss_baseball_pitching_by_platoon_col_list()
 
             _VARS['window']['-X_STAT-'].update(
-                values=stat_col_list,value="Pitching - PA")
+                values=stat_col_list,value="Pitching - Plate Appearances (PA)")
             _VARS['window']['-Y_STAT-'].update(
-                values=stat_col_list,value="Pitching - HR")
+                values=stat_col_list,value="Pitching - Home Runs allowed (HR)")
 
             stat_seasons = [x for x in range(1974,2021)]
             _VARS['window']['-SPIN_SEA-'].update(values=stat_seasons)
@@ -430,7 +431,7 @@ def baseball_main_window(theme='DarkBlue', \
                     values['-Y_STAT-']),
                 values['-CUSTOM_X_TITLE-'],
                 values['-CUSTOM_Y_TITLE-'],
-                'plot',
+                'scatter',
 
                 values['-CUSTOM_TITLE-']
             )

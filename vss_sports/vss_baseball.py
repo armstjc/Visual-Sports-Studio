@@ -7,10 +7,11 @@
 
 import sys
 import matplotlib.pyplot as plt
-import PySimpleGUI as sg
+
 import threading
 
 sys.path.append('../Visual-Sports-Studio')
+import PySimpleGUI as sg
 from vss_db.vss_db_baseball import sqlite3_baseball_multithreading
 from vss_defaults import VSS_APPLICATION_NAME, VSS_SUPPORTED_GRAPHS
 from vss_utils.vss_urls import RETROSPLIT_TEAM_BOX, RETROSPLIT_PLAYER_BOX,\
@@ -44,8 +45,8 @@ def baseball_main_window(theme='DarkBlue', \
     window_width=1280,window_height=720):
     sg.theme(theme)
     menu_bar = [
-        ['File',['---','Exit']],
-        ['Settings'],
+        ['File',['Main Menu','---','Exit']],
+        ['Settings',['App Settings']],
         ['Help',['About VSS']]
     ]
     _VARS = {'window': False,
@@ -59,10 +60,11 @@ def baseball_main_window(theme='DarkBlue', \
         dataXY = download_chart_data(url,x_col,y_col)
 
         try:
-            plt.plot(dataXY['X'], dataXY['Y'], '.k')
+            plt.scatter(dataXY['X'], dataXY['Y'])
             plt.xlabel('Runs scored')
             plt.ylabel('Runs Allowed')
             plt.title(f'Runs Scored vs Runs Allowed, {season} MLB Season.')
+            plt.grid()
         except:
             ## This is to prevent a scenario where 
             ## the app calls this function,
@@ -79,7 +81,8 @@ def baseball_main_window(theme='DarkBlue', \
             _VARS['window']['figCanvas'].TKCanvas, _VARS['pltFig'])
 
     def updateChart(season:int,url:str,x_col:str,y_col:str,\
-        x_label:str,y_label:str,plot_type='plot',chart_title=""):
+        x_label:str,y_label:str,plot_type='plot',chart_title="",\
+        gridlines=True):
         has_data = True
         _VARS['fig_agg'].get_tk_widget().forget()
 
@@ -123,6 +126,9 @@ def baseball_main_window(theme='DarkBlue', \
                 f' vs {vss_baseball_reverse_column_swaper(y_col)},'+ \
                 f' {season} MLB Season.')
         
+        if gridlines == True:
+            plt.grid()
+
         _VARS['fig_agg'] = draw_figure(
             _VARS['window']['figCanvas'].TKCanvas, _VARS['pltFig'])
 
@@ -244,12 +250,15 @@ def baseball_main_window(theme='DarkBlue', \
                 )
             ],
             [sg.Button('Exit', font=AppFont)]
-        ]
+        ],
+        # scrollable=True,
+        # vertical_scroll_only=True,
+        # expand_y=True
     )
 
     graphing_layout =[[
         graph_settings_col,
-        graph_col
+        graph_col    
     ]]
 
     stats_layout = [
@@ -289,12 +298,12 @@ def baseball_main_window(theme='DarkBlue', \
     ) 
     center_window(_VARS['window'])
     
-    threading.Thread(target=sqlite3_baseball_multithreading, daemon=True).start()
+    #threading.Thread(target=sqlite3_baseball_multithreading, daemon=True).start()
 
     while True: # Event Loop
         event, values = _VARS['window'].read(timeout=200)
-        #print(values)
-        #print(event)
+        # print(values)
+        # print(event)
 
         if event == sg.WIN_CLOSED or event == 'Exit':
             break
@@ -547,4 +556,5 @@ def baseball_main_window(theme='DarkBlue', \
 ##############################################################################################################################################
 
 if __name__ == "__main__":
+    #baseball_main_window("DarkBlue",800,600)
     baseball_main_window()

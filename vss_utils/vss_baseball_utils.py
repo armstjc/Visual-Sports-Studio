@@ -1,4 +1,6 @@
 
+
+
 def vss_baseball_graph_stat_types():
     return [
         'Player Stats'#
@@ -283,7 +285,6 @@ def vss_baseball_team_stats_column_swaper(column:str):
             # error to prevent memory shenanagans.
             raise Exception("Not a supported column.")
 
-
 def vss_baseball_team_stats_col_list():
     return [
         "Batting - Plate Appearances (PA)",
@@ -486,9 +487,6 @@ def vss_baseball_player_stats_column_swaper(column:str):
             # error to prevent memory shenanagans.
             raise Exception("Not a supported column.")
 
-
-
-
 def vss_baseball_player_stats_col_list():
     return [
         "Batting Positon - Slot",
@@ -545,7 +543,6 @@ def vss_baseball_player_stats_col_list():
         "Pitching - Pitches",
         "Pitching - Strikes"
     ]
-
 
 def vss_baseball_head_to_head_column_swaper(column:str):
     match column:
@@ -644,7 +641,6 @@ def vss_baseball_batting_by_position_column_swaper(column:str):
         case "Batting - Catcher Interference (CI)":
             return "B_XI" # This stat (Catcher's Interference) has the acronym CI, but in retrosheet, this stat is called "XI"
 
-
 def vss_baseball_batting_by_position_col_list():
     return [
         "Batting - Player Position",
@@ -666,7 +662,6 @@ def vss_baseball_batting_by_position_col_list():
         "Batting - Sac Flys (SF)",
         "Batting - Catcher Interference (CI)"
     ]
-
 
 def vss_baseball_batting_by_runners_column_swaper(column:str):
     match column:
@@ -706,7 +701,6 @@ def vss_baseball_batting_by_runners_column_swaper(column:str):
             return "B_SF"
         case "Batting - Catcher Interference (CI)":
             return "B_XI" # This stat (Catcher's Interference) has the acronym CI, but in retrosheet, this stat is called "XI"
-
 
 def vss_baseball_batting_by_runners_col_list():
     return [
@@ -832,8 +826,6 @@ def vss_baseball_pitching_by_runners_column_swaper(column:str):
             return "B_SF"
         case "Pitching - Catcher Interference (CI)":
             return "B_XI" # This stat (Catcher's Interference) has the acronym CI, but in retrosheet, this stat is called "XI"
-
-
 
 def vss_baseball_pitching_by_runners_col_list():
     return [

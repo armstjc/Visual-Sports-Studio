@@ -8,18 +8,21 @@
 ##############################################################################################################################################
 
 ## Required to start.
-import PySimpleGUI as sg
-import sys
 
+import sys
+#import threading
 
 sys.path.append('../Visual-Sports-Studio')
-## Imports neede to load in individual Sport windows
+import PySimpleGUI as sg
+
+from vss_defaults import VSS_APPLICATION_NAME
+from vss_about import vss_about_window
 from vss_sports.vss_baseball import baseball_main_window
 from vss_sports.vss_basketball import basketball_main_window
 from vss_sports.vss_football import football_main_window
 from vss_sports.vss_soccer import soccer_main_window
 from vss_utils.vss_utilities import center_window, create_temp_dir, clear_temp_dir
-from vss_defaults import VSS_APPLICATION_NAME
+from vss_utils.vss_settings_window import vss_settings_window
 
 def main_window(theme='DarkBlue'):
     #BTN_SIZE = (5,5)
@@ -48,7 +51,8 @@ def main_window(theme='DarkBlue'):
             ),
             sg.Button(image_filename='icons/settings.png',
                 tooltip='Settings',
-                visible=True)
+                visible=True,
+                key='-SETTINGS_BUTTON-')
         ],
         [sg.Text('Select a sport to get started.')],
         #sg.Push(),
@@ -156,6 +160,13 @@ def main_window(theme='DarkBlue'):
 
         if event == '-SOCCER-':
             soccer_main_window()
+
+        if event == 'About VSS':
+            #threading.Thread(target=vss_about_window).start()
+            vss_about_window()
+            
+        if event == '-SETTINGS_BUTTON-':
+            vss_settings_window()
             
     window.close()
 

@@ -1,6 +1,6 @@
 import PySimpleGUI as sg
 from vss_defaults import VSS_APPLICATION_VERSIOIN, VSS_APPLICATION_NAME, VSS_APPLICATION_DESCRIPTION
-from vss_utils.vss_utilities import center_window
+from vss_utils.vss_utilities import center_window, get_os_information
 
 def vss_about_window(theme='DarkBlue'):
     """
@@ -12,6 +12,7 @@ def vss_about_window(theme='DarkBlue'):
     Returns:
         None
     """
+    os_info = get_os_information()
 
     sg.theme(theme)
     sg.set_options(
@@ -25,7 +26,6 @@ def vss_about_window(theme='DarkBlue'):
             VSS_APPLICATION_DESCRIPTION,
             font='Segoe 12',
             justification='center',
-            
             expand_x=True
         ),
     ]]
@@ -50,6 +50,14 @@ def vss_about_window(theme='DarkBlue'):
         ],
         [   
             sg.Text(
+                f'OS: {os_info.system} {os_info.release}, version: {os_info.version}, machine type: {os_info.machine}',
+                justification='center',
+                font='Segoe 12',
+                expand_x=True
+            )
+        ],
+        [   
+            sg.Text(
                 f'Author: Joseph Armstrong',
                 justification='center',
                 font='Segoe 12',
@@ -67,7 +75,7 @@ def vss_about_window(theme='DarkBlue'):
                 
             )
         ],
-        [sg.Push(),sg.Button('OK',key='-OK-',size=(10,1),bind_return_key=True),sg.Push()]
+        [sg.Push(),sg.Button('Exit',key='-OK-',size=(10,1),bind_return_key=True),sg.Push()]
     ]
     window = sg.Window(
         'Visual Sports Stuido',
@@ -84,11 +92,10 @@ def vss_about_window(theme='DarkBlue'):
     while True: # Event loop
         event, values = window.read()
         
-        if event == sg.WIN_CLOSED \
-            or event == 'Exit' or event == '-OK-':
-
+        if event == sg.WIN_CLOSED or event == 'Exit' or event == '-OK-':
             break
-
+    
+    window.close()
 
 if __name__ == "__main__":
     vss_about_window()

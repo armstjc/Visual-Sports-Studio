@@ -8,6 +8,51 @@
 ##                                                                                                                                          ##
 ##############################################################################################################################################
 
+SQLITE_MLB_CHADWICK_PEOPLE_TABLE = """
+CREATE TABLE "mlb_chadwick_people" (
+	"key_person"	TEXT,
+	"key_uuid"	TEXT,
+	"key_mlbam"	INTEGER,
+	"key_retro"	TEXT,
+	"key_bbref"	TEXT,
+	"key_bbref_minors"	TEXT,
+	"key_fangraphs"	INTEGER,
+	"key_npb"	INTEGER,
+	"key_sr_nfl"	TEXT,
+	"key_sr_nba"	TEXT,
+	"key_sr_nhl"	TEXT,
+	"key_findagrave"	INTEGER,
+	"name_last"	TEXT,
+	"name_first"	TEXT,
+	"name_given"	TEXT,
+	"name_suffix"	TEXT,
+	"name_matrilineal"	TEXT,
+	"name_nick"	TEXT,
+	"birth_year"	INTEGER,
+	"birth_month"	INTEGER,
+	"birth_day"	INTEGER,
+	"death_year"	INTEGER,
+	"death_month"	INTEGER,
+	"death_day"	INTEGER,
+	"pro_played_first"	INTEGER,
+	"pro_played_last"	INTEGER,
+	"mlb_played_first"	INTEGER,
+	"mlb_played_last"	INTEGER,
+	"col_played_first"	INTEGER,
+	"col_played_last"	INTEGER,
+	"pro_managed_first"	INTEGER,
+	"pro_managed_last"	INTEGER,
+	"mlb_managed_first"	INTEGER,
+	"mlb_managed_last"	INTEGER,
+	"col_managed_first"	INTEGER,
+	"col_managed_last"	INTEGER,
+	"pro_umpired_first"	INTEGER,
+	"pro_umpired_last"	INTEGER,
+	"mlb_umpired_first"	INTEGER,
+	"mlb_umpired_last"	INTEGER
+);
+"""
+
 SQLITE_MLB_RETROSHEET_SCHEDULE_TABLE = """
     CREATE TABLE "mlb_retrosheet_schedule" (
 	"date_id"	INT NOT NULL,
@@ -200,6 +245,7 @@ CREATE TABLE "mlb_statcast_pbp" (
 	"day"	INTEGER
 );
 """
+
 SQLITE_MLB_RETROSPLITS_PLAYER_BOX = """
 CREATE TABLE "mlb_retrosplits_player_box" (
 	"game.key"	TEXT,

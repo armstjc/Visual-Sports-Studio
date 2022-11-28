@@ -1,10 +1,12 @@
 import os
 import json
 import shutil
-
+import sys
 import pandas as pd
-import PySimpleGUI as sg
+import platform
 
+sys.path.append('../Visual-Sports-Studio')
+import PySimpleGUI as sg
 from vss_defaults import DEFAULT_SETTINGS_JSON
 
 def center_window(window):
@@ -26,15 +28,13 @@ def create_temp_dir(temp_dir=''):
         print('Temp directory already exists.')
 
 def download_chart_data(url:str,x_col:str,y_col:str):
-    #data_url = f'https://raw.githubusercontent.com/chadwickbureau/retrosplits/master/daybyday/teams-{season}.csv'
     try:
         df = pd.read_csv(url)
         data_df = pd.DataFrame(df.groupby(x_col,as_index=False)[y_col].value_counts())
-        # xData = df[x_col].tolist()
-        # yData = df[y_col].tolist()
-        # return (xData, yData)
         data_df.columns = ['X','Y','count']
+
         return data_df
+    
     except Exception as e:
         vss_error(e)
 
@@ -66,5 +66,20 @@ def vss_load_settings():
         print(f"INVALID JSON DECTED!\nReason:\n{err}")
 
 
+def get_os_type():
+    return platform.uname().system
 
-# vss_load_settings()
+def get_machine_name():
+    return platform.uname().node
+
+def get_os_release():
+    return platform.uname().release
+
+def get_os_version():
+    return platform.uname().version
+
+def get_machine_type():
+    return platform.uname().machine
+
+
+print(get_os_type())

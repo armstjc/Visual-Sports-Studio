@@ -9,12 +9,15 @@
 
 ## Required to start.
 import PySimpleGUI as sg
+import sys
 
+
+sys.path.append('../Visual-Sports-Studio')
 ## Imports neede to load in individual Sport windows
-from vss_baseball import baseball_main_window
-from vss_basketball import basketball_main_window
-from vss_football import football_main_window
-from vss_soccer import soccer_main_window
+from vss_sports.vss_baseball import baseball_main_window
+from vss_sports.vss_basketball import basketball_main_window
+from vss_sports.vss_football import football_main_window
+from vss_sports.vss_soccer import soccer_main_window
 from vss_utils.vss_utilities import center_window, create_temp_dir, clear_temp_dir
 from vss_defaults import VSS_APPLICATION_NAME
 

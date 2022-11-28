@@ -5,7 +5,7 @@
 ##                                                                                                                                          ##
 ##  Author:         Joseph Armstrong (armstjc@mail.uc.edu)                                                                                  ##
 ##  Description:    Houses stock defaults for the app. Should a critical part of the app be missing, the resources in this file             ## 
-##                  should be used to recreate the critical part(s) that are missing.				            							##
+##                  should be used to recreate the critical part(s) that are missing.				            							                      ##
 ##                                                                                                                                          ##
 ##############################################################################################################################################
 

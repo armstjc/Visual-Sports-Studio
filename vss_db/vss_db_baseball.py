@@ -12,14 +12,24 @@ import sqlite3
 import threading
 from datetime import datetime
 import pandas as pd
+import sys
 
-import vss_db.vss_db_tables as vss_db_tables
-import vss_urls
 
-# from multiprocessing import Process
-# import time
+sys.path.append('../Visual-Sports-Studio')
+from vss_db.vss_db_tables import SQLITE_MLB_CHADWICK_PEOPLE_TABLE, \
+    SQLITE_MLB_RETROSHEET_SCHEDULE_TABLE, \
+    SQLITE_MLB_RETROSHEET_PEOPLE_TABLE, \
+    SQLITE_MLB_RETROSHEET_BALLPARK_TABLE, \
+    SQLITE_MLB_RETROSHEET_EJECTIONS_TABLE, \
+    SQLITE_MLB_RETROSHEET_FRANCHISE_TABLE, \
+    SQLITE_MLB_STATCAST_PBP_TABLE, SQLITE_MLB_RETROSPLITS_PLAYER_BOX, \
+    SQLITE_VACUUM_COMMAND
+import vss_utils.vss_urls as vss_urls 
 
-def sqlite3_baseball_multithreading():
+from multiprocessing import Process
+import time
+
+def sqlite3_baseball_multithreading(db_dir="temp"):
     """
     Using the power of multitheading, sqlite3_baseball() downloads
     data publicly advalible from the Retrosheet project,
@@ -35,11 +45,11 @@ def sqlite3_baseball_multithreading():
     start_time = datetime.now()
 
     # Puts the functions in a position to be multi-threaded
-    p1 = threading.Thread(target= sqlite3_retrosheet_people)
-    p2 = threading.Thread(target= sqlite3_retrosheet_schedules)
-    p3 = threading.Thread(target= sqlite3_retrosheet_ballparks)
-    p4 = threading.Thread(target= sqlite3_retrosheet_ejections)
-    p5 = threading.Thread(target= sqlite3_retrosheet_franchises)
+    p1 = threading.Thread(target= sqlite3_chadwick_people(db_dir))
+    p2 = threading.Thread(target= sqlite3_retrosheet_schedules(db_dir))
+    p3 = threading.Thread(target= sqlite3_retrosheet_ballparks(db_dir))
+    p4 = threading.Thread(target= sqlite3_retrosheet_ejections(db_dir))
+    p5 = threading.Thread(target= sqlite3_retrosheet_franchises(db_dir))
     #p6 = threading.Thread(target= sqlite3_statcast_Pbp(2022)) ## This takes way too long. It needs to be it's own function call.
 
     # Starts up the functions that are ready to be multi-threaded
@@ -71,57 +81,54 @@ def sqlite3_baseball_multithreading():
     print(f'Took {run_time} to do these actions.')
     return run_time
 
-## DEPRICATED
-## Reason: Multithreading is consistently 4 seconds faster. Code is left for demonstration purposes.
-##
-# # def sqlite3_baseball_multiprocessing():
-# #     """
-# #     Using the power of multiprocessing, sqlite3_baseball() downloads
-# #     data publicly advalible from the Retrosheet project,
-# #     and inserts the downloaded data into the SQLite3 instance that 
-# #     Visual Sports Studio uses when run.
+def sqlite3_baseball_multiprocessing(db_dir="temp"):
+    """
+    Using the power of multiprocessing, sqlite3_baseball() downloads
+    data publicly advalible from the Retrosheet project,
+    and inserts the downloaded data into the SQLite3 instance that 
+    Visual Sports Studio uses when run.
 
-# #     Args:
-# #         None
+    Args:
+        None
 
-# #     Returns:
-# #         None
-# #     """
-# #     start_time = datetime.now()
+    Returns:
+        None
+    """
+    start_time = datetime.now()
 
-# #     # Puts the functions in a position to be multi-threaded
-# #     p1 = Process(target= sqlite3_retrosheet_people)
-# #     p2 = Process(target= sqlite3_retrosheet_schedules)
-# #     p3 = Process(target= sqlite3_retrosheet_ballparks)
-# #     p4 = Process(target= sqlite3_retrosheet_ejections)
-# #     p5 = Process(target= sqlite3_retrosheet_franchises)
+    # Puts the functions in a position to be multi-threaded
+    p1 = Process(target= sqlite3_chadwick_people(db_dir))
+    p2 = Process(target= sqlite3_retrosheet_schedules(db_dir))
+    p3 = Process(target= sqlite3_retrosheet_ballparks(db_dir))
+    p4 = Process(target= sqlite3_retrosheet_ejections(db_dir))
+    p5 = Process(target= sqlite3_retrosheet_franchises(db_dir))
 
-# #     # Starts up the functions that are ready to be multi-threaded
-# #     p1.start()
-# #     p2.start()
-# #     p3.start()
-# #     p4.start()
-# #     p5.start()
+    # Starts up the functions that are ready to be multi-threaded
+    p1.start()
+    p2.start()
+    p3.start()
+    p4.start()
+    p5.start()
     
 
-# #     # Tells Python to wait for the multi-threaded functions to be done.
-# #     p1.join()
-# #     p2.join()
-# #     p3.join()
-# #     p4.join()
-# #     p5.join()
+    # Tells Python to wait for the multi-threaded functions to be done.
+    p1.join()
+    p2.join()
+    p3.join()
+    p4.join()
+    p5.join()
     
-# #     # sqlite3_retrosheet_people()
-# #     # sqlite3_retrosheet_schedules()
-# #     # sqlite3_retrosheet_ballparks()
-# #     # sqlite3_retrosheet_ejections()
-# #     # sqlite3_retrosheet_franchises()
-# #     #sqlite3_statcast_Pbp(2022)
-# #     end_time = datetime.now()
-# #     run_time = end_time-start_time
-# #     print(f'{datetime.now()}\tRetrosheet Data successfuly downloaded.')
-# #     print(f'Took {run_time} to do these actions.')
-# #     return run_time
+    # sqlite3_retrosheet_people()
+    # sqlite3_retrosheet_schedules()
+    # sqlite3_retrosheet_ballparks()
+    # sqlite3_retrosheet_ejections()
+    # sqlite3_retrosheet_franchises()
+    #sqlite3_statcast_Pbp(2022)
+    end_time = datetime.now()
+    run_time = end_time-start_time
+    print(f'{datetime.now()}\tRetrosheet Data successfuly downloaded.')
+    print(f'Took {run_time} to do these actions.')
+    return run_time
 
 ############################################################################################################################################
 ##
@@ -135,7 +142,33 @@ def sqlite3_baseball_multithreading():
 ##
 ############################################################################################################################################
 
-def sqlite3_retrosheet_ballparks():
+def sqlite3_chadwick_people(db_dir="temp"):
+    con = sqlite3.connect(f"{db_dir}/vss_baseball.sqlite",check_same_thread=True)
+    cur = con.cursor()
+
+    ## Delete the existing table if it exists...     
+    print(f'{datetime.now()}\tAttempting to create the [mlb_chadwick_people] table.')
+    cur.execute("DROP TABLE IF EXISTS mlb_chadwick_people;")
+    
+    ## ..and then create the table (see vss_db_tables.py for the code behind the table).
+    cur.execute(SQLITE_MLB_CHADWICK_PEOPLE_TABLE)
+    print(f'{datetime.now()}\t[mlb_chadwick_people] has been created.')
+
+    print(f'{datetime.now()}\tAttempting to download the Chadwick people data.')
+    chadwick_people_df = pd.read_csv(vss_urls.CHADWICK_PEOPLE,sep=",",)
+    
+    print(f'{datetime.now()}\tSuccessfully downloaded the Chadwick people data. Moving to insert the Chadwick people data into the SQLite3 database.')
+    
+    chadwick_people_df.to_sql("mlb_chadwick_people",con,if_exists="append",index=False)
+
+    ## This is done to prevent memory leaks. We don't need this data anymore, so we are deleting these variables to free up memory.
+    del chadwick_people_df
+    print(f'{datetime.now()}\tSuccessfully inserted the Chadwick people data into the SQLite3 database.')
+
+    
+    con.close()
+
+def sqlite3_retrosheet_ballparks(db_dir="temp"):
     """
     Retrives the current Retrosheet ballparks text file,
     converts the file into a Pandas dataframe (read: spreadsheet), 
@@ -151,7 +184,7 @@ def sqlite3_retrosheet_ballparks():
         None
     """
     ## Connect to the SQLite instance for Visual Sports Studio (vss_baseball.sqlite).
-    con = sqlite3.connect("vss_baseball.sqlite") ## TODO: Make a universal filename for the SQLite instance.
+    con = sqlite3.connect(f"{db_dir}/vss_baseball_retrosheet.sqlite",check_same_thread=True) ## TODO: Make a universal filename for the SQLite instance.
     
     cur = con.cursor()
     
@@ -160,7 +193,7 @@ def sqlite3_retrosheet_ballparks():
     cur.execute("DROP TABLE IF EXISTS mlb_retrosheet_ballparks;")
     
     ## ..and then create the table (see vss_db_tables.py for the code behind the table).
-    cur.execute(vss_db_tables.SQLITE_MLB_RETROSHEET_BALLPARK_TABLE)
+    cur.execute(SQLITE_MLB_RETROSHEET_BALLPARK_TABLE)
     print(f'{datetime.now()}\t[mlb_retrosheet_ballparks] has been created.')
 
 
@@ -185,7 +218,7 @@ def sqlite3_retrosheet_ballparks():
     
     con.close()
 
-def sqlite3_retrosheet_ejections():
+def sqlite3_retrosheet_ejections(db_dir="temp"):
     """
     Retrives the current Retrosheet ballparks text file,
     converts the file into a Pandas dataframe (read: spreadsheet), 
@@ -201,7 +234,7 @@ def sqlite3_retrosheet_ejections():
         None
     """
     ## Connect to the SQLite instance for Visual Sports Studio (vss_baseball.sqlite).
-    con = sqlite3.connect("vss_baseball.sqlite") ## TODO: Make a universal filename for the SQLite instance.
+    con = sqlite3.connect(f"{db_dir}/vss_baseball_retrosheet.sqlite",check_same_thread=True) ## TODO: Make a universal filename for the SQLite instance.
     cur = con.cursor()
 
     ## Delete the existing table if it exists... 
@@ -209,7 +242,7 @@ def sqlite3_retrosheet_ejections():
     cur.execute("DROP TABLE IF EXISTS mlb_retrosheet_ejections;")
 
     ## ..and then create the table (see vss_db_tables.py for the code behind the table).
-    cur.execute(vss_db_tables.SQLITE_MLB_RETROSHEET_EJECTIONS_TABLE)
+    cur.execute(SQLITE_MLB_RETROSHEET_EJECTIONS_TABLE)
     print(f'{datetime.now()}\t[mlb_retrosheet_ejections] has been created.')
 
     print(f'{datetime.now()}\tAttempting to download the Retrosheet ejection data.')
@@ -229,9 +262,8 @@ def sqlite3_retrosheet_ejections():
     
     con.close()
 
-
-def sqlite3_retrosheet_franchises():
-    con = sqlite3.connect("vss_baseball.sqlite")
+def sqlite3_retrosheet_franchises(db_dir="temp"):
+    con = sqlite3.connect(f"{db_dir}/vss_baseball_retrosheet.sqlite",check_same_thread=True)
     cur = con.cursor()
 
     ## Delete the existing table if it exists...     
@@ -239,7 +271,7 @@ def sqlite3_retrosheet_franchises():
     cur.execute("DROP TABLE IF EXISTS mlb_retrosheet_franchises;")
 
     ## ..and then create the table (see vss_db_tables.py for the code behind the table).
-    cur.execute(vss_db_tables.SQLITE_MLB_RETROSHEET_FRANCHISE_TABLE)
+    cur.execute(SQLITE_MLB_RETROSHEET_FRANCHISE_TABLE)
     print(f'{datetime.now()}\t[mlb_retrosheet_franchises] has been created.')
 
     print(f'{datetime.now()}\tAttempting to download the Retrosheet franchise data.')
@@ -271,8 +303,8 @@ def sqlite3_retrosheet_franchises():
     
     con.close()
 
-def sqlite3_retrosheet_people():
-    con = sqlite3.connect("vss_baseball.sqlite")
+def sqlite3_retrosheet_people(db_dir="temp"):
+    con = sqlite3.connect(f"{db_dir}/vss_baseball_retrosheet.sqlite",check_same_thread=True)
     cur = con.cursor()
 
     ## Delete the existing table if it exists...     
@@ -280,7 +312,7 @@ def sqlite3_retrosheet_people():
     cur.execute("DROP TABLE IF EXISTS mlb_retrosheet_people;")
     
     ## ..and then create the table (see vss_db_tables.py for the code behind the table).
-    cur.execute(vss_db_tables.SQLITE_MLB_RETROSHEET_PEOPLE_TABLE)
+    cur.execute(SQLITE_MLB_RETROSHEET_PEOPLE_TABLE)
     print(f'{datetime.now()}\t[mlb_retrosheet_people] has been created.')
 
     print(f'{datetime.now()}\tAttempting to download the Retrosheet people data.')
@@ -305,18 +337,18 @@ def sqlite3_retrosheet_people():
     
     con.close()
 
-def sqlite3_retrosheet_schedules():
+def sqlite3_retrosheet_schedules(db_dir="temp"):
     now = datetime.now()
     current_year = int(now.year)
     retrosheet_schedule_df = pd.DataFrame()
     season_df = pd.DataFrame()
     
-    con = sqlite3.connect("vss_baseball.sqlite")
+    con = sqlite3.connect(f"{db_dir}/vss_baseball_retrosheet.sqlite",check_same_thread=True)
     cur = con.cursor()
 
     print(f'{datetime.now()}\tAttempting to create the [mlb_retrosheet_schedule] table.')
     cur.execute("DROP TABLE IF EXISTS mlb_retrosheet_schedule;")
-    cur.execute(vss_db_tables.SQLITE_MLB_RETROSHEET_SCHEDULE_TABLE)
+    cur.execute(SQLITE_MLB_RETROSHEET_SCHEDULE_TABLE)
 
     ## This Retrosheet file doesn't have columns, so we have to define them before downloading the text file.
     retrosheet_schedule_columns = ['date_id','game_num','day','away_team_id','away_team_leauge','away_game_num','home_team_id','home_team_leauge','home_game_num','time_of_day','delay_info','makeup_date']
@@ -390,18 +422,18 @@ def sqlite3_retrosheet_schedules():
 ##                                                                                                                                          ##
 ##############################################################################################################################################
 
-def sqlite3_retrosplits_player_box(firstSeason=2020,lastSeason=2022):
+def sqlite3_retrosplits_player_box(db_dir="temp",firstSeason=2020,lastSeason=2022):
     now = datetime.now()
     current_year = int(now.year)
     retrosheet_box_df = pd.DataFrame()
     season_df = pd.DataFrame()
     
-    con = sqlite3.connect("vss_baseball.sqlite")
+    con = sqlite3.connect(f"{db_dir}/vss_baseball_retrosplits.sqlite",check_same_thread=True)
     cur = con.cursor()
 
     print(f'{datetime.now()}\tsqlite3_retrosplits_player_box\tAttempting to create the [mlb_retrosplits_player_box] table.')
     cur.execute("DROP TABLE IF EXISTS mlb_retrosplits_player_box;")
-    cur.execute(vss_db_tables.SQLITE_MLB_RETROSPLITS_PLAYER_BOX)
+    cur.execute(SQLITE_MLB_RETROSPLITS_PLAYER_BOX)
 
 
     ## Because retrosplits divides up their box stats data into 
@@ -440,7 +472,7 @@ def sqlite3_retrosplits_player_box(firstSeason=2020,lastSeason=2022):
     con.close()
 
 
-def sqlite3_statcast_Pbp(firstSeson:int,lastSeason=int(datetime.now().year)):
+def sqlite3_statcast_Pbp(firstSeson:int,lastSeason=int(datetime.now().year),db_dir="temp/"):
     now = datetime.now()
     current_year = int(now.year)
     statcast_df = pd.DataFrame()
@@ -460,7 +492,7 @@ def sqlite3_statcast_Pbp(firstSeson:int,lastSeason=int(datetime.now().year)):
 
     print(f'{datetime.now()}\tAttempting to create the [mlb_statcast_pbp] table.')
     cur.execute("DROP TABLE IF EXISTS mlb_statcast_pbp;")
-    cur.execute(vss_db_tables.SQLITE_MLB_STATCAST_PBP_TABLE)
+    cur.execute(SQLITE_MLB_STATCAST_PBP_TABLE)
 
     ## ~192.34 MB per season
     for i in range(lastSeason,firstSeson-1,-1): # Count down from whatever the current year is, to whatever year the user sets as the oldest season they want.
@@ -504,7 +536,9 @@ def sqlite3_statcast_Pbp(firstSeson:int,lastSeason=int(datetime.now().year)):
     #statcast_df.to_sql("mlb_statcast_pbp",con,if_exists="append",index=False)
 
 def main():
-    sqlite3_retrosplits_player_box(2000)
+    #sqlite3_retrosplits_player_box(2000)
+    #sqlite3_baseball_multithreading()
+    sqlite3_baseball_multiprocessing()
 
 if __name__ == "__main__":
     main()

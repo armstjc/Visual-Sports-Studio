@@ -88,49 +88,50 @@ def baseball_main_window(theme='DarkBlue', \
 
         try:
             dataXY = download_chart_data(url,x_col,y_col)
+            try:
+                plt.clf()
+            except:
+                print('No chart to clear')
+
+            if plot_type in VSS_SUPPORTED_GRAPHS:
+                if plot_type == 'plot':
+                    #plt.plot(dataXY[0], dataXY[1], '.k')
+                    #print(max(dataXY[0]))
+                    plt.plot(dataXY['X'], dataXY['Y'], '.k')
+                elif plot_type == 'scatter':
+                    plt.scatter(dataXY['X'], dataXY['Y'],s=dataXY['count'])
+                else:
+                    raise Exception('Unsuported chart type.')
+            else:
+                raise Exception('Unsuported chart type.')
+
+
+            if x_label != 'X-Axis':
+                plt.xlabel(x_label)
+            else:
+                plt.xlabel(vss_baseball_reverse_column_swaper(x_col))
+
+            if y_label != 'Y-Axis':
+                plt.ylabel(y_label)
+            else:
+                plt.ylabel(vss_baseball_reverse_column_swaper(y_col))
+            
+            if chart_title != "" and chart_title == str.lower("Title"):
+                plt.title(chart_title)
+            else:
+                plt.title(f'{vss_baseball_reverse_column_swaper(x_col)}'+ \
+                    f' vs {vss_baseball_reverse_column_swaper(y_col)},'+ \
+                    f' {season} MLB Season.')
+            
+            if gridlines == True:
+                plt.grid()
+
+            _VARS['fig_agg'] = draw_figure(
+                _VARS['window']['figCanvas'].TKCanvas, _VARS['pltFig'])
+
         except Exception as e:
             vss_error(e)
                 
-        try:
-            plt.clf()
-        except:
-            print('No chart to clear')
-
-        if plot_type in VSS_SUPPORTED_GRAPHS:
-            if plot_type == 'plot':
-                #plt.plot(dataXY[0], dataXY[1], '.k')
-                #print(max(dataXY[0]))
-                plt.plot(dataXY['X'], dataXY['Y'], '.k')
-            elif plot_type == 'scatter':
-                plt.scatter(dataXY['X'], dataXY['Y'],s=dataXY['count'])
-            else:
-                raise Exception('Unsuported chart type.')
-        else:
-            raise Exception('Unsuported chart type.')
-
-
-        if x_label != 'X-Axis':
-            plt.xlabel(x_label)
-        else:
-            plt.xlabel(vss_baseball_reverse_column_swaper(x_col))
-
-        if y_label != 'Y-Axis':
-            plt.ylabel(y_label)
-        else:
-            plt.ylabel(vss_baseball_reverse_column_swaper(y_col))
-        
-        if chart_title != "" and chart_title == str.lower("Title"):
-            plt.title(chart_title)
-        else:
-            plt.title(f'{vss_baseball_reverse_column_swaper(x_col)}'+ \
-                f' vs {vss_baseball_reverse_column_swaper(y_col)},'+ \
-                f' {season} MLB Season.')
-        
-        if gridlines == True:
-            plt.grid()
-
-        _VARS['fig_agg'] = draw_figure(
-            _VARS['window']['figCanvas'].TKCanvas, _VARS['pltFig'])
 
     AppFont = 'Any 12'
 

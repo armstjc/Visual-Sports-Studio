@@ -93,10 +93,18 @@ def vss_settings_window(theme='DarkBlue',\
             )
         ],
         [
-            sg.Text('Visual theme:\t',font='Segoe 12'),
+            sg.Text(
+                'Visual theme:\t',
+                tooltip='Determines the color/visual theme of Visual Sports Studio.\n'+
+                    'By default, the theme is set to \"Dark Blue #01\".',
+                font='Segoe 12'
+            ),
             sg.Push(),
             sg.Button(
                 'Try it out',
+                tooltip='If you want to see this theme in action, \n'+
+                    'click this button to generate a preview window that \nshows how '+
+                    'this theme will look in Visual Sports Studio.',
                 size=(10,1),
                 font='Segoe 12',
                 key='-VSS_THEME_TEST-'
@@ -104,6 +112,9 @@ def vss_settings_window(theme='DarkBlue',\
             sg.Combo(
                 PSG_THEME_LIST_RENAMED,
                 size=(20,1),
+                tooltip='Click this list to see a list of built-in '+
+                    'application themes supported by Visual Sports Studio.\n'+
+                    'By default, the theme is set to \"Dark Blue #01\".',
                 default_value='Dark Blue #01',
                 key='-VSS_THEME-'
             )
@@ -142,7 +153,59 @@ def vss_settings_window(theme='DarkBlue',\
             ),
             sg.Push()
         ],
-        []
+        [
+            sg.Text(
+                'Database type:\t',
+                tooltip='Database engine used by this isntance of Visual Sports Studio'+
+                    '\nIf you\'re not versed in databases, or with ODBC connections, '+
+                    'leave this as \"sqlite3\".',
+                font='Segoe 12'),
+            sg.Push(),
+            sg.Button(
+                'Advanced',
+                size=(10,1),
+                tooltip='Advanced settings for the database used by '+
+                    'this instance of Visual Sports Studio.',
+                key='-ADV_DB-',
+                disabled=True
+            ),
+            sg.Combo(
+                ['sqlite3'], # Will be expanded on when DB functionality is expanded.
+                size=(20,1),
+                tooltip='Database engine used by this isntance of Visual Sports Studio'+
+                    '\nIf you\'re not versed in databases, or with ODBC connections, '+
+                    'leave this as \"sqlite3\".',
+                default_value='sqlite3',
+                key='-DB_TYPE-',
+                disabled=True
+            )
+        ],
+        [
+            sg.Text(
+                'Data Update settings:\t',
+                font='Segoe 12'
+            ),
+            sg.Push(),
+            sg.Combo(
+                ['Update All','Update None','Custom'],
+                size=(20,1),
+                tooltip='',
+                default_value='Update None',
+                key='-STATS_UPDATE_VAL-',
+                disabled=False
+
+            )
+        ],
+        [
+            sg.Frame(
+                'Custom Database settings',
+                layout=[
+                    [
+                        
+                    ]
+                ]
+            )
+        ]
     ]
 
     ## Depricated for now. May reimplement later down in the future.
@@ -207,6 +270,8 @@ def vss_settings_window(theme='DarkBlue',\
 
     while True: # Event Loop
         event, values = settings_window.read()
+
+        print(values)
         if event == sg.WIN_CLOSED or event == 'Exit' or event == '-OK-':
             break
         

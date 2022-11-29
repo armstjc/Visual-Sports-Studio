@@ -257,7 +257,7 @@ def psg_theme_name_swapper(theme:str):
         case "PySimpleGUI Default #2":
             return "Default1"
         # DefaultNoMoreNagging
-        case "PySimpleGUI Default: No More Nagging!":
+        case "PySimpleGUI Default #3":
             return "DefaultNoMoreNagging"
         # Green
         case "Green":
@@ -395,7 +395,7 @@ def psg_theme_name_swapper(theme:str):
             return "SystemDefault"
         case "System Default #2":
             return "SystemDefault1"
-        case "System Default For Real":
+        case "System Default #3":
             return "SystemDefaultForReal"
         # Tan
         case "Tan":

@@ -74,7 +74,7 @@ the GUI backend of this application.
     test_window.close()
 
 def vss_settings_window(theme='DarkBlue',\
-    window_width=600,window_height=480):
+    window_width=480,window_height=480):
     
     sg.theme(theme)
     sg.set_options(
@@ -93,29 +93,39 @@ def vss_settings_window(theme='DarkBlue',\
             )
         ],
         [
-            sg.Text('Visual Theme:\t',),
+            sg.Text('Visual theme:\t',font='Segoe 12'),
             sg.Push(),
-            sg.Button('Try it out',key='-VSS_THEME_TEST-'),
+            sg.Button(
+                'Try it out',
+                size=(10,1),
+                font='Segoe 12',
+                key='-VSS_THEME_TEST-'
+            ),
             sg.Combo(
                 PSG_THEME_LIST_RENAMED,
-                size=(35,1),
+                size=(20,1),
                 default_value='Dark Blue #01',
                 key='-VSS_THEME-'
             )
             
         ],
         [
-            sg.Text('Window resolution:\t'),
+            sg.Text('Window resolution:',font='Segoe 12'),
             sg.Push(),
             sg.Combo(
                 get_application_resolution_list(),
-                size=(35,1),
+                size=(20,1),
                 default_value='1280 x 720',
                 key='-VSS_RES-'
             ),
-            
-            # sg.Button('Try it out',key='-VSS_THEME_TEST-')
-            
+               
+        ],
+        [
+            sg.Text('Temp directory:\t',font='Segoe 12'),
+            sg.Push(),
+            sg.FolderBrowse(size=(10,1),font='Segoe 12',key='-F_BROWSE-'),
+            sg.Input(size=(22,1),key='-TEMP_DIR-')
+
         ]
     ]
 
@@ -194,7 +204,7 @@ def vss_settings_window(theme='DarkBlue',\
     #settings_window.move_to_center()
     center_window(settings_window)
     #settings_window.move(120,120)
-    
+
     while True: # Event Loop
         event, values = settings_window.read()
         if event == sg.WIN_CLOSED or event == 'Exit' or event == '-OK-':

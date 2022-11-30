@@ -32,13 +32,13 @@ DEFAULT_SETTINGS_JSON = """
 {
   "app_settings": {
     "main_window_width": 1280,
-    "main_window_height": 720
+    "main_window_height": 720,
+    "theme":"DarkBlue"
   },
   "custom_database_dir": "temp",
-  "app_data_dir":"",
   "database": {
     "database_type": "sqlite3",
-
+    
     "baseball": {
       "mlb": {
         "update_mlb_on_start": false,
@@ -252,7 +252,7 @@ PSG_THEME_LIST_RENAMED = [
   'Topanga'
 ]
 
-VSS_APPLICATION_VERSIOIN = "0.2.4b"
+VSS_APPLICATION_VERSIOIN = "0.2.5"
 
 VSS_APPLICATION_NAME = "Visual Sports Studio (Beta)"
 

@@ -133,7 +133,7 @@ def baseball_main_window(theme='DarkBlue', \
             vss_error(e)
                 
 
-    AppFont = 'Any 12'
+    AppFont = 'Segoe 12'
 
     ##############################################################################################################################################
     ## Graphing section of VSS Baseball
@@ -323,7 +323,7 @@ def baseball_main_window(theme='DarkBlue', \
 
     while True: 
         event, values = _VARS['window'].read(timeout=200)
-        # print(values)
+        print(values)
         # print(event)
 
         if event == sg.WIN_CLOSED or event == 'Exit':

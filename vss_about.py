@@ -75,7 +75,7 @@ def vss_about_window(theme='DarkBlue'):
                 
             )
         ],
-        [sg.Push(),sg.Button('Exit',key='-OK-',size=(10,1),bind_return_key=True),sg.Push()]
+        [sg.Push(),sg.Button('Exit',key='-OK-',size=(8,1),bind_return_key=True),sg.Push()]
     ]
     window = sg.Window(
         'Visual Sports Stuido',

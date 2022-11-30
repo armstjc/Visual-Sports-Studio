@@ -22,23 +22,41 @@ def center_window(window):
     x,y = (screen_width - win_width)//2, (screen_height - win_height)//2
     window.move(x,y)
 
-def clear_temp_dir(temp_dir=''):
+def clear_temp_dir():
+    file_path = get_user_home_dir()
+    file_path = f'{file_path}/visual_sports_studio/temp/'
+    file_path = reformat_folder_string(file_path)
+
     try:
-        shutil.rmtree(temp_dir+'temp',ignore_errors=True)
-    except:
-        print('Directory already exists.')
+        shutil.rmtree(file_path,ignore_errors=True)
+    except Exception as e:
+        print('Something went wrong when deleting the temp directory.')
+        print('Exception details:\n\n{e}')
 
 def create_dir(c_dir:str):
     try:
         os.mkdir(c_dir)
+        print('Directory successfully created.')
     except:
         print('Directory already exists.')
 
-def create_temp_dir(temp_dir=''):
-    try:
-        os.mkdir(temp_dir+'temp')
-    except:
-        print('Temp directory already exists.')
+def create_temp_dir():
+    file_path = get_user_home_dir()
+
+    file_path = f'{file_path}/visual_sports_studio/'
+    file_path = reformat_folder_string(file_path)
+    
+    print(f'Attempting to create the {file_path} directory.')
+    create_dir(file_path)
+
+    file_path = f'{file_path}/temp/'
+    file_path = reformat_folder_string(file_path)
+    
+    print(f'Attempting to create the {file_path} directory.')
+    create_dir(file_path)
+    
+    print('Temp directory successfully created.\n')
+
 
 def download_chart_data(url:str,x_col:str,y_col:str):
     try:
@@ -95,6 +113,7 @@ def reformat_folder_string(folder:str):
     if folder_dir[-1] != '/':
         folder_dir = folder_dir + '/'
     del folder
+    folder_dir = folder_dir.replace("//","/")
     return folder_dir
 
 def psg_theme_name_swapper(theme:str):
@@ -428,18 +447,17 @@ def psg_theme_name_swapper(theme:str):
 
 def vss_error(exception_description:str):
     sg.popup_error(
-                f"The following exception has occured with this app:\n{exception_description}",
-                title=f"An error occurred with this application.",
-                modal=True,
-                keep_on_top=True,
-                grab_anywhere=True)
+        f"The following exception has occured with this app:\n{exception_description}",
+        title=f"An error occurred with this application.",
+        modal=True,
+        keep_on_top=True,
+        grab_anywhere=True)
 
 def vss_load_settings():
 
     file_path = get_user_home_dir()
-
-    file_path = reformat_folder_string(file_path)
     file_path = f'{file_path}/visual_sports_studio/'
+    file_path = reformat_folder_string(file_path)
     create_dir(file_path)
 
     print(f'File path: {file_path}')
@@ -447,14 +465,15 @@ def vss_load_settings():
     try:
         with open(f'{file_path}settings.json','r+') as f:
             settings_json_str = f.read()
-        print('File loaded. Attempting to verify that the file loaded is a valid JSON file.')
+        print('File loaded.') 
+        print('Attempting to verify that the file loaded is a valid JSON file.')
 
     except:
         print('No settings.json file found. Creating a settings file.')
         settings_json_str = DEFAULT_SETTINGS_JSON
         with open(f'{file_path}settings.json','w+') as f:
             f.write(settings_json_str)
-        print('Settings file created')
+        print('Settings file created!\n')
 
     try:
         settings_json = json.loads(settings_json_str)
@@ -466,9 +485,7 @@ def vss_load_settings():
         settings_json = json.loads(settings_json_str)
         with open(f'{file_path}settings.json','w+') as f:
             f.write(str(settings_json))
-        print('Settings file created')
-
-    #print(settings_json['startup'])
+        print('Settings file created!\n')
 
     if settings_json['startup']['explainer'] == \
         "With this string, I hereby give you premission to start up!"\
@@ -486,14 +503,29 @@ def vss_load_settings():
         settings_json = json.loads(settings_json_str)
         with open(f'{file_path}settings.json','w+') as f:
             f.write(str(settings_json))
-        print('Settings file created')
+        print('Settings file created!\n')
 
     del settings_json_str
+    return settings_json
     
+def vss_save_settings(settings_json:dict):
+    # In case the pseudo AppData folder got deleted,
+    # this code recreates that directory.
+    file_path = get_user_home_dir()
+    file_path = f'{file_path}/visual_sports_studio/'
+    file_path = reformat_folder_string(file_path)
+    create_dir(file_path)
+
+    print(f'File path: {file_path}')
+
+    with open(f'{file_path}settings.json','w+') as f:
+        f.write(settings_json)
+    print('Settings file saved.')
+    print('All Done!\n')
 
     
 if __name__ == "__main__":
     #print(get_application_resolution_list())
     #print(get_user_home_dir())
-
+    create_temp_dir()
     vss_load_settings()

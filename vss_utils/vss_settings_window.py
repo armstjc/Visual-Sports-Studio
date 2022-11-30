@@ -5,7 +5,7 @@ import PySimpleGUI as sg
 
 from vss_defaults import VSS_APPLICATION_NAME, PSG_THEME_LIST_RENAMED
 from vss_utils.vss_utilities import center_window, psg_theme_name_swapper, \
-    get_application_resolution_list, vss_load_settings
+    get_application_resolution_list, vss_load_settings, vss_save_settings
 
 def vss_theme_test_window(theme='Dark Blue #01'):
     sg.theme(psg_theme_name_swapper(theme))
@@ -45,13 +45,13 @@ the GUI backend of this application.
                 
                 ['This','Is','A','Combo','List.',
                     'It','Has','No','Use','Or','Purpose','Here'],
-                size=(30,1),
+                size=(20,1),
                 default_value="This",
                 key='-Y_STAT-'
             )
         ],
         [sg.Text('Press the \"OK\" button to exit.')],
-        [sg.Button('OK',size=(10,1),key='-OK-')]
+        [sg.Button('OK',size=(8,1),key='-OK-')]
     ]
 
     test_window = sg.Window(
@@ -75,9 +75,22 @@ the GUI backend of this application.
 
     test_window.close()
 
-def vss_settings_window(theme='DarkBlue',\
+def vss_settings_window(settings_json:dict,theme='DarkBlue',\
     window_width=480,window_height=480):
     
+    def apply_changes_to_settings(temp_settings:dict,current_settings:dict):
+        if temp_settings == current_settings:
+            pass
+        else:
+            vss_save_settings(temp_settings)
+            
+
+    # If the user makes any changes to their settings, make those
+    # changes to a temp dictionary, to prevent the actual app
+    # settings from being altered by the user directly, especially
+    # if the user doesn't want to commit to any changes.
+    settings_json_temp = settings_json
+
     sg.theme(theme)
     sg.set_options(
         window_location = (0,0)
@@ -85,12 +98,12 @@ def vss_settings_window(theme='DarkBlue',\
         #,font = 'Franklin 14'
     )
 
-    visual_settings_layout =[
+    general_settings_layout =[
         [
             sg.Text(
-                'Visual Settings',
+                'General Settings',
                 justification='center',
-                font='Segoe 20',
+                font='Segoe 18',
                 expand_x=True
             )
         ],
@@ -107,7 +120,7 @@ def vss_settings_window(theme='DarkBlue',\
                 tooltip='If you want to see this theme in action, \n'+
                     'click this button to generate a preview window that \nshows how '+
                     'this theme will look in Visual Sports Studio.',
-                size=(10,1),
+                size=(8,1),
                 font='Segoe 12',
                 key='-VSS_THEME_TEST-'
             ),
@@ -134,11 +147,18 @@ def vss_settings_window(theme='DarkBlue',\
                
         ],
         [
-            sg.Text('Temp directory:\t',font='Segoe 12'),
-            sg.Push(),
-            sg.FolderBrowse(size=(10,1),font='Segoe 12',key='-F_BROWSE-'),
-            sg.Input(size=(22,1),key='-TEMP_DIR-')
 
+        ],
+        [
+            sg.VPush()
+        ],
+        [
+            sg.Button(
+                'Reset all settings',
+                key='-RESET_BUTTON-',
+                font='Segoe 12',
+                expand_x=True
+            )
         ]
     ]
 
@@ -150,22 +170,34 @@ def vss_settings_window(theme='DarkBlue',\
                     [
                         sg.Text('Update stats on open'),
                         sg.Push(),
-                        sg.Combo(
-                            ['True','False'],
-                            size=(10,1),
-                            default_value='False',
-                            key='-BASE_UPD_OPEN-',
+                        sg.Radio('Yes',
+                            'down_stats_MLB',
+                            key='DOWN_STATS_MLB_TRUE',
+                            default=False,
+                            disabled=True
+                        ),
+                        sg.Radio('No',
+                            'down_stats_MLB',
+                            key='DOWN_STATS_MLB_TRUE',
+                            default=True,
                             disabled=True
                         )
+
                     ],
                     [
                         sg.Text('Delete stats on close'),
                         sg.Push(),
-                        sg.Combo(
-                            ['True','False'],
-                            size=(10,1),
-                            default_value='False',
-                            key='-BASE_DEL_CLS-',
+                        sg.Radio(
+                            'Yes',
+                            'del_stats_MLB',
+                            key='-DEL_STATS_MLB_TRUE-',
+                            default=False,
+                            disabled=True
+                        ),
+                        sg.Radio('No',
+                            'del_stats_MLB',
+                            key='-DEL_STATS_MLB_FALSE-',
+                            default=True,
                             disabled=True
                         )
                     ]
@@ -181,7 +213,7 @@ def vss_settings_window(theme='DarkBlue',\
             sg.Text(
                 'Database Settings',
                 justification='center',
-                font='Segoe 20',
+                font='Segoe 18',
                 
                 expand_x=True
             ),
@@ -197,7 +229,7 @@ def vss_settings_window(theme='DarkBlue',\
             sg.Push(),
             sg.Button(
                 'Advanced',
-                size=(10,1),
+                size=(8,1),
                 tooltip='Advanced settings for the database used by '+
                     'this instance of Visual Sports Studio.',
                 key='-ADV_DB-',
@@ -211,6 +243,7 @@ def vss_settings_window(theme='DarkBlue',\
                     'leave this as \"sqlite3\".',
                 default_value='sqlite3',
                 key='-DB_TYPE-',
+                enable_events=True,
                 disabled=True
             )
         ],
@@ -225,6 +258,7 @@ def vss_settings_window(theme='DarkBlue',\
                 size=(20,1),
                 tooltip='',
                 default_value='Update None',
+                enable_events=True,
                 key='-STATS_UPDATE_VAL-',
                 disabled=False
 
@@ -234,17 +268,21 @@ def vss_settings_window(theme='DarkBlue',\
             sg.Frame(
                 'Custom Database settings',
                 layout=custom_database_settings_layout,
-                expand_x=True
+                expand_x=True,
+                #disabled=True
             )
+        ],
+        [
+            sg.VPush()
         ]
     ]
 
     ## Depricated for now. May reimplement later down in the future.
 
-    # visual_settings_tab =[
+    # general_settings_tab =[
     #     [
     #         sg.Column(
-    #             visual_settings_layout,
+    #             general_settings_layout,
     #             scrollable=True,
     #             vertical_scroll_only=True,
     #             expand_x=True,
@@ -266,11 +304,20 @@ def vss_settings_window(theme='DarkBlue',\
     # ]
 
     layout = [
+        [
+            sg.Text(
+                'Settings',
+                font='Segoe 24 bold',
+                expand_x=True,
+                justification='center'
+
+            )
+        ],
         [sg.TabGroup(
             [[
                 sg.Tab(
-                    'Visual', 
-                    visual_settings_layout,
+                    'General', 
+                    general_settings_layout,
                     visible=True
                 ),
                 sg.Tab('Database',
@@ -282,7 +329,35 @@ def vss_settings_window(theme='DarkBlue',\
             expand_y=True
             
             )
+        ],
+        [
+            sg.Frame(
+                '',
+                layout=[[
+                    sg.Button(
+                        'OK',
+                        size=(8,1),
+                        key='-OK-',
+                        disabled=False
+                    ),
+                    sg.Button(
+                        'Cancel',
+                        size=(8,1),
+                        key='-CANCEL-',
+                        disabled=False
+                    ),
+                    sg.Button(
+                        'Apply',
+                        size=(8,1),
+                        key='-APPLY-',
+                        disabled=True
+                    ),
+                ]],
+                element_justification='right',
+                expand_x=True
+            )
         ]
+
     ]
 
     settings_window = sg.Window(
@@ -300,18 +375,29 @@ def vss_settings_window(theme='DarkBlue',\
     #settings_window.move(120,120)
 
     while True: # Event Loop
-        event, values = settings_window.read()
-
-        print(values)
+        event, values = settings_window.read(timeout=500)
+        print(event)
+        #print(values)
         if event == sg.WIN_CLOSED or event == 'Exit' or event == '-OK-':
+            print('No changes in settings.')
             break
-        
+        elif event == '-APPLY-':
+            apply_changes_to_settings(settings_json_temp,settings_json)
+            settings_json = settings_json_temp
+        elif event == '-CANCEL-':
+            break
+
         if event == '-VSS_THEME_TEST-':
             #print(values['-VSS_THEME-'])
             vss_theme_test_window(values['-VSS_THEME-'])
 
+        if settings_json != settings_json_temp:
+            settings_window['-APPLY-'].update(disabled=False)
+        else:
+            settings_window['-APPLY-'].update(disabled=True)
+
     settings_window.close()
 
 if __name__ == "__main__":
-    vss_settings_window()
-    #vss_theme_test_window()
+    settings_json = vss_load_settings()
+    vss_settings_window(settings_json)

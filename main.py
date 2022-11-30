@@ -25,9 +25,11 @@ from vss_utils.vss_utilities import center_window, create_temp_dir, clear_temp_d
     vss_load_settings
 from vss_utils.vss_settings_window import vss_settings_window
 
-def main_window(theme='DarkBlue'):
+def main_window():
+    settings_json = vss_load_settings()
+
     #BTN_SIZE = (5,5)
-    sg.theme(theme)
+    sg.theme(settings_json['app_settings']['theme'])
     sg.set_options(
         window_location = (0,0)
         ,element_padding=(5,5)
@@ -47,15 +49,21 @@ def main_window(theme='DarkBlue'):
         [
             sg.Text(
                 f'Welcome to {VSS_APPLICATION_NAME}',
-                font='Segoe 20',
+                font='Segoe 20 bold',
                 expand_x=True
             ),
-            sg.Button(image_filename='vss_resources/icons/settings.png',
+            sg.Button(image_filename='vss_resources/icons/settings_50x50.png',
                 tooltip='Settings',
                 visible=True,
                 key='-SETTINGS_BUTTON-')
         ],
-        [sg.Text('Select a sport to get started.')],
+        [
+            sg.Text(
+                'Select a sport to get started.',
+                font=''
+
+            )
+        ],
         #sg.Push(),
         [
             sg.Button(#'Baseball',

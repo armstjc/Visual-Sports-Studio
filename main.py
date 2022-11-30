@@ -21,7 +21,8 @@ from vss_sports.vss_baseball import baseball_main_window
 from vss_sports.vss_basketball import basketball_main_window
 from vss_sports.vss_football import football_main_window
 from vss_sports.vss_soccer import soccer_main_window
-from vss_utils.vss_utilities import center_window, create_temp_dir, clear_temp_dir
+from vss_utils.vss_utilities import center_window, create_temp_dir, clear_temp_dir,\
+    vss_load_settings
 from vss_utils.vss_settings_window import vss_settings_window
 
 def main_window(theme='DarkBlue'):
@@ -49,7 +50,7 @@ def main_window(theme='DarkBlue'):
                 font='Segoe 20',
                 expand_x=True
             ),
-            sg.Button(image_filename='icons/settings.png',
+            sg.Button(image_filename='vss_resources/icons/settings.png',
                 tooltip='Settings',
                 visible=True,
                 key='-SETTINGS_BUTTON-')
@@ -58,7 +59,7 @@ def main_window(theme='DarkBlue'):
         #sg.Push(),
         [
             sg.Button(#'Baseball',
-                image_filename='icons/baseball_50x50.png',
+                image_filename='vss_resources/icons/baseball_50x50.png',
                 tooltip='Baseball',
                 visible=True,
                 disabled=False,
@@ -75,7 +76,7 @@ def main_window(theme='DarkBlue'):
         [sg.Text('Comming soon, but shown here for demonstrative purposes.',justification='center',font='italic 10')],
         [
             sg.Button(#'American Football',
-                image_filename='icons/football_50x50.png',
+                image_filename='vss_resources/icons/football_50x50.png',
                 tooltip='American Football',
                 visible=True,
                 disabled=False,
@@ -90,7 +91,7 @@ def main_window(theme='DarkBlue'):
         ],
         [
             sg.Button(#'Soccer',
-                image_filename='icons/soccer_50x50.png',
+                image_filename='vss_resources/icons/soccer_50x50.png',
                 tooltip='Association Football (Soccer)',
                 visible=True,
                 disabled=False,
@@ -105,7 +106,7 @@ def main_window(theme='DarkBlue'):
         ],
         [
             sg.Button(#'Basketball',
-                image_filename='icons/basketball_50x50.png',
+                image_filename='vss_resources/icons/basketball_50x50.png',
                 tooltip='Basketball',
                 visible=True,
                 disabled=False,

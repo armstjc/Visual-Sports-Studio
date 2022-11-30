@@ -28,6 +28,12 @@ def clear_temp_dir(temp_dir=''):
     except:
         print('Directory already exists.')
 
+def create_dir(c_dir:str):
+    try:
+        os.mkdir(c_dir)
+    except:
+        print('Directory already exists.')
+
 def create_temp_dir(temp_dir=''):
     try:
         os.mkdir(temp_dir+'temp')
@@ -80,8 +86,14 @@ def get_os_version():
 def get_machine_type():
     return platform.uname().machine
 
+def get_user_home_dir():
+    home_dir =  os.path.expanduser( '~' )
+    return reformat_folder_string(home_dir)
+    
 def reformat_folder_string(folder:str):
     folder_dir = folder.replace("\\","/")
+    if folder_dir[-1] != '/':
+        folder_dir = folder_dir + '/'
     del folder
     return folder_dir
 
@@ -422,24 +434,66 @@ def vss_error(exception_description:str):
                 keep_on_top=True,
                 grab_anywhere=True)
 
-def vss_load_settings(file_path:str):
+def vss_load_settings():
+
+    file_path = get_user_home_dir()
+
+    file_path = reformat_folder_string(file_path)
+    file_path = f'{file_path}/visual_sports_studio/'
+    create_dir(file_path)
+
+    print(f'File path: {file_path}')
+
     try:
-        with open('settings.json','r+') as f:
-            settings_json = f.read()
+        with open(f'{file_path}settings.json','r+') as f:
+            settings_json_str = f.read()
         print('File loaded. Attempting to verify that the file loaded is a valid JSON file.')
 
     except:
         print('No settings.json file found. Creating a settings file.')
-        settings_json = DEFAULT_SETTINGS_JSON
-        with open('settings.json','w+') as f:
-            f.write(settings_json)
+        settings_json_str = DEFAULT_SETTINGS_JSON
+        with open(f'{file_path}settings.json','w+') as f:
+            f.write(settings_json_str)
         print('Settings file created')
 
     try:
-        json.loads(settings_json)
-        print("Success!")
+        settings_json = json.loads(settings_json_str)
+        print("Success! File verified as a JSON file.")
     except ValueError as err:
         print(f"INVALID JSON DECTED!\nReason:\n{err}")
+        print('Rewriting settings file')
+        settings_json_str = DEFAULT_SETTINGS_JSON
+        settings_json = json.loads(settings_json_str)
+        with open(f'{file_path}settings.json','w+') as f:
+            f.write(str(settings_json))
+        print('Settings file created')
 
+    #print(settings_json['startup'])
+
+    if settings_json['startup']['explainer'] == \
+        "With this string, I hereby give you premission to start up!"\
+        and settings_json['startup']['premission_to_startup'] == True:
+
+        print('Settings file has correct header.')
+        print('The JSON file is in fact the settings JSON file for Visual Sports Studio.')
+
+    else:
+        print('INVALID JSON DETECTED!!\n'+
+            'The JSON file loaded is not intended to be used as '+
+            'the settings JSON for this app.')
+        print('Rewriting settings file')
+        settings_json_str = DEFAULT_SETTINGS_JSON
+        settings_json = json.loads(settings_json_str)
+        with open(f'{file_path}settings.json','w+') as f:
+            f.write(str(settings_json))
+        print('Settings file created')
+
+    del settings_json_str
+    
+
+    
 if __name__ == "__main__":
-    print(get_application_resolution_list())
+    #print(get_application_resolution_list())
+    #print(get_user_home_dir())
+
+    vss_load_settings()

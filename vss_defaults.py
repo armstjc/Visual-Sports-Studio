@@ -35,7 +35,7 @@ DEFAULT_SETTINGS_JSON = """
     "main_window_height": 720
   },
   "custom_database_dir": "temp",
-
+  "app_data_dir":"",
   "database": {
     "database_type": "sqlite3",
 
@@ -102,7 +102,7 @@ DEFAULT_SETTINGS_JSON = """
 
   "startup": {
     "premission_to_startup": true,
-    "explainer":"Placeholder for functions in the future."
+    "explainer":"With this string, I hereby give you premission to start up!"
   }
 }
 
@@ -252,7 +252,7 @@ PSG_THEME_LIST_RENAMED = [
   'Topanga'
 ]
 
-VSS_APPLICATION_VERSIOIN = "0.2.4"
+VSS_APPLICATION_VERSIOIN = "0.2.4b"
 
 VSS_APPLICATION_NAME = "Visual Sports Studio (Beta)"
 

@@ -4,7 +4,8 @@ sys.path.append('../Visual-Sports-Studio')
 import PySimpleGUI as sg
 
 from vss_defaults import VSS_APPLICATION_NAME, PSG_THEME_LIST_RENAMED
-from vss_utils.vss_utilities import center_window, psg_theme_name_swapper, get_application_resolution_list
+from vss_utils.vss_utilities import center_window, psg_theme_name_swapper, \
+    get_application_resolution_list, vss_load_settings
 
 def vss_theme_test_window(theme='Dark Blue #01'):
     sg.theme(psg_theme_name_swapper(theme))
@@ -14,6 +15,7 @@ def vss_theme_test_window(theme='Dark Blue #01'):
         #,font = 'Franklin 14'
     )
 
+    #vss_settings
     layout = [
         [
             sg.Text(
@@ -140,7 +142,39 @@ def vss_settings_window(theme='DarkBlue',\
         ]
     ]
 
-    
+    custom_database_settings_layout = [
+        [
+            sg.Frame(
+                'Baseball - MLB:',
+                layout =[
+                    [
+                        sg.Text('Update stats on open'),
+                        sg.Push(),
+                        sg.Combo(
+                            ['True','False'],
+                            size=(10,1),
+                            default_value='False',
+                            key='-BASE_UPD_OPEN-',
+                            disabled=True
+                        )
+                    ],
+                    [
+                        sg.Text('Delete stats on close'),
+                        sg.Push(),
+                        sg.Combo(
+                            ['True','False'],
+                            size=(10,1),
+                            default_value='False',
+                            key='-BASE_DEL_CLS-',
+                            disabled=True
+                        )
+                    ]
+                ],
+                expand_x=True
+            )
+        ]
+    ]
+
     database_settings_layout = [
         [
             sg.Push(),
@@ -199,11 +233,8 @@ def vss_settings_window(theme='DarkBlue',\
         [
             sg.Frame(
                 'Custom Database settings',
-                layout=[
-                    [
-                        
-                    ]
-                ]
+                layout=custom_database_settings_layout,
+                expand_x=True
             )
         ]
     ]

@@ -189,6 +189,32 @@ def baseball_main_window(theme='DarkBlue', \
             ],
             [
                 sg.Frame(
+                    'Stats Range',
+                    layout=[[
+                        sg.Radio(
+                            'Game',
+                            'stats_range',
+                            key='-GAME_STATS_FLAG-',
+                            disabled=True
+                        ),
+                        sg.Radio(
+                            'Season',
+                            'stats_range',
+                            key='-SEASON_STATS_FLAG-',
+                            disabled=True
+                        ),
+                        sg.Radio(
+                            'Range',
+                            'stats_range',
+                            key='-GAME_STATS_FLAG-',
+                            disabled=True
+                        ),
+                    ]],
+                    visible=False
+                )
+            ],
+            [
+                sg.Frame(
                     "Select a column for the X axis:",
                     layout=[[
                         sg.Combo(
@@ -261,9 +287,16 @@ def baseball_main_window(theme='DarkBlue', \
         # expand_y=True
     )
 
+    graph_filter_col = sg.Column(
+        [
+
+        ]
+    )
+
     graphing_layout =[[
         graph_settings_col,
-        graph_col    
+        graph_col,
+        graph_filter_col
     ]]
     
     ##############################################################################################################################################
@@ -323,7 +356,7 @@ def baseball_main_window(theme='DarkBlue', \
 
     while True: 
         event, values = _VARS['window'].read(timeout=200)
-        print(values)
+        # print(values)
         # print(event)
 
         if event == sg.WIN_CLOSED or event == 'Exit':

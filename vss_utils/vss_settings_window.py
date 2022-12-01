@@ -159,6 +159,15 @@ def vss_settings_window(settings_json:dict,theme='DarkBlue',\
                 font='Segoe 12',
                 expand_x=True
             )
+        ],
+        [
+            sg.Button(
+                'Open Dev Logs Window',
+                key='-DEV_LOGS_WINDOW-',
+                font='Segoe 12',
+                expand_x=True
+
+            )
         ]
     ]
 

@@ -377,7 +377,7 @@ port = 'PySimpleGUI'
     In addition to the normal publishing requirements of LGPL3+, these also apply:
     1. These and all comments are to remain in the source code
     2. The "Official" version of PySimpleGUI and the associated documentation lives on two (and **only** two) places:
-       1. GitHub - (http://www.PySimpleGUI.com) currently pointing at:
+       1. GitHub - (https://www.PySimpleGUI.com) currently pointing at:
           https://github.com/PySimpleGUI/PySimpleGUI
        2. PyPI - pip install PySimpleGUI is the customary way of obtaining the latest release
     
@@ -412,9 +412,9 @@ port = 'PySimpleGUI'
     There are constantly something new and interesting coming out of this project so stay current if you can 
 
     The FASTEST WAY to learn PySimpleGUI is to begin to use it in conjunction with the materials provided by the project.
-    http://www.PySimpleGUI.org
-    http://Calls.PySimpleGUI.org
-    http://Cookbook.PySimpleGUI.org
+    https://www.PySimpleGUI.org
+    https://Calls.PySimpleGUI.org
+    https://Cookbook.PySimpleGUI.org
 
     The User Manual and the Cookbook are both designed to paint some nice looking GUIs on your screen within 5 minutes of you deciding to PySimpleGUI out.
 
@@ -10383,10 +10383,10 @@ class Window:
                     wicon = tkinter.PhotoImage(data=DEFAULT_BASE64_ICON)
                     try:
                         self.TKroot.tk.call('wm', 'iconphoto', self.TKroot._w, wicon)
-                    except:
-                        pass
-                except:
-                    pass
+                    except Exception as e:
+                        print(e)
+                except Exception as e:
+                    print(e)
         self.WindowIcon = wicon
 
     def _GetElementAtLocation(self, location):
@@ -12345,7 +12345,7 @@ class Window:
     @classmethod
     def _restore_stdout(cls):
         for item in cls._rerouted_stdout_stack:
-            (window, element) = item   # type: (Window, Element)
+            (window, element) = item
             if not window.is_closed():
                 sys.stdout = element
                 break
@@ -12358,7 +12358,7 @@ class Window:
     @classmethod
     def _restore_stderr(cls):
         for item in cls._rerouted_stderr_stack:
-            (window, element) = item   # type: (Window, Element)
+            (window, element) = item
             if not window.is_closed():
                 sys.stderr = element
                 break
@@ -16303,7 +16303,7 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                                                                                                                                                     element.BackgroundColor,
                                                                                                                                                     element.TextColor))
                 except Exception as e:
-                    pass    # going to let this one slide
+                    print(e)    # going to let this one slide
 
                 # Chr0nic
                 element.TKCombo.bind("<Enter>", lambda event, em=element: testMouseHook2(em))
@@ -16399,8 +16399,8 @@ def PackFormIntoFrame(form, containing_frame, toplevel_form):
                 # On OLD versions of tkinter the justify option isn't available
                 try:
                     element.Widget.config(justify=justification)
-                except:
-                    pass
+                except Exception as e:
+                    print(e)
 
                 element.Widget.config(highlightthickness=0)
                 for index, item in enumerate(element.Values):
@@ -18611,8 +18611,8 @@ def _print_to_element(multiline_element, *args, end=None, sep=None, text_color=N
     try:  # if the element is set to autorefresh, then refresh the parent window
         if multiline_element.AutoRefresh:
             multiline_element.ParentForm.refresh()
-    except:
-        pass
+    except Exception as e:
+        print(e)
 
 
 def _parse_colors_parm(colors):
@@ -21335,8 +21335,8 @@ def popup_get_file(message, title=None, default_path='', default_extension='', s
             except Exception as e:
                 print('* Error performing wm_overrideredirect in get file *', e)
             root.withdraw()
-        except:
-            pass
+        except Exception as e:
+            print(e)
 
         if show_hidden is False:
             try:
@@ -22217,7 +22217,7 @@ class UserSettings:
             self.config = configparser.ConfigParser()
             self.config.optionxform = str
             # self.config_dict = {}
-            self.section_class_dict = {}        # type: dict[_SectionDict]
+            self.section_class_dict = {}
         if filename is not None or path is not None:
             self.load(filename=filename, path=path)
 
@@ -22349,7 +22349,7 @@ class UserSettings:
             try:
                 del self.section_dict[item]
             except Exception as e:
-                pass
+                print(e)
                 # print(e)
             if self.user_settings_parent.autosave:
                 self.user_settings_parent.save()
@@ -23594,7 +23594,7 @@ class _Debugger:
             try:
                 self.watcher_window.close()
             except:
-                pass
+                print('It appears as if there\'s no window to close.')
             self.watcher_window = None
             return False
         # ------------------------------- Process events from REPL Tab -------------------------------
@@ -25503,7 +25503,7 @@ def main_sdk_help():
                 args_defaults.append((a, defaults[i]))
             element_arg_default_dict_update[element.__name__] = args_defaults if len(args_defaults) else (('', ''),)
         except Exception as e:
-            pass
+            print(e)
 
     # Add on the pseudo-elements
     element_names['MenubarCustom'] = MenubarCustom

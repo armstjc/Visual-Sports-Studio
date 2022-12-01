@@ -142,17 +142,7 @@ def baseball_main_window(theme='DarkBlue', \
     stat_seasons = [x for x in range(1901,2021)]
     stat_types = vss_baseball_graph_stat_types()
 
-    graph_col = sg.Column(
-        [[
-            sg.Canvas(
-                key='figCanvas',
-                expand_x=True,
-                expand_y=True
-            )
-        ]],
-        expand_x=True,
-        expand_y=True
-    )
+
 
     stat_col_list = vss_baseball_team_stats_col_list()
 
@@ -287,16 +277,35 @@ def baseball_main_window(theme='DarkBlue', \
         # expand_y=True
     )
 
-    graph_filter_col = sg.Column(
-        [
-
-        ]
+    graph_col = sg.Column(
+        [[
+            sg.Canvas(
+                key='figCanvas',
+                expand_x=True,
+                expand_y=True
+            )
+        ]],
+        expand_x=True,
+        expand_y=True
     )
+
+    ## Needs further development
+    # graph_filter_col = sg.Column(
+    #     [[
+    #         sg.Frame(
+    #             'Column #1',
+    #             [[
+    #                 sg.Text('Placeholder')
+    #             ]],
+
+    #         )
+    #     ]]
+    # )
 
     graphing_layout =[[
         graph_settings_col,
         graph_col,
-        graph_filter_col
+        #graph_filter_col
     ]]
     
     ##############################################################################################################################################

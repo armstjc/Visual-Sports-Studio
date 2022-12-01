@@ -10,10 +10,32 @@
 ##############################################################################################################################################
 import sys
 import pandas as pd
-
+from io import StringIO
 sys.path.append('../Visual-Sports-Studio')
 
-APPLICATION_RESOLUTIONS_DF = pd.read_csv('vss_resources/screen_resolutions.csv')
+APPLICATON_RESOLUTIONS_CSV = StringIO("""
+name,width,height,ratio
+SVGA,800,600,800 x 600
+FWVGA,854,480,854 x 480
+qHD,960,540,960 x 540
+DVGA,960,640,960 x 640
+WSVGA,1024,576,1024 x 576
+WSVGA,1024,600,1024 x 600
+XGA+,1152,864,1152 x 864
+XGA+,1152,900,1152 x 900
+WXGA,1280,720,1280 x 720
+WXGA,1280,768,1280 x 768
+WXGA,1280,800,1280 x 800
+SXGA,1280,1024,1280 x 1024
+WXGA,1360,768,1360 x 768
+SXGA+,1400,1050,1400 x 1050
+WXGA+,1440,900,1440 x 900
+UXGA,1600,1200,1600 x 1200
+WSXGA+,1680,1050,1680 x 1050
+FHD,1920,1080,1920 x 1080
+WUXGA,1920,1200,1920 x 1200
+""")
+APPLICATION_RESOLUTIONS_DF = pd.read_csv(APPLICATON_RESOLUTIONS_CSV,sep=',')
 
 DEFAULT_FILE_DESCRIPTOR = """
 
@@ -252,7 +274,7 @@ PSG_THEME_LIST_RENAMED = [
   'Topanga'
 ]
 
-VSS_APPLICATION_VERSIOIN = "0.2.5"
+VSS_APPLICATION_VERSION = "0.2.5"
 
 VSS_APPLICATION_NAME = "Visual Sports Studio (Beta)"
 
@@ -273,4 +295,3 @@ Additional special thanks to the people behind SportsDataverse project.
 """
 
 VSS_SUPPORTED_GRAPHS = ['plot','scatter']
-

@@ -1,5 +1,5 @@
 import PySimpleGUI as sg
-from vss_defaults import VSS_APPLICATION_VERSIOIN, VSS_APPLICATION_NAME, VSS_APPLICATION_DESCRIPTION
+from vss_defaults import VSS_APPLICATION_VERSION, VSS_APPLICATION_NAME, VSS_APPLICATION_DESCRIPTION
 from vss_utils.vss_utilities import center_window, get_os_information
 
 def vss_about_window(theme='DarkBlue'):
@@ -42,7 +42,7 @@ def vss_about_window(theme='DarkBlue'):
         ],
         [   
             sg.Text(
-                f'Version: {VSS_APPLICATION_VERSIOIN}',
+                f'Version: {VSS_APPLICATION_VERSION}',
                 justification='center',
                 font='Segoe 12',
                 expand_x=True

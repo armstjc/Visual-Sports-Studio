@@ -175,7 +175,7 @@ def main_window():
             vss_about_window()
             
         if event == '-SETTINGS_BUTTON-':
-            vss_settings_window()
+            vss_settings_window(settings_json)
             
     window.close()
 

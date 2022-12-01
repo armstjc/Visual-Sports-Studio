@@ -157,16 +157,19 @@ def vss_settings_window(settings_json:dict,theme='DarkBlue',\
                 'Reset all settings',
                 key='-RESET_BUTTON-',
                 font='Segoe 12',
-                expand_x=True
+                tooltip='Will be implemented in a future update',
+                expand_x=True,
+                disabled=True
             )
         ],
         [
             sg.Button(
-                'Open Dev Logs Window',
+                'Open Log Window',
                 key='-DEV_LOGS_WINDOW-',
                 font='Segoe 12',
-                expand_x=True
-
+                tooltip='Will be implemented in a future update',
+                expand_x=True,
+                disabled=True
             )
         ]
     ]

@@ -1,0 +1,37 @@
+Date : 2022-12-01 16:02:00
+Directory : d:\Github\Visual-Sports-Studio
+Total : 8 files,  119 codes, 110 comments, 39 blanks, all 268 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| YAML     |          5 |        126 |         78 |         40 |        244 |
+| Markdown |          1 |          1 |          0 |          1 |          2 |
+| Python   |          2 |         -8 |         32 |         -2 |         22 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                   | files      | code       | comment    | blank      | total      |
++------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                      |          8 |        119 |        110 |         39 |        268 |
+| .github                                                                |          5 |        126 |         78 |         40 |        244 |
+| .github\workflows                                                      |          5 |        126 |         78 |         40 |        244 |
+| vss_sports                                                             |          1 |        -11 |         12 |          0 |          1 |
++------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                               | language | code       | comment    | blank      | total      |
++------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| d:\Github\Visual-Sports-Studio\.github\workflows\checkmarx-one.yml     | YAML     |         29 |         18 |          9 |         56 |
+| d:\Github\Visual-Sports-Studio\.github\workflows\codeql.yml            | YAML     |         33 |         29 |         13 |         75 |
+| d:\Github\Visual-Sports-Studio\.github\workflows\dependency-review.yml | YAML     |         12 |          6 |          3 |         21 |
+| d:\Github\Visual-Sports-Studio\.github\workflows\devskim.yml           | YAML     |         25 |          4 |          6 |         35 |
+| d:\Github\Visual-Sports-Studio\.github\workflows\ossar.yml             | YAML     |         27 |         21 |          9 |         57 |
+| d:\Github\Visual-Sports-Studio\README.md                               | Markdown |          1 |          0 |          1 |          2 |
+| d:\Github\Visual-Sports-Studio\vss_defaults.py                         | Python   |          3 |         20 |         -2 |         21 |
+| d:\Github\Visual-Sports-Studio\vss_sports\vss_baseball.py              | Python   |        -11 |         12 |          0 |          1 |
+| Total                                                                  |          |        119 |        110 |         39 |        268 |
++------------------------------------------------------------------------+----------+------------+------------+------------+------------+

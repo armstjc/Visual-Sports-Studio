@@ -37,7 +37,9 @@ def sqlite3_baseball_multithreading(db_dir="temp"):
     Visual Sports Studio uses when run.
 
     Args:
-        None
+        db_dir (str):
+            Used to determine the temp directory the app/user wants to 
+            save data to.
 
     Returns:
         None
@@ -89,11 +91,14 @@ def sqlite3_baseball_multiprocessing(db_dir="temp"):
     Visual Sports Studio uses when run.
 
     Args:
-        None
+        db_dir (str):
+            Used to determine the temp directory the app/user wants to 
+            save data to.
 
     Returns:
         None
     """
+
     start_time = datetime.now()
 
     # Puts the functions in a position to be multi-threaded
@@ -143,6 +148,21 @@ def sqlite3_baseball_multiprocessing(db_dir="temp"):
 ############################################################################################################################################
 
 def sqlite3_chadwick_people(db_dir="temp"):
+    """
+    When called, this function downloads the Chadwick People spreadsheet
+    to the local SQLite database that is created for this application at 
+    launch, or recreates the datbase if it doesn't exist when this 
+    function is called.
+
+    Args:
+        db_dir (str):
+            Used to determine the temp directory the app/user wants to 
+            save data to.
+
+    Returns:
+        None
+    """
+    
     con = sqlite3.connect(f"{db_dir}/vss_baseball.sqlite",check_same_thread=True)
     cur = con.cursor()
 

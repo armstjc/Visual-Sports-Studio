@@ -1,10 +1,13 @@
-############################################################################################################################################
-##
-##  vss_baseball.py
-##------------------------------------------------------------------------------------------------------------------------------------------
-##
-##  TODO: create description of this file.
-
+##############################################################################################################################################
+##                                                                                                                                          ##
+##  vss_baseball.py                                                                                                                         ##
+##------------------------------------------------------------------------------------------------------------------------------------------##
+##                                                                                                                                          ##
+##  Author: 		Joseph Armstrong (armstjc@mail.uc.edu)																					##
+##	Description:	Handles program logic for the Baseball section of VSS, and specifically the GUI window behind the VSS Baseball section  ##
+##                  of Visual Sports Studio                                                                                                 ##
+##                                                                                                                                          ##
+##############################################################################################################################################
 import sys
 import matplotlib.pyplot as plt
 
@@ -43,6 +46,16 @@ from vss_utils.vss_utilities import center_window, download_chart_data, \
 
 def baseball_main_window(theme='DarkBlue', \
     window_width=1280,window_height=720):
+    """
+    Using the power of writing, describe a function and what it does.
+
+    Args:
+        None
+
+    Returns:
+        None
+
+    """
     sg.theme(theme)
     menu_bar = [
         ['File',['Main Menu','---','Exit']],
@@ -116,7 +129,7 @@ def baseball_main_window(theme='DarkBlue', \
             else:
                 plt.ylabel(vss_baseball_reverse_column_swaper(y_col))
             
-            if chart_title != "" and chart_title == str.lower("Title"):
+            if chart_title != "" and chart_title != "Title":
                 plt.title(chart_title)
             else:
                 plt.title(f'{vss_baseball_reverse_column_swaper(x_col)}'+ \
@@ -134,6 +147,21 @@ def baseball_main_window(theme='DarkBlue', \
                 
 
     AppFont = 'Segoe 12'
+    ##############################################################################################################################################
+    ## Global Sidenav section of VSS Baseball
+    ##############################################################################################################################################
+
+    global_sidenav_col = sg.Column(
+        [
+            [sg.Button(
+                'Stats',
+                image_filename='vss_resources/icons/graph_50x50.png',
+                
+                tooltip='right',
+                size=(100,50)
+            )]
+        ]
+    )
 
     ##############################################################################################################################################
     ## Graphing section of VSS Baseball
@@ -200,7 +228,7 @@ def baseball_main_window(theme='DarkBlue', \
                             disabled=True
                         ),
                     ]],
-                    visible=False
+                    visible=True
                 )
             ],
             [
@@ -323,13 +351,16 @@ def baseball_main_window(theme='DarkBlue', \
 
     layout = [
         [sg.Menu(menu_bar,visible=True)],
-        [sg.TabGroup(
-            [[
-                sg.Tab('Graphing', graphing_layout,visible=True),
-                sg.Tab('Stats',stats_layout,visible=False)
-            ]],
-            expand_x=True,
-            expand_y=True
+        [
+            global_sidenav_col,
+                sg.TabGroup(
+                [[
+                    sg.Tab('Graphing', graphing_layout,key='-GRAPH_TAB-',visible=True),
+                    sg.Tab('Stats',stats_layout,key='-STATS_TAB-',visible=False)
+                    
+                ]],
+                expand_x=True,
+                expand_y=True,
             
             )
         ]

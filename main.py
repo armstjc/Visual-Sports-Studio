@@ -3,12 +3,12 @@
 ##  main.py                                                                                                                                 ##
 ##------------------------------------------------------------------------------------------------------------------------------------------##
 ##                                                                                                                                          ##
-##  TODO: create description of this file.
+##  Author: 		Joseph Armstrong (armstjc@mail.uc.edu)																					##
+##	Description:	Handles program logic for the main startup window for Visual Sports Studio.                                             ##
 ##                                                                                                                                          ##
 ##############################################################################################################################################
 
 ## Required to start.
-
 import sys
 #import threading
 
@@ -81,7 +81,7 @@ def main_window():
             sg.Text('MLB baseball data')
         ],
         #sg.Push(),
-        [sg.Text('Comming soon, but shown here for demonstrative purposes.',justification='center',font='italic 10')],
+        [sg.Text('Coming soon but shown here for demonstrative purposes.',justification='center',font='italic 10')],
         [
             sg.Button(#'American Football',
                 image_filename='vss_resources/icons/football_50x50.png',
@@ -151,7 +151,12 @@ def main_window():
     
     center_window(window)
     create_temp_dir()
-    while True: # Event loop
+
+    ##############################################################################################################################################
+    ## Event Loop
+    ##############################################################################################################################################
+
+    while True: 
         event, values = window.read()
         
         if event == sg.WIN_CLOSED or event == 'Exit':
@@ -171,7 +176,6 @@ def main_window():
             soccer_main_window()
 
         if event == 'About VSS':
-            #threading.Thread(target=vss_about_window).start()
             vss_about_window()
             
         if event == '-SETTINGS_BUTTON-':

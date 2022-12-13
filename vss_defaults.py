@@ -44,6 +44,7 @@ DEFAULT_FILE_DESCRIPTOR = """
 ##  file.py																																	##
 ##------------------------------------------------------------------------------------------------------------------------------------------##
 ##                                                                                                                                          ##
+##  Author: Author (author@mail.com)
 ##  TODO: create description of this file.
 ##                                                                                                                                          ##
 ##############################################################################################################################################
@@ -292,6 +293,17 @@ parties may contact Retrosheet at 20 Sunset Rd.,
 Newark, DE 19711.
 
 Additional special thanks to the people behind SportsDataverse project.
+"""
+
+VSS_FUNCTION_DESCRIPTION = """
+    Using the power of writing, describe a function and what it does.
+
+    Args:
+        None
+
+    Returns:
+        None
+        
 """
 
 VSS_SUPPORTED_GRAPHS = ['plot','scatter']

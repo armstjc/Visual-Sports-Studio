@@ -1,0 +1,38 @@
+Date : 2022-12-10 10:46:14
+Directory : d:\Github\Visual-Sports-Studio
+Total : 10 files,  -12443 codes, -10525 comments, -2632 blanks, all -25600 lines
+
+Languages
++------------------+------------+------------+------------+------------+------------+
+| language         | files      | code       | comment    | blank      | total      |
++------------------+------------+------------+------------+------------+------------+
+| pip requirements |          1 |          2 |          0 |          0 |          2 |
+| Python           |          9 |    -12,445 |    -10,525 |     -2,632 |    -25,602 |
++------------------+------------+------------+------------+------------+------------+
+
+Directories
++-----------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                            | files      | code       | comment    | blank      | total      |
++-----------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                               |         10 |    -12,443 |    -10,525 |     -2,632 |    -25,600 |
+| vss_db                                                          |          1 |          0 |         18 |          2 |         20 |
+| vss_sports                                                      |          1 |         12 |         17 |          2 |         31 |
+| vss_utils                                                       |          2 |        333 |         55 |         12 |        400 |
++-----------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-----------------------------------------------------------------+------------------+------------+------------+------------+------------+
+| filename                                                        | language         | code       | comment    | blank      | total      |
++-----------------------------------------------------------------+------------------+------------+------------+------------+------------+
+| d:\Github\Visual-Sports-Studio\PySimpleGUI.py                   | Python           |    -12,790 |    -10,629 |     -2,650 |    -26,069 |
+| d:\Github\Visual-Sports-Studio\main.py                          | Python           |          0 |          3 |          1 |          4 |
+| d:\Github\Visual-Sports-Studio\requirements.txt                 | pip requirements |          2 |          0 |          0 |          2 |
+| d:\Github\Visual-Sports-Studio\test.py                          | Python           |        -35 |         -2 |         -9 |        -46 |
+| d:\Github\Visual-Sports-Studio\vss_db\vss_db_baseball.py        | Python           |          0 |         18 |          2 |         20 |
+| d:\Github\Visual-Sports-Studio\vss_defaults.py                  | Python           |          1 |         10 |          1 |         12 |
+| d:\Github\Visual-Sports-Studio\vss_loading_test.py              | Python           |         34 |          3 |          9 |         46 |
+| d:\Github\Visual-Sports-Studio\vss_sports\vss_baseball.py       | Python           |         12 |         17 |          2 |         31 |
+| d:\Github\Visual-Sports-Studio\vss_utils\vss_settings_window.py | Python           |         49 |         11 |         11 |         71 |
+| d:\Github\Visual-Sports-Studio\vss_utils\vss_utilities.py       | Python           |        284 |         44 |          1 |        329 |
+| Total                                                           |                  |    -12,443 |    -10,525 |     -2,632 |    -25,600 |
++-----------------------------------------------------------------+------------------+------------+------------+------------+------------+

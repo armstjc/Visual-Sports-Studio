@@ -445,6 +445,335 @@ def psg_theme_name_swapper(theme:str):
             # error to prevent memory shenanagans.
             raise Exception("Not a supported column.")
 
+def psg_theme_name_swapper_reverse(theme:str):
+    match theme:
+        # Black
+        case "Black":
+            return "Black"
+        # BlueMono
+        case "BlueMono":
+            return "Blue Mono" 
+        # BluePurple
+        case "BluePurple":
+            return "Blue Purple"
+        #BrightColors
+        case "BrightColors":
+            return "Bright Colors"
+        # BrownBlue
+        case "BrownBlue":
+            return "Brown Blue"
+        # Dark
+        case "Dark":
+            return "Dark #01"
+        case "Dark2":
+            return "Dark #02"
+        # DarkAmber
+        case "DarkAmber":
+            return "Dark Amber"
+        # DarkBlack
+        case "DarkBlack":
+            return "Dark Black #01"
+        case "DarkBlack1":
+            return "Dark Black #02"
+        # DarkBlue
+        case "DarkBlue":
+            return "Dark Blue #01"
+        case "DarkBlue1":
+            return "Dark Blue #02"
+        case "DarkBlue2":
+            return "Dark Blue #03"
+        case "DarkBlue3":
+            return "Dark Blue #04"
+        case "DarkBlue4":
+            return "Dark Blue #05"
+        case "DarkBlue5":
+            return "Dark Blue #06"
+        case "DarkBlue6":
+            return "Dark Blue #07"
+        case "DarkBlue7":
+            return "Dark Blue #08"
+        case "DarkBlue8":
+            return "Dark Blue #09"
+        case "DarkBlue9":
+            return "Dark Blue #10"
+        case "DarkBlue10":
+            return "Dark Blue #11"
+        case "DarkBlue11":
+            return "Dark Blue #12"
+        case "DarkBlue12":
+            return "Dark Blue #13"
+        case "DarkBlue13":
+            return "Dark Blue #14"
+        case "DarkBlue14":
+            return "Dark Blue #15"
+        case "DarkBlue15":
+            return "Dark Blue #16"
+        case "DarkBlue16":
+            return "Dark Blue #17"
+        case "DarkBlue17":
+            return "Dark Blue #18"
+        # DarkBrown
+        case "DarkBrown":
+            return "Dark Brown #01"
+        case "DarkBrown1":
+            return "Dark Brown #02"
+        case "DarkBrown2":
+            return "Dark Brown #03"
+        case "DarkBrown3":
+            return "Dark Brown #04"
+        case "DarkBrown4":
+            return "Dark Brown #05"
+        case "DarkBrown5":
+            return "Dark Brown #06"
+        case "DarkBrown6":
+            return "Dark Brown #07"
+        # DarkGreen
+        case "DarkGreen":
+            return "Dark Green #01"
+        case "DarkGreen1":
+            return "Dark Green #02"
+        case "DarkGreen2":
+            return "Dark Green #03"
+        case "DarkGreen3":
+            return "Dark Green #04"
+        case "DarkGreen4":
+            return "Dark Green #05"
+        case "DarkGreen5":
+            return "Dark Green #06"
+        case "DarkGreen6":
+            return "Dark Green #07"
+        # DarkGrey
+        case "DarkGrey":
+            return "Dark Grey #01"
+        case "DarkGrey1":
+            return "Dark Grey #02"
+        case "DarkGrey2":
+            return "Dark Grey #03"
+        case "DarkGrey3":
+            return "Dark Grey #04"
+        case "DarkGrey4":
+            return "Dark Grey #05"
+        case "DarkGrey5":
+            return "Dark Grey #06"
+        case "DarkGrey6":
+            return "Dark Grey #07"
+        case "DarkGrey7":
+            return "Dark Grey #08"
+        # DarkPurple
+        case "DarkPurple":
+            return "Dark Purple #01"
+        case "DarkPurple1":
+            return "Dark Purple #02"
+        case "DarkPurple2":
+            return "Dark Purple #03"
+        case "DarkPurple3":
+            return "Dark Purple #04"
+        case "DarkPurple4":
+            return "Dark Purple #05"
+        case "DarkPurple5":
+            return "Dark Purple #06"
+        case "DarkPurple6":
+            return "Dark Purple #07"
+        # DarkRed
+        case "DarkRed":
+            return "Dark Red #01"
+        case "DarkRed1":
+            return "Dark Red #02"
+        case "DarkRed2":
+            return "Dark Red #03"
+        # DarkTanBlue
+        case "DarkTanBlue":
+            return "Dark Tan Blue"
+        # DarkTeal
+        case "DarkTeal":
+            return "Dark Teal #01"
+        case "DarkTeal1":
+            return "Dark Teal #02"
+        case "DarkTeal2":
+            return "Dark Teal #03"
+        case "DarkTeal3":
+            return "Dark Teal #04"
+        case "DarkTeal4":
+            return "Dark Teal #05"
+        case "DarkTeal5":
+            return "Dark Teal #06"
+        case "DarkTeal6" :
+            return"Dark Teal #07"
+        case "DarkTeal7":
+            return "Dark Teal #08"
+        case "DarkTeal8":
+            return "Dark Teal #09"
+        case "DarkTeal9":
+            return "Dark Teal #10"
+        case "DarkTeal10":
+            return "Dark Teal #11"
+        case "DarkTeal11":
+            return "Dark Teal #12"
+        case "DarkTeal12":
+            return "Dark Teal #13"
+        # Default
+        case "Default":
+            return "PySimpleGUI Default #1"
+        case "Default1":
+            return "PySimpleGUI Default #2"
+        # DefaultNoMoreNagging
+        case "DefaultNoMoreNagging":
+            return "PySimpleGUI Default #3"
+        # Green
+        case "Green":
+            return "Green"
+        # Green
+        case "GreenMono":
+            return "Green Mono"
+        # Green
+        case "GreenTan":
+            return "Green Tan"
+        # HotDogStand
+        case"HotDogStand":
+            "Hot Dog Stand"
+        # Kayak
+        case "Kayak":
+            "Kayak"
+        # LightBlue
+        case "LightBlue":
+            return "Light Blue #01"
+        case "LightBlue1":
+            return "Light Blue #02"
+        case "LightBlue2":
+            return "Light Blue #03"
+        case "LightBlue3":
+            return "Light Blue #04"
+        case "LightBlue4":
+            return "Light Blue #05"
+        case "LightBlue5":
+            return "Light Blue #06"
+        case "LightBlue6":
+            return "Light Blue #07"
+        case "LightBlue7":
+            return "Light Blue #08"
+        # LightBrown
+        case "LightBrown":
+            return "Light Brown #01"
+        case "LightBrown1":
+            return "Light Brown #02"
+        case "LightBrown2":
+            return "Light Brown #03"
+        case "LightBrown3":
+            return "Light Brown #04"
+        case "LightBrown4":
+            return "Light Brown #05"
+        case "LightBrown5":
+            return "Light Brown #06"
+        case "LightBrown6":
+            return "Light Brown #07"
+        case "LightBrown7":
+            return "Light Brown #08"
+        case "LightBrown8":
+            return "Light Brown #09"
+        case "LightBrown9":
+            return "Light Brown #10"
+        case "LightBrown10":
+            return "Light Brown #11"
+        case "LightBrown11":
+            return "Light Brown #12"
+        case "LightBrown12":
+            return "Light Brown #13"
+        case "LightBrown13":
+            return "Light Brown #14"
+        # LightGreen
+        case "LightGray1":
+            return "Light Gray"
+        # LightGreen
+        case "LightGreen":
+            return "Light Green #01"
+        case "LightGreen1":
+            return "Light Green #02"
+        case "LightGreen2":
+            return "Light Green #03"
+        case "LightGreen3":
+            return "Light Green #04"
+        case "LightGreen4":
+            return "Light Green #05"
+        case "LightGreen5":
+            return "Light Green #06"
+        case "LightGreen6":
+            return "Light Green #07"
+        case "LightGreen7":
+            return "Light Green #08"
+        case "LightGreen8":
+            return "Light Green #09"
+        case "LightGreen9":
+            return "Light Green #10"
+        case "LightGreen10":
+            return "Light Green #11"
+        # LightGrey
+        case "LightGrey":
+            return "Light Grey #01"
+        case "LightGrey1":
+            return "Light Grey #02"
+        case "LightGrey2":
+            return "Light Grey #03"
+        case "LightGrey3":
+            return "Light Grey #04"
+        case "LightGrey4":
+            return "Light Grey #05"
+        case "LightGrey5":
+            return "Light Grey #06"
+        case "LightGrey6":
+            return "Light Grey #07"
+        # LightPurple
+        case "LightPurple":
+            return "Light Purple"
+        # LightTeal
+        case "LightTeal":
+            return "Light Teal"
+        # LightYellow
+        case "LightYellow":
+            return "Light Yellow"
+        # Material1
+        case "Material1":
+            return "Material #1"
+        case "Material2":
+            return "Material #2"
+        # NeutralBlue
+        case "NeutralBlue":
+            return "Neutral Blue"
+        # Purple
+        case "Purple":
+            return "Purple"
+        # Reddit
+        case "Reddit":
+            return "Reddit"
+        # Reds
+        case "Reds":
+            return "Reds"
+        # SandyBeach
+        case "SandyBeach":
+            return "Sandy Beach"
+        # SystemDefault
+        case "SystemDefault":
+            return "System Default #1"
+        case "SystemDefault1":
+            return "System Default #2"
+        case "SystemDefaultForReal":
+            return "System Default #3"
+        # Tan
+        case "Tan":
+            return "Tan"
+        # TanBlue
+        case "TanBlue":
+            return "Tan Blue"
+        # TealMono
+        case "TealMono":
+            return "Teal Mono"
+        # Topanga
+        case "Topanga":
+            return "Topanga"
+        case _:
+            # This should not happen, but it will raise an 
+            # error to prevent memory shenanagans.
+            raise Exception("Not a supported column.")
+
 def vss_error(exception_description:str):
     sg.popup_error(
         f"The following exception has occured with this app:\n{exception_description}",

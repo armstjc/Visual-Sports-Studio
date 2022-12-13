@@ -1,0 +1,30 @@
+"filename", "language", "YAML", "Python", "pip requirements", "Markdown", "Batch", "comment", "blank", "total"
+"d:\Github\Visual-Sports-Studio\.github\workflows\checkmarx-one.yml", "YAML", 29, 0, 0, 0, 0, 18, 9, 56
+"d:\Github\Visual-Sports-Studio\.github\workflows\codeql.yml", "YAML", 33, 0, 0, 0, 0, 29, 13, 75
+"d:\Github\Visual-Sports-Studio\.github\workflows\dependency-review.yml", "YAML", 12, 0, 0, 0, 0, 6, 3, 21
+"d:\Github\Visual-Sports-Studio\.github\workflows\devskim.yml", "YAML", 25, 0, 0, 0, 0, 4, 6, 35
+"d:\Github\Visual-Sports-Studio\.github\workflows\ossar.yml", "YAML", 27, 0, 0, 0, 0, 21, 9, 57
+"d:\Github\Visual-Sports-Studio\README.md", "Markdown", 0, 0, 0, 21, 0, 0, 8, 29
+"d:\Github\Visual-Sports-Studio\changelog.md", "Markdown", 0, 0, 0, 8, 0, 0, 2, 10
+"d:\Github\Visual-Sports-Studio\main.py", "Python", 0, 129, 0, 0, 0, 35, 27, 191
+"d:\Github\Visual-Sports-Studio\make_windows.bat", "Batch", 0, 0, 0, 0, 3, 0, 0, 3
+"d:\Github\Visual-Sports-Studio\requirements.txt", "pip requirements", 0, 0, 4, 0, 0, 0, 0, 4
+"d:\Github\Visual-Sports-Studio\setup.py", "Python", 0, 5, 0, 0, 0, 0, 0, 5
+"d:\Github\Visual-Sports-Studio\vss_about.py", "Python", 0, 81, 0, 0, 0, 10, 10, 101
+"d:\Github\Visual-Sports-Studio\vss_db\__init__.py", "Python", 0, 2, 0, 0, 0, 0, 2, 4
+"d:\Github\Visual-Sports-Studio\vss_db\vss_db_baseball.py", "Python", 0, 253, 0, 0, 0, 194, 117, 564
+"d:\Github\Visual-Sports-Studio\vss_db\vss_db_nfl.py", "Python", 0, 0, 0, 0, 0, 0, 1, 1
+"d:\Github\Visual-Sports-Studio\vss_db\vss_db_tables.py", "Python", 0, 9, 0, 0, 0, 410, 9, 428
+"d:\Github\Visual-Sports-Studio\vss_defaults.py", "Python", 0, 156, 0, 0, 0, 144, 10, 310
+"d:\Github\Visual-Sports-Studio\vss_loading_test.py", "Python", 0, 34, 0, 0, 0, 3, 9, 46
+"d:\Github\Visual-Sports-Studio\vss_sports\vss_baseball.py", "Python", 0, 486, 0, 0, 0, 78, 92, 656
+"d:\Github\Visual-Sports-Studio\vss_sports\vss_basketball.py", "Python", 0, 15, 0, 0, 0, 0, 4, 19
+"d:\Github\Visual-Sports-Studio\vss_sports\vss_football.py", "Python", 0, 15, 0, 0, 0, 0, 4, 19
+"d:\Github\Visual-Sports-Studio\vss_sports\vss_soccer.py", "Python", 0, 15, 0, 0, 0, 0, 4, 19
+"d:\Github\Visual-Sports-Studio\vss_utils\__init__.py", "Python", 0, 4, 0, 0, 0, 0, 0, 4
+"d:\Github\Visual-Sports-Studio\vss_utils\vss_baseball_utils.py", "Python", 0, 852, 0, 0, 0, 31, 35, 918
+"d:\Github\Visual-Sports-Studio\vss_utils\vss_graphing.py", "Python", 0, 6, 0, 0, 0, 0, 4, 10
+"d:\Github\Visual-Sports-Studio\vss_utils\vss_settings_window.py", "Python", 0, 387, 0, 0, 0, 51, 49, 487
+"d:\Github\Visual-Sports-Studio\vss_utils\vss_urls.py", "Python", 0, 18, 0, 0, 0, 20, 12, 50
+"d:\Github\Visual-Sports-Studio\vss_utils\vss_utilities.py", "Python", 0, 716, 0, 0, 0, 96, 48, 860
+"Total", "-", 126, 3183, 4, 29, 3, 1150, 487, 4982

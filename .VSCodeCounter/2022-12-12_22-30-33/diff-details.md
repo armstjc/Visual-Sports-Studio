@@ -1,15 +1,16 @@
 # Diff Details
 
-Date : 2022-11-29 18:59:31
+Date : 2022-12-12 22:30:33
 
 Directory d:\\Github\\Visual-Sports-Studio
 
-Total : 0 files,  0 codes, 0 comments, 0 blanks, all 0 lines
+Total : 1 files,  -1 codes, 7 comments, 1 blanks, all 7 lines
 
 [Summary](results.md) / [Details](details.md) / [Diff Summary](diff.md) / Diff Details
 
 ## Files
 | filename | language | code | comment | blank | total |
 | :--- | :--- | ---: | ---: | ---: | ---: |
+| [vss_utils/vss_settings_window.py](/vss_utils/vss_settings_window.py) | Python | -1 | 7 | 1 | 7 |
 
 [Summary](results.md) / [Details](details.md) / [Diff Summary](diff.md) / Diff Details

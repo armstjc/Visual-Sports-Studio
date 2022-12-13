@@ -31,7 +31,7 @@ count = 0
 
 while True: # Event Loop
     event, values = window.read(timeout=500)
-    print(count)
+    #print(count)
     if event != sg.WIN_CLOSED:
         window['-EMOJI_GUY-'].update(data=images[count])
 

@@ -1,11 +1,14 @@
 import sys
+import json
+from copy import deepcopy
 
 sys.path.append('../Visual-Sports-Studio')
 import PySimpleGUI as sg
 
 from vss_defaults import VSS_APPLICATION_NAME, PSG_THEME_LIST_RENAMED
 from vss_utils.vss_utilities import center_window, psg_theme_name_swapper, \
-    get_application_resolution_list, vss_load_settings, vss_save_settings
+    psg_theme_name_swapper_reverse, get_application_resolution_list, \
+    vss_load_settings, vss_save_settings
 
 def vss_theme_test_window(theme='Dark Blue #01'):
     sg.theme(psg_theme_name_swapper(theme))
@@ -78,18 +81,19 @@ the GUI backend of this application.
 def vss_settings_window(settings_json:dict,theme='DarkBlue',\
     window_width=480,window_height=480):
     
-    def apply_changes_to_settings(temp_settings:dict,current_settings:dict):
-        if temp_settings == current_settings:
-            pass
-        else:
-            vss_save_settings(temp_settings)
+    # def apply_changes_to_settings(temp_settings:dict,current_settings:dict):
+    #     if temp_settings == current_settings:
+    #         pass
+    #     else:
+    #         vss_save_settings(temp_settings)
             
 
     # If the user makes any changes to their settings, make those
     # changes to a temp dictionary, to prevent the actual app
     # settings from being altered by the user directly, especially
     # if the user doesn't want to commit to any changes.
-    settings_json_temp = settings_json
+    #settings_json = sorted(settings_json.items())
+    settings_json_temp = deepcopy(settings_json)
 
     sg.theme(theme)
     sg.set_options(
@@ -130,7 +134,8 @@ def vss_settings_window(settings_json:dict,theme='DarkBlue',\
                 tooltip='Click this list to see a list of built-in '+
                     'application themes supported by Visual Sports Studio.\n'+
                     'By default, the theme is set to \"Dark Blue #01\".',
-                default_value='Dark Blue #01',
+                default_value=psg_theme_name_swapper_reverse(settings_json['app_settings']['theme']),
+                enable_events=True,
                 key='-VSS_THEME-'
             )
             
@@ -142,7 +147,9 @@ def vss_settings_window(settings_json:dict,theme='DarkBlue',\
                 get_application_resolution_list(),
                 size=(20,1),
                 default_value='1280 x 720',
-                key='-VSS_RES-'
+                key='-VSS_RES-',
+                enable_events=True,
+                disabled=False
             ),
                
         ],
@@ -154,10 +161,11 @@ def vss_settings_window(settings_json:dict,theme='DarkBlue',\
         ],
         [
             sg.Button(
-                'Reset all settings',
+                'Reset all Settings',
                 key='-RESET_BUTTON-',
                 font='Segoe 12',
-                tooltip='Will be implemented in a future update',
+                tooltip='Resets all settings changes to the state they were '+
+                    '\nprior to opening the settings window.',
                 expand_x=True,
                 disabled=True
             )
@@ -184,15 +192,17 @@ def vss_settings_window(settings_json:dict,theme='DarkBlue',\
                         sg.Push(),
                         sg.Radio('Yes',
                             'down_stats_MLB',
-                            key='DOWN_STATS_MLB_TRUE',
+                            key='-DOWN_STATS_MLB_TRUE-',
+                            enable_events=True,
                             default=False,
-                            disabled=True
+                            disabled=False
                         ),
                         sg.Radio('No',
                             'down_stats_MLB',
-                            key='DOWN_STATS_MLB_TRUE',
+                            key='-DOWN_STATS_MLB_FALSE-',
+                            enable_events=True,
                             default=True,
-                            disabled=True
+                            disabled=False
                         )
 
                     ],
@@ -271,7 +281,7 @@ def vss_settings_window(settings_json:dict,theme='DarkBlue',\
                 tooltip='',
                 default_value='Update None',
                 enable_events=True,
-                key='-STATS_UPDATE_VAL-',
+                key='-STATS_UPDATE_LEVEL-',
                 disabled=False
 
             )
@@ -386,27 +396,95 @@ def vss_settings_window(settings_json:dict,theme='DarkBlue',\
     center_window(settings_window)
     #settings_window.move(120,120)
 
-    while True: # Event Loop
+    settings_changed = False
+    theme_settings_changed = False
+    resolution_settings_changed = False
+    ##############################################################################################################################################
+    ## Event Loop
+    ##############################################################################################################################################
+
+    while True: 
         event, values = settings_window.read(timeout=500)
         print(event)
         #print(values)
-        if event == sg.WIN_CLOSED or event == 'Exit' or event == '-OK-':
-            print('No changes in settings.')
-            break
-        elif event == '-APPLY-':
-            apply_changes_to_settings(settings_json_temp,settings_json)
-            settings_json = settings_json_temp
-        elif event == '-CANCEL-':
-            break
 
+
+        if event == '-VSS_THEME-':
+            settings_json_temp['app_settings']['theme'] = psg_theme_name_swapper(values['-VSS_THEME-'])
+            print(settings_json['app_settings']['theme'],settings_json_temp['app_settings']['theme'])
+            if settings_json['app_settings']['theme'] != settings_json_temp['app_settings']['theme']:
+                theme_settings_changed = True
+            else:
+                theme_settings_changed = False
+
+        if event == '-VSS_RES-':
+            settings_json_temp['app_settings']['main_window_width'] = int(values['-VSS_RES-'].split(' x ',1)[0])
+            settings_json_temp['app_settings']['main_window_height'] = int(values['-VSS_RES-'].split(' x ',1)[1])
+            
+            print(settings_json_temp['app_settings']['main_window_width'],settings_json['app_settings']['main_window_width'])
+            print(values['-VSS_RES-'].split(' x ',1))
+
+            if settings_json['app_settings']['main_window_width'] != \
+                settings_json_temp['app_settings']['main_window_width'] or \
+                settings_json['app_settings']['main_window_height'] != \
+                settings_json_temp['app_settings']['main_window_height']:
+                resolution_settings_changed = True
+            else:
+                resolution_settings_changed = False
+
+        if resolution_settings_changed == False and theme_settings_changed == False:
+            settings_changed = False
+        else:
+            settings_changed = True
+
+        # If a user wants to see what a theme looks like before making it their
+        # theme for this app, they can click on a test window by clicking the
+        # "Try it out" button next to the drop down menu for the current list of themes.
         if event == '-VSS_THEME_TEST-':
             #print(values['-VSS_THEME-'])
             vss_theme_test_window(values['-VSS_THEME-'])
-
-        if settings_json != settings_json_temp:
             settings_window['-APPLY-'].update(disabled=False)
+
+        # If the user changes their minds about any settings changes, 
+        # but doesn't want to close the settings window,
+        # they can hit the "Reset all Settings" button to reset the settings
+        # to the way they were before opening the settings window.
+        if event == '-RESET_BUTTON-':
+            print('Unsaved settings changes have been reversed.')
+            settings_window['-VSS_THEME-'].update(value=psg_theme_name_swapper_reverse(settings_json['app_settings']['theme']))
+            settings_window['-VSS_RES-'].update(value=f"{settings_json['app_settings']['main_window_width']} x {settings_json['app_settings']['main_window_height']}")
+
+            settings_window['-RESET_BUTTON-'].update(disabled=True)
+            settings_json_temp = deepcopy(settings_json)
+            
+            theme_settings_changed = False
+            resolution_settings_changed = False
+            settings_changed = False
+
+        if event == '-CANCEL-':
+            break
+        elif (event == sg.WIN_CLOSED or event == 'Exit' \
+            or event == '-OK-' or event == '-APPLY-') \
+            and settings_changed == True:
+            #sg.popup_yes_no('Are you sure you want to save?')
+            #print('No changes in settings.')
+            vss_save_settings(settings_json_temp)
+            print('Change(s) in settings have been saved.')
+            break
+        elif (event == sg.WIN_CLOSED or event == 'Exit' \
+            or event == '-OK-' or event == '-APPLY-') \
+            and settings_changed == False:
+            print('No changes in settings.')
+            break
+                
+
+        if settings_changed == True:
+            settings_window['-RESET_BUTTON-'].update(disabled=False)
+            settings_window['-APPLY-'].update(disabled=False)
+            print('changed')
         else:
             settings_window['-APPLY-'].update(disabled=True)
+            print('same')
 
     settings_window.close()
 
